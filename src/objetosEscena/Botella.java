@@ -5,13 +5,49 @@ import aplicacion.Renderer;
 public class Botella extends Observable{
 	private boolean lleno;
 	private boolean etiquetado;
+	private float porcentajeLlenado;
+	private static float altura = 3.0f;
 	
-	public Botella(boolean lleno, boolean etiquetado,Renderer renderer){
-		this.lleno = lleno;
-		this.etiquetado = etiquetado;
+	
+	public Botella(Renderer renderer){
+		this.lleno = false;
+		this.etiquetado = false;
 		addObserver(renderer);
-		
+	}
+
+	public void setPorcentajelLlenado(float porcentaje){
+		this.porcentajeLlenado = porcentaje;
 	}
 	
-	//TODO: Me falta a
+	public boolean estaLleno() {
+		return lleno;
+	}
+
+	public void setLleno(boolean lleno) {
+		this.lleno = lleno;
+	}
+
+	public boolean estaEtiquetado() {
+		return etiquetado;
+	}
+
+	public void setEtiquetado(boolean etiquetado) {
+		this.etiquetado = etiquetado;
+	}
+
+	public float getPorcentajeLlenado() {
+		return porcentajeLlenado;
+	}
+
+	public void setPorcentajeLlenado(float porcentajeLlenado) {
+		this.porcentajeLlenado = porcentajeLlenado;
+	}
+
+	public float getAltura() {
+		return altura;
+	}
+
+	public void setAltura(float altura) {
+		this.altura = altura;
+	}
 }
