@@ -8,6 +8,8 @@ public class Rampa implements Dibujable{
 	public void setPendiente(float angulo){}
 	public void setLargo(float largo){}
 	public void setAncho(float ancho){}
+	
+	public void recibirPackBotellas(){}
 
 	@Override
 	public void dibujar() {
