@@ -18,11 +18,13 @@ import java.awt.geom.Point2D;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.gl2.GLUT;
+import java.util.Observer;
+import java.util.Observable;
  
 
 //Implementar el Renderer como Singleton
 //HAcer geters del canvas, gl y demmas cosas q necesite para hacer las actualizaciones de la camara
-class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener 
+public class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener,Observer 
 {
     private GLU glu = new GLU();
 	public static GLUT glut = new GLUT();  
@@ -414,6 +416,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public void update(Observable o, Object arg){} 
 
 }
