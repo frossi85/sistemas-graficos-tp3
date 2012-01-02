@@ -7,7 +7,10 @@ import objetosEscena.Etiquetador;
 import objetosEscena.Rampa;
 import objetosEscena.Rellenador;
 
-public class LineaProduccion {
+import java.util.Observable;
+import java.util.Observer;
+
+public class LineaProduccion implements Observer{
 	
 	private Dispenser expededoraBotellas;
 	private CintaTransportadora cinta;
@@ -15,6 +18,11 @@ public class LineaProduccion {
 	private Rellenador rellenador;
 	private Empaquetador empaquetador;
 	private Rampa rampa;
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 	
