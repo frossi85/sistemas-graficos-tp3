@@ -27,7 +27,14 @@ public class Rampa extends Observable implements Dibujable,Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		
+		if (o instanceof Empaquetador){
+			Empaquetador em = (Empaquetador)o;
+			if(em.getCantidadBotellasRecibidas() == em.CAPACIDAD_BOTELLAS){	// si el empaquetador tiene 4 botellas notifico que debo cambiar estado
+				setChanged();
+		        notifyObservers();
+		        clearChanged();
+			}
+		}
 	}
 
 }
