@@ -1,9 +1,15 @@
 package objetosEscena;
 
+import java.util.Observable;
+
 import utilidades.Dibujable;
+import utilidades.LineaProduccion;
 
-public class Dispenser implements Dibujable {
+public class Dispenser extends Observable implements Dibujable {
 
+	public Dispenser(LineaProduccion linea){
+	addObserver(linea);
+	}
 	
 	public Botella entregarBotella(){
 		return new Botella(null);
