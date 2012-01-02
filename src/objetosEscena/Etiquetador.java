@@ -1,14 +1,18 @@
 package objetosEscena;
 
-import utilidades.Dibujable;
+import java.util.Observable;
 
-public class Etiquetador implements Dibujable {
+import utilidades.Dibujable;
+import utilidades.LineaProduccion;
+
+public class Etiquetador extends Observable implements Dibujable {
 	
 	private float tiempoEtiquetado;
 	private boolean terminoEtiquetado;
 	
-	public Etiquetador(float tiempoEtiquetado){
+	public Etiquetador(LineaProduccion linea, float tiempoEtiquetado){
 		this.tiempoEtiquetado = tiempoEtiquetado;
+		addObserver(linea);
 	}
 	
 	public void etiquetar(){}
