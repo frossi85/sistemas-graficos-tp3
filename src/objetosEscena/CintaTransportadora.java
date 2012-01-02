@@ -1,19 +1,19 @@
 package objetosEscena;
 
-import java.util.List;
+import java.util.Observable;
 import java.util.Queue;
 
-import javax.management.Query;
-
 import utilidades.Dibujable;
+import utilidades.LineaProduccion;
 
-public class CintaTransportadora implements Dibujable {
+public class CintaTransportadora extends Observable implements Dibujable {
 
 	private int capacidadBotellas;
 	Queue<Botella> botellas;
 	
-	public CintaTransportadora(int capacidadBotellas){
+	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea){
 		this.capacidadBotellas = capacidadBotellas;
+		addObserver(linea);
 	} //cant max de botellas que puede tener la cinta transportadora
 	
 	public void recibirBotella(Botella botella){ 
