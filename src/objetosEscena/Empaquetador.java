@@ -15,7 +15,7 @@ public class Empaquetador extends Observable implements Dibujable {
 		addObserver(linea);
 		addObserver(rampa);
 	}
-	public void recibirBotella(Botella botella){
+	public void recibirBotella(Botella botella){	// cuando recibo botellas notifico de cambio a observadores
 		this.cantidadBotellasRecibidas++;
 		setChanged();
         notifyObservers();
