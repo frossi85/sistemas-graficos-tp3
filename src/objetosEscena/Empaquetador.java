@@ -1,11 +1,18 @@
 package objetosEscena;
 
-import utilidades.Dibujable;
+import java.util.Observable;
 
-public class Empaquetador implements Dibujable {
+import utilidades.Dibujable;
+import utilidades.LineaProduccion;
+
+public class Empaquetador extends Observable implements Dibujable {
 
 	int cantidadBotellasRecibidas;
 	
+	public Empaquetador(LineaProduccion linea,Rampa rampa){
+		addObserver(linea);
+		addObserver(rampa);
+	}
 	public void recibirBotella(Botella botella){
 		this.cantidadBotellasRecibidas++;
 		
