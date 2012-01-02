@@ -1,11 +1,18 @@
 package objetosEscena;
 
-import utilidades.Dibujable;
+import java.util.Observable;
 
-public class Rellenador implements Dibujable {
+import utilidades.Dibujable;
+import utilidades.LineaProduccion;
+
+public class Rellenador extends Observable implements Dibujable {
 
 	
 	public void liberarLiquido(){}
+	
+	public Rellenador(LineaProduccion linea){
+		addObserver(linea);
+	}
 	
 	@Override
 	public void dibujar() {
