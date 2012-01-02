@@ -18,6 +18,11 @@ public class CintaTransportadora extends Observable implements Dibujable {
 	
 	public void recibirBotella(Botella botella){ 
 		botellas.add(botella);
+		if (this.estaLlenaDeBotellas()){	// cuando se llena de botellas notifica al observador
+			setChanged();
+	        notifyObservers();
+	        clearChanged();
+		}
 		
 	}
 	
