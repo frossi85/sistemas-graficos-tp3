@@ -24,10 +24,14 @@ public class Botella extends Observable implements Dibujable {
 		this.porcentajeLlenado = porcentaje;
 	}
 	
-	public void setPosicion(float x, float y, float z){
-		this.posicion.setX(x);
-		this.posicion.setY(y);
-		this.posicion.setZ(z);
+	public void setPosicion(Vertice vert){
+		this.posicion.setX(vert.getX());
+		this.posicion.setY(vert.getY());
+		this.posicion.setZ(vert.getZ());
+	}
+	
+	public Vertice getPosicion(){
+		return this.posicion;
 	}
 	
 	public boolean estaLleno() {
