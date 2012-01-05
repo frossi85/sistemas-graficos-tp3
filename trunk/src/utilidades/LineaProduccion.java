@@ -18,6 +18,7 @@ public class LineaProduccion implements Observer{
 	private Rellenador rellenador;
 	private Empaquetador empaquetador;
 	private Rampa rampa;
+	private ComportamientoProduccion comportamiento;
 	private float timer = 0.0f;
 	private static float AVANCE_TIEMPO = 0.1f;
 	private static float VELOCIDAD_CINTA = 5f;
@@ -33,6 +34,7 @@ public class LineaProduccion implements Observer{
 		this.etiquetador = new Etiquetador(this, TIEMPO_ETIQUETADO);
 		this.expededoraBotellas = new Dispenser(this);
 		this.rellenador = new Rellenador(this);
+		this.comportamiento = new CintaNoLlena(this.cinta, this.expededoraBotellas);
 	}
 	
 	public void avanzarTiempo(){
@@ -40,16 +42,16 @@ public class LineaProduccion implements Observer{
 		
 	}
 	
-	public void Producir(){  // TODO este metodo mueve toda la produccion
-		if(!this.cinta.estaLlenaDeBotellas()){
-			this.cinta.recibirBotella(this.expededoraBotellas.entregarBotella());
-			this.cinta.avanzarCinta();
-			
-		}
+	public void Producir(ComportamientoProduccion comportamiento){  // TODO este metodo mueve toda la produccion
+		this.comportamiento.producir();
+		// aca se debe verificar si alguna botella esta en pos de etiq o rellen
 	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		if(o instanceof CintaTransportadora){
+			this.comportamiento = new CintaLlena(this.cinta, this.expededoraBotellas, this.empaquetador);
+		}
 		
 	}
 	
