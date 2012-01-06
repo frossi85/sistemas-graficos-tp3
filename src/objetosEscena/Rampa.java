@@ -1,12 +1,13 @@
 package objetosEscena;
 
+import utilidades.Animable;
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
 
 import java.util.Observable;
 import java.util.Observer;
 
-public class Rampa extends Observable implements Dibujable,Observer{
+public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	
 	
 	public void setPendiente(float angulo){}
@@ -35,6 +36,11 @@ public class Rampa extends Observable implements Dibujable,Observer{
 		        clearChanged();
 			}
 		}
+	}
+	@Override
+	public void animar() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
