@@ -33,7 +33,7 @@ public class Etiquetador extends Observable implements Dibujable,Animable {
 	
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
+		System.out.println("Se dibujo etiquetador");
 		
 	}
 
