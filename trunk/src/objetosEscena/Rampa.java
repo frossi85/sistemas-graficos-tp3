@@ -22,7 +22,7 @@ public class Rampa extends Observable implements Dibujable,Observer,Animable{
 
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
+		System.out.println("Se dibujo rampa");
 		
 	}
 	@Override
