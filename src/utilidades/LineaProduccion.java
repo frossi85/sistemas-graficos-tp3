@@ -42,9 +42,22 @@ public class LineaProduccion implements Observer{
 		
 	}
 	
+	public void ejecutarAnimacion(){
+		if(cinta.buscarPosicion(this.etiquetador.getPosicion().getX())){
+			this.cinta.detenerCinta();
+			this.etiquetador.animar();
+			this.cinta.activarCinta();
+		}
+		if (cinta.buscarPosicion(this.rellenador.getPosicion().getX())){
+			this.cinta.detenerCinta();
+			this.rellenador.animar();
+			this.cinta.activarCinta();
+		}
+	}
+	
 	public void Producir(ComportamientoProduccion comportamiento){  // TODO este metodo mueve toda la produccion
 		this.comportamiento.producir();
-		// aca se debe verificar si alguna botella esta en pos de etiq o rellen
+		ejecutarAnimacion();
 	}
 	
 	@Override
