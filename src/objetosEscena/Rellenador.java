@@ -26,7 +26,7 @@ public class Rellenador extends Observable implements Dibujable,Animable {
 	
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
+		System.out.println("Se dibujo rellenador");
 
 	}
 
