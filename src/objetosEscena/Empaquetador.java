@@ -33,7 +33,7 @@ public class Empaquetador extends Observable implements Dibujable {
 	
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
+		System.out.println("Se dibujo empaquetador");
 
 	}
 
