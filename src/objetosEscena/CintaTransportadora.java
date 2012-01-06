@@ -81,7 +81,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
+		System.out.println("Se dibujo cinta transportadora");
 
 	}
 
