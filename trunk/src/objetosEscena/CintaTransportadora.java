@@ -5,11 +5,12 @@ import java.util.Queue;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
+import utilidades.Animable;
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
 import utilidades.Vertice;
 
-public class CintaTransportadora extends Observable implements Dibujable {
+public class CintaTransportadora extends Observable implements Dibujable,Animable {
 
 	private int capacidadBotellas;
 	Queue<Botella> botellas;
@@ -67,10 +68,27 @@ public class CintaTransportadora extends Observable implements Dibujable {
 		
 	}
 	
+	public boolean buscarPosicion(float posicion ){	// busca si existe una botella en una posicion dada de la cinta
+		for(int i = 0; i < this.botellas.size(); i++){
+			java.util.Iterator<Botella> it =  this.botellas.iterator();
+			while(it.hasNext()){
+				Botella bot = it.next();
+				if(bot.getPosicion().getX() == posicion) return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void animar() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
