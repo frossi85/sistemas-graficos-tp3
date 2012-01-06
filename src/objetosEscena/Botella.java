@@ -1,12 +1,13 @@
 package objetosEscena;
 import java.util.Observable;
 
+import utilidades.Animable;
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
 import utilidades.Vertice;
 
 
-public class Botella extends Observable implements Dibujable {
+public class Botella extends Observable implements Dibujable,Animable {
 	private boolean lleno;
 	private boolean etiquetado;
 	private float porcentajeLlenado;
@@ -64,6 +65,12 @@ public class Botella extends Observable implements Dibujable {
 
 	@Override
 	public void dibujar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void animar() {
 		// TODO Auto-generated method stub
 		
 	}
