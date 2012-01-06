@@ -14,9 +14,10 @@ public class CintaNoLlena implements ComportamientoProduccion {	// modela compor
 	}
 	
 	public void producir() {
-		cinta.avanzarCinta();
-		cinta.recibirBotella(disp.entregarBotella());
-
+		if(cinta.estaAvanzando()){
+			cinta.avanzarCinta();
+			cinta.recibirBotella(disp.entregarBotella());
+		}	
 	}
 
 }
