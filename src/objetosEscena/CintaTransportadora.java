@@ -16,6 +16,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	Queue<Botella> botellas;
 	private float velocidadCinta;
 	private float avanceBotellas;
+	private boolean avanzando = true;
 	
 	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea,float velCinta, float avanceBotellas){
 		this.capacidadBotellas = capacidadBotellas;  //cant max de botellas que puede tener la cinta transportadora
@@ -26,12 +27,6 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	
 	public void recibirBotella(Botella botella){ 
 		botellas.add(botella);
-		if (this.estaLlenaDeBotellas()){	// cuando se llena de botellas notifica al observador
-			setChanged();
-	        notifyObservers();
-	        clearChanged();
-		}
-		
 	}
 	
 	public Botella entragarBotella(){
@@ -46,6 +41,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 				avanzarBotella(bot);
 			}
 		}
+		System.out.println("pos de primer botella: " + this.botellas.peek().getPosicion().getX());
 	}
 	
 	public void avanzarBotella(Botella botella){	// por ahora solo avanza en coord x
@@ -55,9 +51,9 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	}
 	
 	public void setVelocidad(float vel){}
-	public void detenerCinta(){} // detiene cinta
-	public void activarCinta(){}
-	public boolean estaAvanzando(){return true;}
+	public void detenerCinta(){this.avanzando = false;} // detiene cinta
+	public void activarCinta(){this.avanzando = true;}
+	public boolean estaAvanzando(){return this.avanzando;}
 	public float getVelocidad(){return 0.0f;}
 	
 	public boolean estaLlenaDeBotellas(){
