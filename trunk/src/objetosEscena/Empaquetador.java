@@ -17,11 +17,10 @@ public class Empaquetador extends Observable implements Dibujable {
 	}
 	public void recibirBotella(Botella botella){	// cuando recibo botellas notifico de cambio a observadores
 		this.cantidadBotellasRecibidas++;
-		setChanged();
-        notifyObservers();
-        clearChanged();
 		if(this.cantidadBotellasRecibidas == 4){
-			//genero caja armada de botellas y se la paso a la rampa
+			setChanged();
+	        notifyObservers();
+	        clearChanged();
 			this.cantidadBotellasRecibidas = 0;
 			
 		}
