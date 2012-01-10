@@ -7,7 +7,7 @@ import utilidades.LineaProduccion;
 import utilidades.Vertice;
 
 
-public class Botella extends Observable implements Dibujable,Animable {
+public class Botella  implements Dibujable,Animable {
 	private boolean lleno;
 	private boolean etiquetado;
 	private float porcentajeLlenado;
@@ -15,10 +15,10 @@ public class Botella extends Observable implements Dibujable,Animable {
 	private Vertice posicion;
 	
 	
-	public Botella(LineaProduccion linea){
+	public Botella(){
 		this.lleno = false;
 		this.etiquetado = false;
-		addObserver(linea);
+		this.posicion = new Vertice(0f,0f,0f);
 	}
 
 	public void setPorcentajelLlenado(float porcentaje){
