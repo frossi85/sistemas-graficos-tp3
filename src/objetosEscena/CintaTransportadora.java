@@ -1,5 +1,6 @@
 package objetosEscena;
 
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Queue;
 
@@ -22,6 +23,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		this.capacidadBotellas = capacidadBotellas;  //cant max de botellas que puede tener la cinta transportadora
 		this.velocidadCinta = velCinta;
 		this.avanceBotellas = avanceBotellas;
+		this.botellas = new LinkedList<Botella>();
 		addObserver(linea);
 	} 
 	
@@ -34,15 +36,16 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	}
 	
 	public void avanzarCinta(){
-		for(int i = 0; i < this.botellas.size(); i++){
-			java.util.Iterator<Botella> it =  this.botellas.iterator();
-			while(it.hasNext()){
-				Botella bot = it.next();
-				avanzarBotella(bot);
-			}
+		java.util.Iterator<Botella> it =  this.botellas.iterator();
+		while(it.hasNext()){
+			Botella bot = it.next();
+			avanzarBotella(bot);
 		}
+		System.out.println("se movio cinta ");	
+		if(this.botellas.peek() != null){
 		System.out.println("pos de primer botella: " + this.botellas.peek().getPosicion().getX());
-	}
+		}
+		}
 	
 	public void avanzarBotella(Botella botella){	// por ahora solo avanza en coord x
 		Vertice ver = botella.getPosicion();
@@ -73,6 +76,10 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 			}
 		}
 		return false;
+	}
+	
+	public int getNumeroDeBotellas(){
+		return this.botellas.size();
 	}
 	
 	@Override
