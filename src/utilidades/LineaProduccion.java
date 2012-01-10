@@ -74,6 +74,7 @@ public class LineaProduccion implements Observer{
 				}
 			}		
 		ejecutarAnimacion();
+		System.out.println("num de bot en cinta: " + this.cinta.getNumeroDeBotellas());
 	}
 	
 	public void dibujar(){
