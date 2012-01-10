@@ -5,6 +5,9 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
+
+import utilidades.LineaProduccion;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -83,6 +86,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
 	//TODO: Para que se usa, ver si se puede encapsular en una clase
 	public GLCanvas canvas;
+	
+	private LineaProduccion linea;
 
     //ATRIBUTOS DE LA ANIMACION
     private boolean pause = false;
@@ -95,11 +100,12 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     	animator = new FPSAnimator(canvas, 50);
     	animator.add(canvas);
     	animator.start();
+    	this.linea = new LineaProduccion();
     }
 
     private void update(GL2 gl)
     {
-
+    	
     }
 
     
@@ -129,7 +135,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 		
 		//TODO: Settear las luces de la escena?? o mejor hacerlo en una clase que seahabitacion o algo asi y poner el setter aca
 		DemoLight(gl);
-
+		this.linea.dibujar();
     }
     
     public void display(GLAutoDrawable gLDrawable)
@@ -148,6 +154,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   		
   		gl.glPopMatrix();
     	
+    	this.linea.actualizar();
   		////////////////////////////////
   		
 	  	//En ves de glutSwapBuffers();.. va gl.glFlush();
