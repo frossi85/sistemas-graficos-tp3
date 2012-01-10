@@ -3,6 +3,7 @@ package objetosEscena;
 import utilidades.Animable;
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
+import utilidades.Vertice;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -13,6 +14,7 @@ public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	public void setPendiente(float angulo){}
 	public void setLargo(float largo){}
 	public void setAncho(float ancho){}
+	private Vertice posicion;
 	
 	public Rampa(LineaProduccion linea){
 		addObserver(linea);
@@ -20,6 +22,10 @@ public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	
 	public void recibirPackBotellas(){}
 
+	public Vertice getPosicion(){
+		return this.posicion;
+	}
+	
 	@Override
 	public void dibujar() {
 		System.out.println("Se dibujo rampa");
