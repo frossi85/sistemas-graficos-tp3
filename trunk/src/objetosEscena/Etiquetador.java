@@ -16,6 +16,7 @@ public class Etiquetador extends Observable implements Dibujable,Animable {
 	public Etiquetador(LineaProduccion linea, float tiempoEtiquetado){
 		this.tiempoEtiquetado = tiempoEtiquetado;
 		addObserver(linea);
+		this.posicion = new Vertice(3f,0f,0f);
 	}
 	
 	public void etiquetar(){}
