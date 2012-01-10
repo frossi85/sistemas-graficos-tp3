@@ -6,7 +6,7 @@ public class Vertice {
 	private float y;
 	private float z;
 	
-	Vertice(float x, float y, float z){
+	public Vertice(float x, float y, float z){
 		this.x = x;
 		this.y = y;
 		this.z = z;
