@@ -13,6 +13,7 @@ public class Rellenador extends Observable implements Dibujable,Animable {
 	public void liberarLiquido(){}
 	
 	public Rellenador(LineaProduccion linea){
+		this.posicion = new Vertice(2f,0f,0f);
 		addObserver(linea);
 	}
 	
