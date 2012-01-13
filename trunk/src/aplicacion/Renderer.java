@@ -30,11 +30,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     public static GLUT glut = new GLUT();
 	private Point2D.Float posicionAnteriorMouse = new Point2D.Float(0,0);
 	private float rotacionCamaraX = 0, rotacionCamaraY = 0;
-	
-	// Variables que controlan la ubicaci�n de la c�mara en la Escena 3D
-    private float eye[] =  {0.0f, 0.0f, 4.0f};
-    private float at[]  = { 0.0f,  0.0f, -1.0f};
-    private float up[]  = { 0.0f,  1.0f, 0.0f};
+	private float traslacionAdelanteAtras = 0;
+	private Camara camara;
 
     // Variables asociadas a �nica fuente de luz de la escena
     private float light_color[] = {0.5f, 0.5f, 0.5f, 1.0f};
@@ -139,22 +136,36 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     }
     
     public void display(GLAutoDrawable gLDrawable)
-    {
+    {	
     	final GL2 gl = gLDrawable.getGL().getGL2();
 
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 
   		update(gl);
 
+  		
+  		gl.glPushMatrix();
   		/////   TODO: DIBUJAR ACA   ////
+  		camara.render();
   		
   		gl.glPushMatrix();
   		
-  			glut.glutSolidCube(1.0f);
+  			//gl.glColor3d(1.0f, 0.0f, 0.0f);
+  			glut.glutSolidCube(10.0f);
+  			
+  			gl.glColor3d(0.0f, 1.0f, 0.0f);
+  			gl.glPushMatrix();
+  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
+  				glut.glutSolidCube(0.5f);  		
+  			gl.glPopMatrix();
+  			
   		
   		gl.glPopMatrix();
     	
-    	this.linea.actualizar();
+    	//this.linea.actualizar();
+  		
+  		
+  		gl.glPopMatrix();
   		////////////////////////////////
   		
 	  	//En ves de glutSwapBuffers();.. va gl.glFlush();
@@ -240,7 +251,6 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
       //float light_pos[] = {0.0f, 5.0f, 5.0f, 1.0f}; //ORIGINAL
       float light_pos[] = {1.0f, 3.0f, 10.0f, 1.0f}; //DIRECTIONAL LITGH O POINT??
       //float light_Ka[]  = {1.0f, 0.5f, 0.5f, 1.0f}; //ORIGINAL
-      //float light_Ka[] = {0.5f, 0.5f, 0.5f, 1.0f};
       float light_Ka[] = {0.0f, 0.0f, 0.0f, 1.0f }; //Del segundo tuto
       //float light_Kd[]  = {1.0f, 0.1f, 0.1f, 1.0f}; //ORIGINAL
       float light_Kd[]  = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -259,11 +269,12 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
       //float material_Ka[] = {0.0f, 0.9f, 0.7f, 1.0f}; //Color Material del brillante
       float material_Ka[] = {0.3f, 0.3f, 0.3f, 1.0f }; //Del Segundo Tuto
-      //float material_Kd[] = {0.4f, 0.4f, 0.4f, 1.0f};
-      float material_Kd[] = {0.9f, 0.5f, 0.5f, 1.0f }; //del segundo TUTO
+      float material_Kd[] = {0.4f, 0.4f, 0.4f, 1.0f};
+      //float material_Kd[] = {0.9f, 0.5f, 0.5f, 1.0f }; //del segundo TUTO
       //float material_Ks[] = {0.8f, 0.8f, 0.8f, 1.0f};
       float material_Ks[] = {0.6f, 0.6f, 0.6f, 1.0f }; //del segundo tuto
-      float material_Ke[] = {0.1f, 0.0f, 0.0f, 0.0f};
+      //float material_Ke[] = {0.1f, 0.0f, 0.0f, 0.0f};
+      float material_Ke[] = {0.1f, 0.1f, 0.1f, 0.0f};
       //float material_Se = 15.0f;
       float material_Se = 60.0f; //del segundo tuto
 
@@ -284,9 +295,9 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
 	    gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		glu.gluLookAt(eye[0], eye[1] , eye[2],
-				  at[0], at[1], at[2],
- 				  up[0], up[1], up[2]);
+	
+		//Seteos de la camara
+        camara = new Camara(gl, glu, 0.0f, 0.0f, -1f, 0.0, 0.0);
 	}
 
 	@Override
@@ -313,9 +324,40 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		rotacionCamaraX += e.getX() - posicionAnteriorMouse.getX();
-		rotacionCamaraY += e.getY() - posicionAnteriorMouse.getY();
-		posicionAnteriorMouse.setLocation(e.getX(), e.getY());
+		
+//		float velRotacion = 10000.0f;
+//		
+//		double anguloHorizontal = 0.0f;
+//		double anguloVertical = 0.0f;
+//		
+//		
+//		////CALCULO la diferencia entre posiciones actual y anterior
+//		anguloVertical = e.getX() - posicionAnteriorMouse.getX();
+//		anguloHorizontal = e.getY() - posicionAnteriorMouse.getY(); 
+//		
+//		//Veo si la rotacion es positiva o negativa
+//		//if(e.getX() < posicionAnteriorMouse.getX())
+//			//anguloHorizontal *= -1.0;
+//		
+//		anguloHorizontal = (anguloHorizontal / W_WIDTH) * 800;
+//		anguloVertical = (anguloVertical / W_WIDTH) * 600;
+//		
+//		//if((rotacionCamaraX + (float) anguloHorizontal) >= 360)
+//		//	rotacionCamaraX = 360;
+//		//else
+//			rotacionCamaraY += (float) anguloHorizontal;
+//			rotacionCamaraX += (float) anguloVertical;
+//		
+//		//if(e.getX() > posicionAnteriorMouse.getX())
+//			//rotacionCamaraX -= (e.getX() - posicionAnteriorMouse.getX()) / velRotacion;
+//		//else
+//			//rotacionCamaraX += (e.getX() - posicionAnteriorMouse.getX()) / velRotacion;
+//		//rotacionCamaraY += (e.getY() - posicionAnteriorMouse.getY()) / velRotacion;
+//		
+//		System.out.println("evento se movio mouse: "+ anguloHorizontal);
+//
+//		
+//		posicionAnteriorMouse.setLocation(e.getX(), e.getY());
 	}
 
 	@Override
@@ -335,35 +377,63 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
 	@Override
 	public void keyPressed(KeyEvent key) {
+		
+		float velRotacion = 1000.0f;
+		
+		//rotacionCamaraX += (e.getX() - posicionAnteriorMouse.getX()) / velRotacion;
+		//rotacionCamaraY += (e.getY() - posicionAnteriorMouse.getY()) / velRotacion;
+
+		
+		//posicionAnteriorMouse.setLocation(e.getX(), e.getY());
+		
 		//convertir todas las letras a mayusculas o minusculas
 		switch (key.getKeyChar()) {
 	    	case KeyEvent.VK_ESCAPE:
 	    		System.exit(0);
 	    		break;
-	    	case 'd':
-	    		break;
-	    	case 'r':
-//	    		R Reiniciar la animaci�n de crecimiento
-	    		System.out.println("Reiniciar animaci�n");
-
-	    		break;
-	    	case 'p':
-//	    		P Pausar/reanudar animaci�n
-	    		String texto = (this.pause)? "Reanudar": "Pausar";
-	    		System.out.println(texto);
-	    		this.pause = !this.pause;
-	    		break;
-	    	case 'q':
-//	    		Q incrementar velocidad de crecimiento
-	    		
-	    		break;
-	    	case 'a':
-//	    		A decrementar velocidad de crecimiento
-	    		break;
-	    	case 'x':
-	    		break;
-	    	case 'z':
-	    		break;
+			case 'w':                       // Move forwards
+	            camara.avanzar(0.1);
+	            break;
+			case 's':                         // Move backwards
+	            camara.avanzar(-0.1);
+	            break;  
+			case 'j':                      // Pitch up
+	            camara.pitchArriba(0.7);
+	            break;
+			case 'k':                         // Pitch down
+	            camara.pitchAbajo(0.7);
+	            break;
+			case 'q':                        // Turn left
+	            camara.yawIzquierda(0.7);
+	            break;
+	        case 'e':                       // Turn right
+	            camara.yawDerecha(0.7);
+	            //camara.look(10);
+	            break;
+	        case 'a':                        // Strafe left
+	            camara.desplazarIzquierda(0.1);
+	            break;
+	        case 'd':                       // Strafe right
+	            camara.desplazarDerecha(0.1);
+	            break;	
+//	    	case 'r':
+////	    		R Reiniciar la animaci�n de crecimiento
+//	    		System.out.println("Reiniciar animaci�n");
+//
+//	    		break;
+//	    	case 'p':
+////	    		P Pausar/reanudar animaci�n
+//	    		String texto = (this.pause)? "Reanudar": "Pausar";
+//	    		System.out.println(texto);
+//	    		this.pause = !this.pause;
+//	    		break;
+//	    	case 'q':
+////	    		Q incrementar velocidad de crecimiento
+//	    		
+//	    		break;
+//	    	case 'a':
+////	    		A decrementar velocidad de crecimiento
+//	    		break;
 	    	default:
 	    		break;
 	    }
