@@ -5,6 +5,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
 
 import utilidades.LineaProduccion;
 
@@ -118,7 +119,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
     	GL2 gl = gLDrawable.getGL().getGL2();
 
-    	gl.glClearColor(0.5f, 0.5f, 1.0f, 0.0f);
+    	gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glShadeModel(GL2.GL_SMOOTH);
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 
@@ -151,13 +152,13 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   		gl.glPushMatrix();
   		
   			//gl.glColor3d(1.0f, 0.0f, 0.0f);
-  			glut.glutSolidCube(10.0f);
+  			///glut.glutSolidCube(10.0f);
   			
-  			gl.glColor3d(0.0f, 1.0f, 0.0f);
+  			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
   			gl.glPushMatrix();
   				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-  				glut.glutSolidCube(0.5f);  		
-  			gl.glPopMatrix();
+  				glut.glutSolidCube(0.5f); 
+   			gl.glPopMatrix();
   			
   		
   		gl.glPopMatrix();
@@ -325,39 +326,34 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		
-//		float velRotacion = 10000.0f;
-//		
-//		double anguloHorizontal = 0.0f;
-//		double anguloVertical = 0.0f;
-//		
-//		
+        //distance in mouse movement from the last getDX() call.
+        //dx = Mouse.getDX();
+        //distance in mouse movement from the last getDY() call.
+        //dy = Mouse.getDY();
+ 
+        //controll camera yaw from x movement fromt the mouse
+        //camera.yaw(dx * mouseSensitivity);
+        //controll camera pitch from y movement fromt the mouse
+        //camera.pitch(dy * mouseSensitivity);
+ 
+		
+		
 //		////CALCULO la diferencia entre posiciones actual y anterior
-//		anguloVertical = e.getX() - posicionAnteriorMouse.getX();
-//		anguloHorizontal = e.getY() - posicionAnteriorMouse.getY(); 
-//		
-//		//Veo si la rotacion es positiva o negativa
-//		//if(e.getX() < posicionAnteriorMouse.getX())
-//			//anguloHorizontal *= -1.0;
-//		
-//		anguloHorizontal = (anguloHorizontal / W_WIDTH) * 800;
-//		anguloVertical = (anguloVertical / W_WIDTH) * 600;
-//		
-//		//if((rotacionCamaraX + (float) anguloHorizontal) >= 360)
-//		//	rotacionCamaraX = 360;
-//		//else
-//			rotacionCamaraY += (float) anguloHorizontal;
-//			rotacionCamaraX += (float) anguloVertical;
-//		
-//		//if(e.getX() > posicionAnteriorMouse.getX())
-//			//rotacionCamaraX -= (e.getX() - posicionAnteriorMouse.getX()) / velRotacion;
-//		//else
-//			//rotacionCamaraX += (e.getX() - posicionAnteriorMouse.getX()) / velRotacion;
-//		//rotacionCamaraY += (e.getY() - posicionAnteriorMouse.getY()) / velRotacion;
-//		
-//		System.out.println("evento se movio mouse: "+ anguloHorizontal);
-//
-//		
-//		posicionAnteriorMouse.setLocation(e.getX(), e.getY());
+		double dx = e.getX() - posicionAnteriorMouse.getX();
+		double dy = e.getY() - posicionAnteriorMouse.getY(); 
+		
+		
+		double mouseSensitivity = 0.5f;
+		double mouseSensitivityX = mouseSensitivity/this.W_WIDTH;
+		double mouseSensitivityY = mouseSensitivity/this.W_HEIGHT;
+		
+	
+        //controll camera yaw from x movement fromt the mouse
+        camara.yawDerecha(dx * mouseSensitivity);
+        //controll camera pitch from y movement fromt the mouse
+        camara.pitchArriba(dy * mouseSensitivity);
+		
+		posicionAnteriorMouse.setLocation(e.getX(), e.getY());
 	}
 
 	@Override
