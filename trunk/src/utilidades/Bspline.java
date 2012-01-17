@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Bspline extends Curva {
 	
-	public Bspline(ArrayList<Vertice>list){
+	public Bspline(ArrayList<PuntoDeControl>list){
 		super(list);
 	}
 }
