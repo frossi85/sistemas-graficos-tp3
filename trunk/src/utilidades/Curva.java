@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Curva{
 
-		private ArrayList<Vertice> puntosDeControl;
+		protected ArrayList<PuntoDeControl> puntosDeControl;
 		
-		public Curva(ArrayList<Vertice>list){
+		public Curva(ArrayList<PuntoDeControl>list){
 			this.puntosDeControl = list;
 		}
 		
