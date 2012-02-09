@@ -10,6 +10,8 @@ import objetosEscena.Rellenador;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.media.opengl.GLAutoDrawable;
+
 public class LineaProduccion implements Observer{
 	
 	private Dispenser expededoraBotellas;
@@ -77,13 +79,13 @@ public class LineaProduccion implements Observer{
 		System.out.println("num de bot en cinta: " + this.cinta.getNumeroDeBotellas());
 	}
 	
-	public void dibujar(){
-		this.expededoraBotellas.dibujar();
-		this.cinta.dibujar();
-		this.etiquetador.dibujar();
-		this.rellenador.dibujar();
-		this.empaquetador.dibujar();
-		this.rampa.dibujar();
+	public void dibujar(GLAutoDrawable gLDrawable){
+		this.expededoraBotellas.dibujar(gLDrawable);
+		this.cinta.dibujar(gLDrawable);
+		this.etiquetador.dibujar(gLDrawable);
+		this.rellenador.dibujar(gLDrawable);
+		this.empaquetador.dibujar(gLDrawable);
+		this.rampa.dibujar(gLDrawable);
 	}
 	
 	public void actualizar(){
