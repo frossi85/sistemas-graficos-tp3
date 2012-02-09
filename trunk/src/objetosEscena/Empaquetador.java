@@ -2,6 +2,8 @@ package objetosEscena;
 
 import java.util.Observable;
 
+import javax.media.opengl.GLAutoDrawable;
+
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
 
@@ -31,7 +33,7 @@ public class Empaquetador extends Observable implements Dibujable {
 	}
 	
 	@Override
-	public void dibujar() {
+	public void dibujar(GLAutoDrawable gLDrawable) {
 		System.out.println("Se dibujo empaquetador");
 
 	}
