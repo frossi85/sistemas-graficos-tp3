@@ -1,5 +1,6 @@
 package aplicacion;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
@@ -133,7 +134,9 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 		
 		//TODO: Settear las luces de la escena?? o mejor hacerlo en una clase que seahabitacion o algo asi y poner el setter aca
 		DemoLight(gl);
-		this.linea.dibujar();
+		
+		this.linea.dibujar(gLDrawable);
+		
     }
     
     public void display(GLAutoDrawable gLDrawable)
