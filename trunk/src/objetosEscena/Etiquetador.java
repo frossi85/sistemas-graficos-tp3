@@ -2,6 +2,8 @@ package objetosEscena;
 
 import java.util.Observable;
 
+import javax.media.opengl.GLAutoDrawable;
+
 import utilidades.Animable;
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
@@ -33,7 +35,7 @@ public class Etiquetador extends Observable implements Dibujable,Animable {
 	}
 	
 	@Override
-	public void dibujar() {
+	public void dibujar(GLAutoDrawable gLDrawable) {
 		System.out.println("Se dibujo etiquetador");
 		
 	}
