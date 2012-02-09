@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Queue;
 
+import javax.media.opengl.GLAutoDrawable;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
 import utilidades.Animable;
@@ -83,7 +84,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	}
 	
 	@Override
-	public void dibujar() {
+	public void dibujar(GLAutoDrawable gLDrawable) {
 		System.out.println("Se dibujo cinta transportadora");
 
 	}
