@@ -8,6 +8,8 @@ import utilidades.Vertice;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.media.opengl.GLAutoDrawable;
+
 public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	
 	
@@ -27,7 +29,7 @@ public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	}
 	
 	@Override
-	public void dibujar() {
+	public void dibujar(GLAutoDrawable gLDrawable) {
 		System.out.println("Se dibujo rampa");
 		
 	}
