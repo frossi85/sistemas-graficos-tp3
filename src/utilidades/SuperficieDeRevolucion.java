@@ -2,6 +2,8 @@ package utilidades;
 
 import java.util.ArrayList;
 
+import javax.media.opengl.GLAutoDrawable;
+
 public class SuperficieDeRevolucion implements Dibujable {
 	
 	private BezierCubica curva1;
@@ -32,8 +34,14 @@ public class SuperficieDeRevolucion implements Dibujable {
 		this.z = z;
 	}
 
+//	@Override
+//	public void dibujar() {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
 	@Override
-	public void dibujar() {
+	public void dibujar(GLAutoDrawable gLDrawable) {
 		// TODO Auto-generated method stub
 		
 	}
