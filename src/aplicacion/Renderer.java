@@ -137,6 +137,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 		
 		this.linea.dibujar(gLDrawable);
 		
+		
+		
     }
     
     public void display(GLAutoDrawable gLDrawable)
@@ -160,8 +162,9 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
   			gl.glPushMatrix();
   				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-  				glut.glutSolidCube(0.5f); 
-   			gl.glPopMatrix();
+  				//glut.glutSolidCube(0.5f);
+  				glut.glutSolidCylinder(1.0f, 2.0f, 2, 2);
+  			gl.glPopMatrix();
   			
   		
   		gl.glPopMatrix();
