@@ -163,7 +163,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   			gl.glPushMatrix();
   				gl.glTranslatef(0.0f, 1.0f, 0.5f);
   				//glut.glutSolidCube(0.5f);
-  				glut.glutSolidCylinder(1.0f, 2.0f, 2, 2);
+  				glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
   			gl.glPopMatrix();
   			
   		
