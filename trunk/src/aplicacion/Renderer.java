@@ -9,6 +9,7 @@ import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 
 import utilidades.LineaProduccion;
+import utilidades.Utilidades;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -46,11 +47,6 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     private static float window_size[] = new float[2];
     private static float W_WIDTH = window_size[0];
     private static float W_HEIGHT = window_size[1];
-
-    //private static final int TOP_VIEW_POSX = ((int)((float)W_WIDTH*0.60f));
-    //private static final int TOP_VIEW_W = ((int)((float)W_WIDTH*0.40f));
-    //private static final int TOP_VIEW_POSY = ((int)((float)W_HEIGHT*0.60f));
-    //private static final int TOP_VIEW_H = ((int)((float)W_HEIGHT*0.40f));
 
     //Valores del buffer de color y posicion
     static int POSITION_BUFFER_SIZE = 9;
@@ -156,14 +152,14 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   		
   		gl.glPushMatrix();
   		
-  			//gl.glColor3d(1.0f, 0.0f, 0.0f);
-  			///glut.glutSolidCube(10.0f);
+  			gl.glColor3d(1.0f, 0.0f, 0.0f);
+  			glut.glutSolidCube(10.0f);
   			
   			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
   			gl.glPushMatrix();
   				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-  				//glut.glutSolidCube(0.5f);
-  				glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
+  				glut.glutSolidCube(0.5f);
+  				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
   			gl.glPopMatrix();
   			
   		
@@ -204,19 +200,13 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 	
 	//////////////////////////////     FIN EVENTOS OPEN GL ////////////////////////////
 
-    public static FloatBuffer makeFloatBuffer(float[] arr) {
-	    ByteBuffer bb = ByteBuffer.allocateDirect(arr.length*4);
-	    bb.order(ByteOrder.nativeOrder());
-	    FloatBuffer fb = bb.asFloatBuffer();
-	    fb.put(arr);
-	    fb.position(0);
-	    return fb;
-    }
 
     private void DemoLight(GL2 gl)
     {
       gl.glEnable(GL2.GL_LIGHTING);
       gl.glEnable(GL2.GL_LIGHT0);
+      
+      
       gl.glEnable(GL2.GL_NORMALIZE);
 
       // Light model parameters:
@@ -224,7 +214,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
       float lmKa[] = {0.1f, 0.1f, 0.1f, 1.0f };
 
-      gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, makeFloatBuffer(lmKa));
+      gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, Utilidades.makeFloatBuffer(lmKa));
 
       gl.glLightModelf(GL2.GL_LIGHT_MODEL_LOCAL_VIEWER, 1.0f);
       gl.glLightModelf(GL2.GL_LIGHT_MODEL_TWO_SIDE, 0.0f);
@@ -239,7 +229,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
       int spot_exponent = 30;
       int spot_cutoff = 180;
 
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPOT_DIRECTION, makeFloatBuffer(spot_direction));
+      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPOT_DIRECTION, Utilidades.makeFloatBuffer(spot_direction));
       gl.glLighti(GL2.GL_LIGHT0, GL2.GL_SPOT_EXPONENT, spot_exponent);
       gl.glLighti(GL2.GL_LIGHT0, GL2.GL_SPOT_CUTOFF, spot_cutoff);
 
@@ -266,16 +256,16 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
       //float light_Ks[]  = {0.0f, 0.0f, 0.0f, 0.0f}; //SemiMate
 
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, makeFloatBuffer(light_pos));
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, makeFloatBuffer(light_Ka));
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, makeFloatBuffer(light_Kd));
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, makeFloatBuffer(light_Ks));
+      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, Utilidades.makeFloatBuffer(light_pos));
+      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, Utilidades.makeFloatBuffer(light_Ka));
+      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, Utilidades.makeFloatBuffer(light_Kd));
+      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, Utilidades.makeFloatBuffer(light_Ks));
 
       // -------------------------------------------
       // Material parameters:
 
-      //float material_Ka[] = {0.0f, 0.9f, 0.7f, 1.0f}; //Color Material del brillante
-      float material_Ka[] = {0.3f, 0.3f, 0.3f, 1.0f }; //Del Segundo Tuto
+      float material_Ka[] = {0.0f, 0.9f, 0.7f, 1.0f}; //Color Material del brillante
+      //float material_Ka[] = {0.3f, 0.3f, 0.3f, 1.0f }; //Del Segundo Tuto
       float material_Kd[] = {0.4f, 0.4f, 0.4f, 1.0f};
       //float material_Kd[] = {0.9f, 0.5f, 0.5f, 1.0f }; //del segundo TUTO
       //float material_Ks[] = {0.8f, 0.8f, 0.8f, 1.0f};
@@ -285,10 +275,10 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
       //float material_Se = 15.0f;
       float material_Se = 60.0f; //del segundo tuto
 
-      gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, makeFloatBuffer(material_Ka));
-      gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, makeFloatBuffer(material_Kd));
-      gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, makeFloatBuffer(material_Ks));
-      gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_EMISSION, makeFloatBuffer(material_Ke));
+      gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, Utilidades.makeFloatBuffer(material_Ka));
+      gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, Utilidades.makeFloatBuffer(material_Kd));
+      gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, Utilidades.makeFloatBuffer(material_Ks));
+      gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_EMISSION, Utilidades.makeFloatBuffer(material_Ke));
       gl.glMaterialf(GL2.GL_FRONT_AND_BACK, GL2.GL_SHININESS, material_Se);
 
     }
@@ -330,21 +320,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
 	}
 	@Override
-	public void mouseMoved(MouseEvent e) {
-		
-        //distance in mouse movement from the last getDX() call.
-        //dx = Mouse.getDX();
-        //distance in mouse movement from the last getDY() call.
-        //dy = Mouse.getDY();
- 
-        //controll camera yaw from x movement fromt the mouse
-        //camera.yaw(dx * mouseSensitivity);
-        //controll camera pitch from y movement fromt the mouse
-        //camera.pitch(dy * mouseSensitivity);
- 
-		
-		
-//		////CALCULO la diferencia entre posiciones actual y anterior
+	public void mouseMoved(MouseEvent e) {	
+		//CALCULO la diferencia entre posiciones actual y anterior
 		double dx = e.getX() - posicionAnteriorMouse.getX();
 		double dy = e.getY() - posicionAnteriorMouse.getY(); 
 		
