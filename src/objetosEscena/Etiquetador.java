@@ -36,7 +36,7 @@ public class Etiquetador extends Observable implements Dibujable,Animable {
 	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		System.out.println("Se dibujo etiquetador");
+		//System.out.println("Se dibujo etiquetador");
 		
 	}
 
