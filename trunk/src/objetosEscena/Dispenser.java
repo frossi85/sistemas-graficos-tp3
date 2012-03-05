@@ -31,7 +31,7 @@ public class Dispenser extends Observable implements Dibujable {
 	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		System.out.println("Se dibujo dispenser");
+		//System.out.println("Se dibujo dispenser");
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
 			gl.glTranslatef(this.posicion.getX(), 0.0f, 0.0f);
