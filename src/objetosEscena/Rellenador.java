@@ -29,7 +29,7 @@ public class Rellenador extends Observable implements Dibujable,Animable {
 	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		System.out.println("Se dibujo rellenador");
+		//System.out.println("Se dibujo rellenador");
 
 	}
 
