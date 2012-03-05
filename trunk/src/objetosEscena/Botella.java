@@ -15,12 +15,14 @@ import utilidades.LineaProduccion;
 import utilidades.Vertice;
 
 
+
 public class Botella  implements Dibujable,Animable {
 	private boolean lleno;
 	private boolean etiquetado;
 	private float porcentajeLlenado;
 	private static float altura = 1.0f;
-	private Vertice posicion;
+	private Vertice posicion;	// posicion relativa a la cinta transportadora
+	private GLUT glut = new GLUT();
 	
 	
 	public Botella(){
@@ -74,14 +76,14 @@ public class Botella  implements Dibujable,Animable {
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		System.out.println("Se dibujo botella");
-		//GL2 gl = gLDrawable.getGL().getGL2();
-		GLU glu = new GLU(); 
-		GLUquadric qobj0 = glu.gluNewQuadric();
+		final GL2 gl = gLDrawable.getGL().getGL2();
 		
-		glu.gluQuadricDrawStyle(qobj0, GLU.GLU_FILL);
-		glu.gluQuadricNormals(qobj0, GLU.GLU_SMOOTH);
-		glu.gluCylinder(qobj0, 0.5f, 0.5f, this.altura, 15, 5);
-		//glu.gluDeleteQuadric(qobj0);
+		gl.glPushMatrix();
+			gl.glTranslatef(this.posicion.getX(), 0.0f, 0.0f);
+			glut.glutSolidCylinder(0.1f, 0.5f, 20, 20);
+		gl.glPopMatrix();	
+			
+
 			
 	}
 
