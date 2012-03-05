@@ -91,6 +91,7 @@ public class LineaProduccion implements Observer{
 	public void actualizar(){
 		this.avanzarTiempo();
 		this.producir();
+		
 	}
 	@Override
 	public void update(Observable o, Object arg) {
