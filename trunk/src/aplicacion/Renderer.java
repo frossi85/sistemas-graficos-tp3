@@ -35,6 +35,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 	private float rotacionCamaraX = 0, rotacionCamaraY = 0;
 	private float traslacionAdelanteAtras = 0;
 	private Camara camara;
+	private float timer;
 
     // Variables asociadas a �nica fuente de luz de la escena
     private float light_color[] = {0.5f, 0.5f, 0.5f, 1.0f};
@@ -96,6 +97,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     	animator.add(canvas);
     	animator.start();
     	this.linea = new LineaProduccion();
+    	this.timer = 0.0f;
     }
 
     private void update(GL2 gl)
@@ -131,7 +133,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 		//TODO: Settear las luces de la escena?? o mejor hacerlo en una clase que seahabitacion o algo asi y poner el setter aca
 		DemoLight(gl);
 		
-		this.linea.dibujar(gLDrawable);
+		//this.linea.dibujar(gLDrawable);
 		
 		
 		
@@ -139,6 +141,10 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     
     public void display(GLAutoDrawable gLDrawable)
     {	
+    	if(this.timer >= 25.0f)
+    		this.timer = 0.0f;
+    	
+    	
     	final GL2 gl = gLDrawable.getGL().getGL2();
 
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
@@ -153,13 +159,19 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   		gl.glPushMatrix();
   		
   			gl.glColor3d(1.0f, 0.0f, 0.0f);
-  			glut.glutSolidCube(10.0f);
+  			//glut.glutSolidCube(10.0f);
+  			//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
   			
   			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
   			gl.glPushMatrix();
   				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-  				glut.glutSolidCube(0.5f);
+  				//glut.glutSolidCube(0.5f);
   				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
+  				this.linea.dibujar(gLDrawable);
+  				if(this.timer == 0.0f){
+  					
+  					this.linea.actualizar();
+  				}
   			gl.glPopMatrix();
   			
   		
@@ -173,6 +185,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   		
 	  	//En ves de glutSwapBuffers();.. va gl.glFlush();
 	    gl.glFlush();
+	    this.timer += 0.1f;
     }
 
     public void displayChanged(GLAutoDrawable gLDrawable, boolean modeChanged, boolean deviceChanged)
