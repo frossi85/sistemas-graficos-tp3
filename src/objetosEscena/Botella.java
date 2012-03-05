@@ -75,7 +75,7 @@ public class Botella  implements Dibujable,Animable {
 
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		System.out.println("Se dibujo botella");
+		//System.out.println("Se dibujo botella");
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		
 		gl.glPushMatrix();
