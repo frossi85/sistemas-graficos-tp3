@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Queue;
 
+import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
@@ -19,6 +21,8 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private float velocidadCinta;
 	private float avanceBotellas;
 	private boolean avanzando = true;
+	private float largo = 5f;
+	private float ancho = 1f;
 	
 	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea,float velCinta, float avanceBotellas){
 		this.capacidadBotellas = capacidadBotellas;  //cant max de botellas que puede tener la cinta transportadora
@@ -29,7 +33,11 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	} 
 	
 	public void recibirBotella(Botella botella){ 
-		botellas.add(botella);
+		if(!this.estaLlenaDeBotellas()){
+			Vertice vert = new Vertice(avanceBotellas,0f,0f);
+			botella.setPosicion(vert);
+			botellas.add(botella);
+		}	
 	}
 	
 	public Botella entragarBotella(){
@@ -69,13 +77,13 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	}
 	
 	public boolean buscarPosicion(float posicion ){	// busca si existe una botella en una posicion dada de la cinta
-		for(int i = 0; i < this.botellas.size(); i++){
+		//for(int i = 0; i < this.botellas.size(); i++){
 			java.util.Iterator<Botella> it =  this.botellas.iterator();
 			while(it.hasNext()){
 				Botella bot = it.next();
 				if(bot.getPosicion().getX() == posicion) return true;
 			}
-		}
+		//}
 		return false;
 	}
 	
@@ -86,7 +94,26 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		System.out.println("Se dibujo cinta transportadora");
-
+		java.util.Iterator<Botella> it =  this.botellas.iterator();
+		while(it.hasNext()){
+				it.next().dibujar(gLDrawable);
+			}
+		final GL2 gl = gLDrawable.getGL().getGL2();
+		gl.glPushMatrix();
+  			gl.glColor3d(1.0f, 0.0f, 0.0f);
+  			gl.glBegin(GL.GL_LINE_STRIP);
+  			gl.glVertex3f(0f, ancho/2f, 0f);
+  			gl.glVertex3f(largo, ancho/2f, 0f);
+  			gl.glVertex3f(largo, ancho/2f, 0f);
+  			gl.glVertex3f(largo, -ancho/2f, 0f);
+  			gl.glVertex3f(largo, -ancho/2f, 0f);
+  			gl.glVertex3f(0f, -ancho/2f, 0f);
+  			gl.glVertex3f(0f, -ancho/2f, 0f);
+  			gl.glVertex3f(0f, ancho/2f, 0f);
+  			
+  			gl.glEnd();
+  		gl.glPopMatrix();	
+  		gl.glFlush();
 	}
 
 	@Override
