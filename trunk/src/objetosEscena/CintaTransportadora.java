@@ -21,7 +21,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private float velocidadCinta;
 	private float avanceBotellas;
 	private boolean avanzando = true;
-	private float largo = 5f;
+	private float largo = 8.5f;
 	private float ancho = 1f;
 	
 	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea,float velCinta, float avanceBotellas){
@@ -40,7 +40,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		}	
 	}
 	
-	public Botella entragarBotella(){
+	public Botella entregarBotella(){
 		return botellas.poll();
 	}
 	
@@ -81,7 +81,12 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 			java.util.Iterator<Botella> it =  this.botellas.iterator();
 			while(it.hasNext()){
 				Botella bot = it.next();
-				if(bot.getPosicion().getX() == posicion) return true;
+				float diff =  bot.getPosicion().getX() - posicion;
+				//System.out.println("diff es: " + diff );
+				if((diff <= avanceBotellas) && (diff >= 0f)){
+					//System.out.println("diff es: " + diff );
+					return true;
+				}	
 			}
 		//}
 		return false;
@@ -93,11 +98,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		System.out.println("Se dibujo cinta transportadora");
-		java.util.Iterator<Botella> it =  this.botellas.iterator();
-		while(it.hasNext()){
-				it.next().dibujar(gLDrawable);
-			}
+		//System.out.println("Se dibujo cinta transportadora");
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
   			gl.glColor3d(1.0f, 0.0f, 0.0f);
@@ -113,6 +114,12 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
   			
   			gl.glEnd();
   		gl.glPopMatrix();	
+		
+		java.util.Iterator<Botella> it =  this.botellas.iterator();
+		while(it.hasNext()){
+				it.next().dibujar(gLDrawable);
+			}
+		
   		gl.glFlush();
 	}
 
