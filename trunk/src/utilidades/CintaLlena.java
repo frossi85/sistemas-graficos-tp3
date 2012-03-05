@@ -18,7 +18,7 @@ public class CintaLlena implements ComportamientoProduccion {
 	@Override
 	public void producir() {
 		if(cinta.estaAvanzando()){
-			this.empa.recibirBotella(this.cinta.entragarBotella());
+			this.empa.recibirBotella(this.cinta.entregarBotella());
 			this.cinta.avanzarCinta();
 			this.cinta.recibirBotella(this.disp.entregarBotella());
 		}
