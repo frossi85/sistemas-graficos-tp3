@@ -36,6 +36,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 	private float traslacionAdelanteAtras = 0;
 	private Camara camara;
 	private float timer;
+	private static float actualizacionEscena = 0.6f;	// cada cuanto se actualiza la escena a dibujar
 
     // Variables asociadas a �nica fuente de luz de la escena
     private float light_color[] = {0.5f, 0.5f, 0.5f, 1.0f};
@@ -141,10 +142,9 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     
     public void display(GLAutoDrawable gLDrawable)
     {	
-    	if(this.timer >= 25.0f)
+    	if(this.timer >= actualizacionEscena)
     		this.timer = 0.0f;
-    	
-    	
+    	    	
     	final GL2 gl = gLDrawable.getGL().getGL2();
 
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
@@ -169,7 +169,6 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
   				this.linea.dibujar(gLDrawable);
   				if(this.timer == 0.0f){
-  					
   					this.linea.actualizar();
   				}
   			gl.glPopMatrix();
