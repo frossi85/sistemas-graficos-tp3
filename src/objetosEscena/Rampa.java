@@ -30,7 +30,7 @@ public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		System.out.println("Se dibujo rampa");
+		//System.out.println("Se dibujo rampa");
 		
 	}
 	@Override
