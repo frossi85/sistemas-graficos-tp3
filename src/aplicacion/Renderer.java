@@ -8,6 +8,8 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 
+import objetosEscena.Piso;
+
 import utilidades.LineaProduccion;
 import utilidades.Utilidades;
 
@@ -85,7 +87,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 	public GLCanvas canvas;
 	
 	private LineaProduccion linea;
-
+	private Piso piso;
+	
     //ATRIBUTOS DE LA ANIMACION
     private boolean pause = false;
     private FPSAnimator animator;
@@ -99,6 +102,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     	animator.start();
     	this.linea = new LineaProduccion();
     	this.timer = 0.0f;
+    	this.piso = new Piso();
     }
 
     private void update(GL2 gl)
@@ -158,7 +162,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   		
   		gl.glPushMatrix();
   		
-  			gl.glColor3d(1.0f, 0.0f, 0.0f);
+  			gl.glColor3d(1.0f, 1.0f, 0.0f);
   			//glut.glutSolidCube(10.0f);
   			//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
   			
@@ -168,6 +172,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   				//glut.glutSolidCube(0.5f);
   				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
   				this.linea.dibujar(gLDrawable);
+  				this.piso.dibujar(gLDrawable);
+  				
   				if(this.timer == 0.0f){
   					this.linea.actualizar();
   				}
