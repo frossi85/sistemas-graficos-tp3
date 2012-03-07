@@ -82,8 +82,8 @@ public class LineaProduccion implements Observer{
 						System.out.println("cinta entrego botella a empaquetador");
 						this.cinta.activarCinta();
 						this.cinta.avanzarCinta();
-						this.cinta.recibirBotella(this.expededoraBotellas.entregarBotella());
-						System.out.println("dispenser entrego botella a cinta");
+						//this.cinta.recibirBotella(this.expededoraBotellas.entregarBotella());
+						//System.out.println("dispenser entrego botella a cinta");
 					}
 					else 
 						cinta.avanzarCinta();
