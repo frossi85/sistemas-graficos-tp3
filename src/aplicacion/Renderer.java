@@ -8,8 +8,10 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 
+import shader.FragmentGeneral;
+import shader.ManejoShaders2;
+import shader.SinDeformacionVert;
 import objetosEscena.Piso;
-
 import utilidades.LineaProduccion;
 import utilidades.Utilidades;
 
@@ -25,6 +27,9 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
+import Primitivas.cubo;
+
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.gl2.GLUT;
 
@@ -56,9 +61,18 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     static int POSITION_BUFFER_SIZE = 9;
     private FloatBuffer positionData = FloatBuffer.allocate (POSITION_BUFFER_SIZE);
     private FloatBuffer colorData = FloatBuffer.allocate (POSITION_BUFFER_SIZE);
-    private IntBuffer vaoHandle = IntBuffer.allocate(1);
-
-    //public enum efectoFragment {SEMI_MATE,BRILLANTE, TEXTURA2D, REFLEJAR_ENTORNO};
+    private IntBuffer vaoHandle = IntBuffer.allocate(1);   
+    
+    ManejoShaders2 mS;
+    int SIN_DEFORMACION_VERT = ManejoShaders2.addVertexShader(new SinDeformacionVert());
+    int GENERIC_FRAG;
+    FragmentGeneral fragment;
+    efectoFragment currentFrag;
+    int currentVert;
+    public enum efectoFragment {SEMI_MATE,BRILLANTE, TEXTURA2D, REFLEJAR_ENTORNO};
+    
+    cubo unCubo = new cubo(0.35f, 50);
+    LuzSpot spot1;
 
 
     //TODO: Para que se usa, ver si se puede encapsular en una clase
@@ -88,7 +102,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 	
 	private LineaProduccion linea;
 	private Piso piso;
-	
+
     //ATRIBUTOS DE LA ANIMACION
     private boolean pause = false;
     private FPSAnimator animator;
@@ -129,6 +143,17 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
 		//TODO: Setear la camera
 		Set3DEnv(gl);
+		
+		
+		//SETEO DE SHADERS
+		mS = new ManejoShaders2(gLDrawable);
+
+		fragment = new FragmentGeneral(gl, glu, mS);
+		GENERIC_FRAG = ManejoShaders2.addFragmentShader(fragment);
+
+		currentVert = SIN_DEFORMACION_VERT;
+		currentFrag = efectoFragment.BRILLANTE;
+		
 
 		
 		//TODO:  CREACION DE LA LINEA DE PRODUCCION Y SETTEOS INICIALES /////
@@ -144,53 +169,108 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 		
     }
     
+    
     public void display(GLAutoDrawable gLDrawable)
     {	
     	if(this.timer >= actualizacionEscena)
     		this.timer = 0.0f;
-    	    	
+    	
+    	
     	final GL2 gl = gLDrawable.getGL().getGL2();
 
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 
   		update(gl);
+  		
+  		boolean esCodigoGustavo = true;
 
-  		
-  		gl.glPushMatrix();
-  		/////   TODO: DIBUJAR ACA   ////
-  		camara.render();
-  		
-  		gl.glPushMatrix();
-  		
+  		if(esCodigoGustavo)
+  		{
+	  		gl.glPushMatrix();
+	  		/////   TODO: DIBUJAR ACA   ////
+	  		camara.render();
+	  		
+	  		gl.glPushMatrix();
+	  		
   			gl.glColor3d(1.0f, 1.0f, 0.0f);
-  			//glut.glutSolidCube(10.0f);
-  			//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
-  			
-  			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
-  			gl.glPushMatrix();
-  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-  				//glut.glutSolidCube(0.5f);
-  				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
-  				this.linea.dibujar(gLDrawable);
+	  			//glut.glutSolidCube(10.0f);
+	  			//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
+	  			
+	  			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
+	  			gl.glPushMatrix();
+	  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
+	  				//glut.glutSolidCube(0.5f);
+	  				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
+	  				this.linea.dibujar(gLDrawable);
   				this.piso.dibujar(gLDrawable);
   				
-  				if(this.timer == 0.0f){
-  					this.linea.actualizar();
-  				}
+	  				if(this.timer == 0.0f){
+	  					
+	  					this.linea.actualizar();
+	  				}
+	  			gl.glPopMatrix();
+	  			
+	  		
+	  		gl.glPopMatrix();	
+	  		
+	  		gl.glPopMatrix();
+  		}
+  		else
+  		{
+  			
+  			
+  			gl.glPushMatrix();
+//  				camara.render();
+  			
+				
+  				unCubo.dibujar(gl);
+  				//mS.usarPrograma(currentVert, GENERIC_FRAG);
+
+//  		    	mS.reiniciarAnimacion();
+// 		
+//  		    	fragment.setEfectoSemiMate();
+//  		
+//  		    	mS.displayUniform();
+//  		    	mS.displayVertexAttrib();
   			gl.glPopMatrix();
   			
-  		
-  		gl.glPopMatrix();
-    	
-    	//this.linea.actualizar();
-  		
-  		
-  		gl.glPopMatrix();
+//  			gl.glPushMatrix();
+//  	  		/////   TODO: DIBUJAR ACA   ////
+//  	  		//camara.render();
+//  	  		
+//  	  		
+//	  	  	mS.usarPrograma(currentVert, GENERIC_FRAG);
+//	    	mS.reiniciarAnimacion();
+//	
+//	    	fragment.setEfectoSemiMate();
+//	
+//	    	mS.displayUniform();
+//	    	mS.displayVertexAttrib();
+//  	  		
+//  	  		gl.glPushMatrix();
+//  	  		
+//  	  			gl.glColor3d(1.0f, 0.0f, 0.0f);
+//  	  			//glut.glutSolidCube(10.0f);
+//  	  			
+//  	  		glut.glutSolidCube(0.4f);
+//
+////  	  			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
+////  	  			gl.glPushMatrix();
+////  	  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
+////  	  				glut.glutSolidCube(0.5f);
+////  	  				
+////  	  			gl.glPopMatrix();			
+//  	  		
+//  	  		gl.glPopMatrix();
+//  	  		
+//  	  		gl.glPopMatrix();
+  		}
   		////////////////////////////////
   		
 	  	//En ves de glutSwapBuffers();.. va gl.glFlush();
 	    gl.glFlush();
 	    this.timer += 0.1f;
+	    
     }
 
     public void displayChanged(GLAutoDrawable gLDrawable, boolean modeChanged, boolean deviceChanged)
@@ -222,7 +302,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     private void DemoLight(GL2 gl)
     {
       gl.glEnable(GL2.GL_LIGHTING);
-      gl.glEnable(GL2.GL_LIGHT0);
+      //gl.glEnable(GL2.GL_LIGHT0);
       
       
       gl.glEnable(GL2.GL_NORMALIZE);
@@ -237,60 +317,40 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
       gl.glLightModelf(GL2.GL_LIGHT_MODEL_LOCAL_VIEWER, 1.0f);
       gl.glLightModelf(GL2.GL_LIGHT_MODEL_TWO_SIDE, 0.0f);
 
+    
+      //float Kc = 1.0f;
+      //float Kl = 0.0f;
+      //float Kq = 0.0f;
+      //gl.glLightf(GL2.GL_LIGHT0, GL2.GL_CONSTANT_ATTENUATION,Kc);
+      //gl.glLightf(GL2.GL_LIGHT0, GL2.GL_LINEAR_ATTENUATION, Kl);
+      //gl.glLightf(GL2.GL_LIGHT0, GL2.GL_QUADRATIC_ATTENUATION, Kq);
+    
       // -------------------------------------------
-      // Spotlight Attenuation
-
-      //float spot_direction[] = {1.0f, -1.0f, -1.0f }; //ORIGINAL
-      float spot_direction[] = {1.0f, -1.0f, -1.0f };
-
-
-      int spot_exponent = 30;
-      int spot_cutoff = 180;
-
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPOT_DIRECTION, Utilidades.makeFloatBuffer(spot_direction));
-      gl.glLighti(GL2.GL_LIGHT0, GL2.GL_SPOT_EXPONENT, spot_exponent);
-      gl.glLighti(GL2.GL_LIGHT0, GL2.GL_SPOT_CUTOFF, spot_cutoff);
-
-      float Kc = 1.0f;
-      float Kl = 0.0f;
-      float Kq = 0.0f;
-
-      gl.glLightf(GL2.GL_LIGHT0, GL2.GL_CONSTANT_ATTENUATION,Kc);
-      gl.glLightf(GL2.GL_LIGHT0, GL2.GL_LINEAR_ATTENUATION, Kl);
-      gl.glLightf(GL2.GL_LIGHT0, GL2.GL_QUADRATIC_ATTENUATION, Kq);
-
-
-      // -------------------------------------------
-      // Lighting parameters:
-
-      //float light_pos[] = {0.0f, 5.0f, 5.0f, 1.0f}; //ORIGINAL
-      float light_pos[] = {1.0f, 3.0f, 10.0f, 1.0f}; //DIRECTIONAL LITGH O POINT??
-      //float light_Ka[]  = {1.0f, 0.5f, 0.5f, 1.0f}; //ORIGINAL
-      float light_Ka[] = {0.0f, 0.0f, 0.0f, 1.0f }; //Del segundo tuto
-      //float light_Kd[]  = {1.0f, 0.1f, 0.1f, 1.0f}; //ORIGINAL
+      // Lighting parameters: 
+      float light_pos[] = {0.5f, 0.0f, 1.0f, -1.0f};   ///Curta coordenada en 0:Direccional y 1:Posicional o puntual
+      float light_Ka[] = {0.3f, 0.3f, 0.3f, 1.0f }; //Del segundo tuto
       float light_Kd[]  = {1.0f, 1.0f, 1.0f, 1.0f};
       float light_Ks[]  = {1.0f, 1.0f, 1.0f, 1.0f}; //Brillante
-
-
-      //float light_Ks[]  = {0.0f, 0.0f, 0.0f, 0.0f}; //SemiMate
-
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, Utilidades.makeFloatBuffer(light_pos));
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, Utilidades.makeFloatBuffer(light_Ka));
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, Utilidades.makeFloatBuffer(light_Kd));
-      gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, Utilidades.makeFloatBuffer(light_Ks));
+      // -------------------------------------------
+      // Spotlight Attenuation
+      float spot_direction[] = {0.0f, 0.0f, 1.0f };
+      
+      
+      int spot_exponent = 30;
+      int spot_cutoff = 1;
+      
+      spot1 = LuzSpot.getLuzSpot(gl, light_Ka, light_Kd, light_Ks, spot_cutoff, spot_exponent, light_pos, spot_direction);
+      
+      float light_pos2[] = {-0.5f, 0.0f, 1.0f, -1.0f};
+      //LuzSpot.getLuzSpot(gl, light_Ka, light_Kd, light_Ks, spot_cutoff, spot_exponent, light_pos2, spot_direction);
 
       // -------------------------------------------
       // Material parameters:
 
       float material_Ka[] = {0.0f, 0.9f, 0.7f, 1.0f}; //Color Material del brillante
-      //float material_Ka[] = {0.3f, 0.3f, 0.3f, 1.0f }; //Del Segundo Tuto
       float material_Kd[] = {0.4f, 0.4f, 0.4f, 1.0f};
-      //float material_Kd[] = {0.9f, 0.5f, 0.5f, 1.0f }; //del segundo TUTO
-      //float material_Ks[] = {0.8f, 0.8f, 0.8f, 1.0f};
       float material_Ks[] = {0.6f, 0.6f, 0.6f, 1.0f }; //del segundo tuto
-      //float material_Ke[] = {0.1f, 0.0f, 0.0f, 0.0f};
       float material_Ke[] = {0.1f, 0.1f, 0.1f, 0.0f};
-      //float material_Se = 15.0f;
       float material_Se = 60.0f; //del segundo tuto
 
       gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, Utilidades.makeFloatBuffer(material_Ka));
