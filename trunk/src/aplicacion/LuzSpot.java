@@ -5,21 +5,19 @@ import javax.media.opengl.GL2;
 import utilidades.Utilidades;
 
 public class LuzSpot {
+	private float [] colorRGB;
+	private float [] difusa;
+	private float [] especular;
+	private float cutoff;
+	private float exponente;
+	private float [] posicion;
+	private float [] direccion;
 	
-	//private Posicion posicionLuz;
-	//private Direccion direccionLuz;
-	//private double anguloAperturaLuz; //Cutoff angle
-	//private Color colorLuz;
 	private GL2 gl;
 	private static int contadorLuces = 0;
 	
     // Private constructor prevents instantiation from other classes
 	public LuzSpot() { }
-	
-	//{
-		//this.gl = gl;
-		//contadorLuces++;
-	//}
 	
     /**
      * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
@@ -29,32 +27,29 @@ public class LuzSpot {
              public static final LuzSpot instance = new LuzSpot();
      }
 
-     public static LuzSpot getLuzSpot(GL2 gl, float [] colorRGB, float angulo, float posicion, float direccion) {
+     public static LuzSpot getLuzSpot(GL2 gl, float [] colorRGB, float [] difusa, float [] especular, float cutoff, float exponente, float [] posicion, float [] direccion) {
     	 
     	 LuzSpot luz = SingletonHolder.instance;
     	 
-    	 
-         // prepare spotlight
-         float spot_ambient[] = {10.2f,10.2f,10.2f,1.0f };  //Blanco
-         float spot_diffuse[] =   {50.8f,0.0f,0.0f,1.0f };  //colorRGB
-         float spot_specular[] =  {50.8f,0.0f,0.0f,1.0f };
-    	 float spotlightDirection[] = {1.0f,1.0f,-6.0f}; // spot light direction
-    	 float spotlightPosition[] = {1.0f,1.0f,-6.0f}; // spot light direction
- 
-         
-    	 gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_AMBIENT, spot_ambient, 0);        // Set Light Ambience
-         gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_DIFFUSE, spot_diffuse, 0);        // Set Light Diffuse
-         gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_SPECULAR, spot_specular, 0);
+    	 //Setteo propiedades de la luz
+    	 luz.gl = gl;
+    	 luz.colorRGB = colorRGB;
     	 
 
-		 gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_POSITION, Utilidades.makeFloatBuffer(spotlightPosition));
-		 gl.glLightf(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_SPOT_CUTOFF, angulo); // spot light cut-off
-    	 gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_SPOT_DIRECTION, Utilidades.makeFloatBuffer(spotlightDirection));
-    	 gl.glLightf(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_SPOT_EXPONENT, 50.0f); // spot light exponent
+         // prepare spotlight         
+    	 gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_AMBIENT, colorRGB, 0);        // Set Light Ambience
+         gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_DIFFUSE, difusa, 0);        // Set Light Diffuse
+         gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_SPECULAR, especular, 0);
+    	 
+
+		 gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_POSITION, Utilidades.makeFloatBuffer(posicion));
+		 gl.glLightfv(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_SPOT_DIRECTION, Utilidades.makeFloatBuffer(direccion));
+		 gl.glLightf(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_SPOT_CUTOFF, cutoff); // spot light cut-off
+    	 gl.glLightf(GL2.GL_LIGHT0 + contadorLuces, GL2.GL_SPOT_EXPONENT, exponente); // spot light exponent
          
     	 // "smoothing" the border of the lightcone
          // change this for effect
-         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, new float[] {0.7f,0.7f,1}, 0 );
+         //gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, new float[] {0.7f,0.7f,1}, 0 );
     	 
     	 
     	 // Enable Lighting
