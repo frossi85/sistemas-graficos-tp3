@@ -2,7 +2,10 @@ package objetosEscena;
 
 import java.util.Observable;
 
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
+
+import com.jogamp.opengl.util.gl2.GLUT;
 
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
@@ -13,6 +16,7 @@ public class Empaquetador extends Observable implements Dibujable {
 	int cantidadBotellasRecibidas;
 	private Vertice posicion;
 	public static int CAPACIDAD_BOTELLAS = 4;
+	private GLUT glut = new GLUT();
 	
 	public Empaquetador(LineaProduccion linea,Rampa rampa){
 		this.cantidadBotellasRecibidas = 0;
@@ -47,7 +51,11 @@ public class Empaquetador extends Observable implements Dibujable {
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//System.out.println("Se dibujo empaquetador");
-
+		final GL2 gl = gLDrawable.getGL().getGL2();
+		gl.glPushMatrix();
+			gl.glTranslatef(this.posicion.getX() + 0.75f, 0.0f, 0.0f);
+			glut.glutSolidCube(1.5f);
+		gl.glPopMatrix();
 	}
 
 }
