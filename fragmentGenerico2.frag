@@ -64,10 +64,15 @@ void main()
 			                 
 				color += gl_LightSource[i].specular * 
 			    		 gl_FrontMaterial.specular * 
-						 specular * spotEffect;				   
+						 specular * spotEffect;	
+						 
+			    //color += gl_FrontMaterial.emission;
 			}
    		}
    	}
+   	
+   	//Sumo la emisividad del material al color;
+   	color += gl_FrontMaterial.emission;
    
 	gl_FragColor = color;	
 }
