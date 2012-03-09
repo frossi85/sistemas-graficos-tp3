@@ -222,11 +222,6 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 //  		    	mS.displayUniform();
 //  		    	mS.displayVertexAttrib();
   			gl.glPopMatrix();
-  			
-//  			gl.glPushMatrix();
-//  	  		/////   TODO: DIBUJAR ACA   ////
-//  	  		//camara.render();
-//  	  		
 //  	  		
 //	  	  	mS.usarPrograma(currentVert, GENERIC_FRAG);
 //	    	mS.reiniciarAnimacion();
