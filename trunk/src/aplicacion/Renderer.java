@@ -207,9 +207,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   			
   			
   			gl.glPushMatrix();
-//  				camara.render();
+  				//camara.render();
   			
-				
   				unCubo.dibujar(gl);
   				
   				
@@ -236,24 +235,6 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 //	
 //	    	mS.displayUniform();
 //	    	mS.displayVertexAttrib();
-//  	  		
-//  	  		gl.glPushMatrix();
-//  	  		
-//  	  			gl.glColor3d(1.0f, 0.0f, 0.0f);
-//  	  			//glut.glutSolidCube(10.0f);
-//  	  			
-//  	  		glut.glutSolidCube(0.4f);
-//
-////  	  			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
-////  	  			gl.glPushMatrix();
-////  	  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-////  	  				glut.glutSolidCube(0.5f);
-////  	  				
-////  	  			gl.glPopMatrix();			
-//  	  		
-//  	  		gl.glPopMatrix();
-//  	  		
-//  	  		gl.glPopMatrix();
   		}
   		////////////////////////////////
   		
@@ -308,17 +289,16 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
       gl.glLightModelf(GL2.GL_LIGHT_MODEL_TWO_SIDE, 0.0f);
 
     
-      //float Kc = 1.0f;
-      //float Kl = 0.0f;
-      //float Kq = 0.0f;
-      //gl.glLightf(GL2.GL_LIGHT0, GL2.GL_CONSTANT_ATTENUATION,Kc);
-      //gl.glLightf(GL2.GL_LIGHT0, GL2.GL_LINEAR_ATTENUATION, Kl);
-      //gl.glLightf(GL2.GL_LIGHT0, GL2.GL_QUADRATIC_ATTENUATION, Kq);
+//      float Kc = 1.0f;
+//      float Kl = 0.0f;
+//      float Kq = 0.0f;
+//      gl.glLightf(GL2.GL_LIGHT0, GL2.GL_CONSTANT_ATTENUATION,Kc);
+//      gl.glLightf(GL2.GL_LIGHT0, GL2.GL_LINEAR_ATTENUATION, Kl);
+//      gl.glLightf(GL2.GL_LIGHT0, GL2.GL_QUADRATIC_ATTENUATION, Kq);
     
       // -------------------------------------------
       // Lighting parameters: 
-      //float light_pos[] = {-0.3f, 0.0f, -1.0f, 1.0f};   ///Curta coordenada en 0:Direccional y 1:Posicional o puntual
-      float light_pos[] = {0.0f, 0.0f, -2.5f, 1.0f}; 
+      float light_pos[] = {-0.3f, 0.0f, -1.0f, 1.0f};   ///Curta coordenada en 0:Direccional y 1:Posicional o puntual
       float light_Ka[] = {0.3f, 0.3f, 0.3f, 1.0f }; //Del segundo tuto
       float light_Kd[]  = {1.0f, 1.0f, 1.0f, 1.0f};
       float light_Ks[]  = {1.0f, 1.0f, 1.0f, 1.0f}; //Brillante
@@ -327,14 +307,12 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
       float spot_direction[] = {0.0f, 0.0f, 1.0f };
       
       
-      //int spot_exponent = 10;
-      
       int spot_exponent = 9;
       int spot_cutoff = 45;
       
       spot1 = LuzSpot.getLuzSpot(gl, light_Ka, light_Kd, light_Ks, spot_cutoff, spot_exponent, light_pos, spot_direction);
       
-      float light_pos2[] = {-0.5f, 0.0f, 1.0f, -1.0f};
+      float light_pos2[] = {0.3f, 0.0f, -1.0f, 1.0f};
       
       float light_Ka2[] = {1.0f, 0.0f, 0.0f, 1.0f }; //Del segundo tuto
       float light_Kd2[]  = {0.0f, 1.0f, 0.0f, 1.0f};
