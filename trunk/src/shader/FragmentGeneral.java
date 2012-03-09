@@ -9,7 +9,7 @@ import javax.media.opengl.glu.GLU;
 import common.TextureReader;
 
 public class FragmentGeneral extends FragmentShader {
-	private String fileName = "fragmentGenerico.frag";
+	private String fileName = "fragmentGenerico2.frag";
 	private GL2 gl;
 	//private ManejoShaders shader;
 	private ManejoShaders2 shader;
@@ -54,6 +54,24 @@ public class FragmentGeneral extends FragmentShader {
 	@Override
 	public String getFileName() {
 		return this.fileName;
+	}
+	
+	public void setParametrosLuces()
+	{
+//		int uniloc = -1;
+//	    
+//	    uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "esTextura2D");
+//	    if( uniloc >= 0 )
+//	    	gl.glUniform1i(uniloc, 0); //0=false, 1=true
+//	    
+//	    uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "esCubeMap");
+//	    if( uniloc >= 0 )
+//	    	gl.glUniform1i(uniloc, 0); //0=false, 1=true
+//	    
+//	    uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "esMaterialBrillante");
+//	    if( uniloc >= 0 )
+//	    	gl.glUniform1i(uniloc, 0); //0=false, 1=true 
+		
 	}
 	
 	public void setEfectoSemiMate()

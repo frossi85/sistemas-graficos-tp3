@@ -39,29 +39,16 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     private GLU glu = new GLU();
     public static GLUT glut = new GLUT();
 	private Point2D.Float posicionAnteriorMouse = new Point2D.Float(0,0);
-	private float rotacionCamaraX = 0, rotacionCamaraY = 0;
-	private float traslacionAdelanteAtras = 0;
 	private Camara camara;
 	private float timer;
 	private static float actualizacionEscena = 0.6f;	// cada cuanto se actualiza la escena a dibujar
-
-    // Variables asociadas a �nica fuente de luz de la escena
-    private float light_color[] = {0.5f, 0.5f, 0.5f, 1.0f};
-    private float light_position[] = {-1f,1f,1f,0f};
-	private float light_ambient[] = {0.05f, 0.05f, 0.05f, 1.0f};
-    private float light_specular[] = {0f,0f,0f,0f};
 
     // Variables de control
     // Tama�o de la ventana
     private static float window_size[] = new float[2];
     private static float W_WIDTH = window_size[0];
     private static float W_HEIGHT = window_size[1];
-
-    //Valores del buffer de color y posicion
-    static int POSITION_BUFFER_SIZE = 9;
-    private FloatBuffer positionData = FloatBuffer.allocate (POSITION_BUFFER_SIZE);
-    private FloatBuffer colorData = FloatBuffer.allocate (POSITION_BUFFER_SIZE);
-    private IntBuffer vaoHandle = IntBuffer.allocate(1);   
+ 
     
     ManejoShaders2 mS;
     int SIN_DEFORMACION_VERT = ManejoShaders2.addVertexShader(new SinDeformacionVert());
@@ -73,29 +60,6 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     
     cubo unCubo = new cubo(0.35f, 50);
     LuzSpot spot1;
-
-
-    //TODO: Para que se usa, ver si se puede encapsular en una clase
-	float [] positionDataOrig =
-	{
-	    -0.8f, -0.8f, 0.0f,
-	     0.8f, -0.8f, 0.0f,
-	     0.0f,  0.8f, 0.0f
-	};
-
-	//TODO: Para que se usa, ver si se puede encapsular en una clase
-	int positionBufferHandle;
-
-	//TODO: Para que se usa, ver si se puede encapsular en una clase
-	float colorDataOrig[] =
-    {
-         1.0f,  0.0f, 0.0f,
-         0.0f,  1.0f, 0.0f,
-         0.0f,  0.0f, 1.0f
-    };
-	
-	//TODO: Para que se usa, ver si se puede encapsular en una clase
-	int colorBufferHandle;
 
 	//TODO: Para que se usa, ver si se puede encapsular en una clase
 	public GLCanvas canvas;
@@ -170,6 +134,29 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     }
     
     
+    void dibujarEjes(GL2 gl)
+    {
+    	gl.glBegin(GL2.GL_LINE);
+    		gl.glColor3f(1.0f, 0.0f, 0.0f);
+    		gl.glVertex3f(0.0f, 0.0f, -20.0f); 
+    		gl.glVertex3f(0.0f, 0.0f, 20.0f);
+    	gl.glEnd();
+    	
+    	gl.glBegin(GL2.GL_LINE);
+			gl.glColor3f(0.0f, 1.0f, 0.0f);
+			gl.glVertex3f(-20.0f, 0.0f, 0.0f); 
+			gl.glVertex3f(20.0f, 0.0f, 0.0f);
+		gl.glEnd();
+		
+	   	gl.glBegin(GL2.GL_LINE);
+			gl.glColor3f(0.0f, 0.0f, 1.0f);
+			gl.glVertex3f(0.0f, -20.0f, 0.0f); 
+			gl.glVertex3f(0.0f, 20.0f, 0.0f);
+		gl.glEnd();
+ 	
+    }
+    
+    
     public void display(GLAutoDrawable gLDrawable)
     {	
     	if(this.timer >= actualizacionEscena)
@@ -182,7 +169,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = true;
+  		boolean esCodigoGustavo = false;
 
   		if(esCodigoGustavo)
   		{
@@ -224,7 +211,10 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   			
 				
   				unCubo.dibujar(gl);
-  				//mS.usarPrograma(currentVert, GENERIC_FRAG);
+  				
+  				
+  				//dibujarEjes(gl);
+  				mS.usarPrograma(currentVert, GENERIC_FRAG);
 
 //  		    	mS.reiniciarAnimacion();
 // 		
@@ -327,7 +317,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     
       // -------------------------------------------
       // Lighting parameters: 
-      float light_pos[] = {0.5f, 0.0f, 1.0f, -1.0f};   ///Curta coordenada en 0:Direccional y 1:Posicional o puntual
+      float light_pos[] = {-0.3f, 0.0f, -1.0f, 1.0f};   ///Curta coordenada en 0:Direccional y 1:Posicional o puntual
+      //float light_pos[] = {0.0f, 0.0f, -1.0f, 1.0f}; 
       float light_Ka[] = {0.3f, 0.3f, 0.3f, 1.0f }; //Del segundo tuto
       float light_Kd[]  = {1.0f, 1.0f, 1.0f, 1.0f};
       float light_Ks[]  = {1.0f, 1.0f, 1.0f, 1.0f}; //Brillante
@@ -336,13 +327,18 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
       float spot_direction[] = {0.0f, 0.0f, 1.0f };
       
       
-      int spot_exponent = 30;
-      int spot_cutoff = 1;
+      int spot_exponent = 10;
+      int spot_cutoff = 55;
       
       spot1 = LuzSpot.getLuzSpot(gl, light_Ka, light_Kd, light_Ks, spot_cutoff, spot_exponent, light_pos, spot_direction);
       
       float light_pos2[] = {-0.5f, 0.0f, 1.0f, -1.0f};
-      //LuzSpot.getLuzSpot(gl, light_Ka, light_Kd, light_Ks, spot_cutoff, spot_exponent, light_pos2, spot_direction);
+      
+      float light_Ka2[] = {1.0f, 0.0f, 0.0f, 1.0f }; //Del segundo tuto
+      float light_Kd2[]  = {0.0f, 1.0f, 0.0f, 1.0f};
+      float light_Ks2[]  = {0.8f, 0.8f, 0.8f, 1.0f}; //Brillante
+      
+      //LuzSpot.getLuzSpot(gl, light_Ka2, light_Kd2, light_Ks2, spot_cutoff, spot_exponent, light_pos2, spot_direction);
 
       // -------------------------------------------
       // Material parameters:

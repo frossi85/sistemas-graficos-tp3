@@ -4,7 +4,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 
 public class SinDeformacionVert extends VertexShader{
-	private String filename = "SinDeformacion.vert";
+	private String filename = "SinDeformacion2.vert";
 	private boolean parado = false;
 	
 	public void bind(GLAutoDrawable gLDrawable,int shaderprogram){
