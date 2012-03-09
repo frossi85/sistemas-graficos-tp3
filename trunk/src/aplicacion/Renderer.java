@@ -317,8 +317,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     
       // -------------------------------------------
       // Lighting parameters: 
-      float light_pos[] = {-0.3f, 0.0f, -1.0f, 1.0f};   ///Curta coordenada en 0:Direccional y 1:Posicional o puntual
-      //float light_pos[] = {0.0f, 0.0f, -1.0f, 1.0f}; 
+      //float light_pos[] = {-0.3f, 0.0f, -1.0f, 1.0f};   ///Curta coordenada en 0:Direccional y 1:Posicional o puntual
+      float light_pos[] = {0.0f, 0.0f, -2.5f, 1.0f}; 
       float light_Ka[] = {0.3f, 0.3f, 0.3f, 1.0f }; //Del segundo tuto
       float light_Kd[]  = {1.0f, 1.0f, 1.0f, 1.0f};
       float light_Ks[]  = {1.0f, 1.0f, 1.0f, 1.0f}; //Brillante
@@ -327,8 +327,10 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
       float spot_direction[] = {0.0f, 0.0f, 1.0f };
       
       
-      int spot_exponent = 10;
-      int spot_cutoff = 55;
+      //int spot_exponent = 10;
+      
+      int spot_exponent = 9;
+      int spot_cutoff = 45;
       
       spot1 = LuzSpot.getLuzSpot(gl, light_Ka, light_Kd, light_Ks, spot_cutoff, spot_exponent, light_pos, spot_direction);
       
