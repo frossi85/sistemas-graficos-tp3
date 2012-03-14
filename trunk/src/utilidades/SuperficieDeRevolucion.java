@@ -14,12 +14,10 @@ public class SuperficieDeRevolucion implements Dibujable {
 	private ArrayList<BezierCubica>listaDeCurvas;	//lista de curvas de bezier
 	
 	
-	private static final float PASOS_DISCRETIZACION_ANGULO = 4;		//cuanto angulo roto por paso
-	private Vertice ejeRotacion = new Vertice(0f,0f,1f);
-	private float anguloRevolucion = 360f/PASOS_DISCRETIZACION_ANGULO;
-	private static final float PASOS_DISCRETIZACION_CURVA = 6;
-	private float intervaloCurva = 1f/PASOS_DISCRETIZACION_CURVA;	//cada cuanto dibujo un vertice de la curva
-	private GLUT glut = new GLUT();
+	private static final float PASOS_DISCRETIZACION_ANGULO = 7;		
+	private float anguloRevolucion = 360f/PASOS_DISCRETIZACION_ANGULO;	//cuanto angulo roto para dibujar una nueva curva
+	private static final float PASOS_DISCRETIZACION_CURVA = 5;	//cuantos puntos de cada curva de bezier tomo para dibujar la botella
+	private float intervaloCurva = 1f/PASOS_DISCRETIZACION_CURVA;	//cada cuanto dibujo un vertice de la curva de bezier
 	private int numCurvas;
 	
 	public SuperficieDeRevolucion(ArrayList<PuntoDeControl>list){	
@@ -73,13 +71,13 @@ public class SuperficieDeRevolucion implements Dibujable {
 		return(listaDeCurvas.get((int) piso).getY((float) (valor - piso)));
 	}
 		
-	public float rotacionX(float x, float y,float angulo){
-		return (float) (x*Math.cos(angulo) - y*Math.sin(angulo));
+	public double rotacionX(float x, float z,float angulo){
+		return (x*Math.cos(angulo) + z*Math.sin(angulo));
 		
 	}
 	
-	public float rotacionY(float x, float y, float angulo){
-		return (float) (x*Math.sin(angulo) + y*Math.cos(angulo));
+	public double rotacionZ(float x, float z, float angulo){
+		return  (-x*Math.sin(angulo) + z*Math.cos(angulo));
 	}
 	
 	public int CantPuntosControl(){
@@ -91,70 +89,46 @@ public class SuperficieDeRevolucion implements Dibujable {
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
-			//gl.glBegin(GL.GL_TRIANGLES);
-  			/*for(float i = 0; i <= 360f - anguloRevolucion; i+= anguloRevolucion){
-  				for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
-  					Vertice aux1 = new Vertice(rotacionX(curva.getX(j),curva.getY(j),i),rotacionY(curva.getX(j),curva.getY(j),i),0);
-  					Vertice aux2 = new Vertice(rotacionX(aux1.getX(),aux1.getY(),i + anguloRevolucion),rotacionY(aux1.getX(),aux1.getY(), i+anguloRevolucion ),0);
-  					Vertice aux3 = new Vertice(rotacionX(curva.getX(j + intervaloCurva),curva.getY(j + intervaloCurva),i),rotacionY(curva.getX(j + intervaloCurva),curva.getY(j + intervaloCurva),i),0);
-  					Vertice aux4 = new Vertice(rotacionX(aux3.getX(),aux3.getY(),i + anguloRevolucion), rotacionY(aux3.getX(),aux3.getY(),i + anguloRevolucion), 0);
+		gl.glScalef(0.07f, 0.07f, 0.07f);
+		for(int h = 0; h < numCurvas; h ++){
+  			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
+  				Vertice aux1 = new Vertice(listaDeCurvas.get(h).getX(j),listaDeCurvas.get(h).getY(j),0);	
+  				Vertice aux2 = new Vertice(listaDeCurvas.get(h).getX(j + intervaloCurva),listaDeCurvas.get(h).getY(j + intervaloCurva),0);
+  			
+  				gl.glPushMatrix();
+  				gl.glBegin(GL.GL_TRIANGLES);
+  			
+  				gl.glVertex3d(aux1.getX(),aux1.getY(),aux1.getZ());
+  				gl.glVertex3d(aux2.getX(),aux2.getY(),aux2.getZ());
+  				gl.glVertex3d(rotacionX(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180),aux1.getY(), rotacionZ(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180));
+  			
+  				gl.glVertex3d(aux2.getX(),aux2.getY(),aux2.getZ());
+  				gl.glVertex3d(rotacionX(aux2.getX(),aux2.getZ(),(float)Math.PI*((0+anguloRevolucion)/180)),aux2.getY(), rotacionZ(aux2.getX(),aux2.getZ(),(float)Math.PI*((0+anguloRevolucion)/180)));
+  				gl.glVertex3d(rotacionX(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180),aux1.getY(), rotacionZ(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180));
   					
-  					gl.glVertex3f(aux3.getX(),aux3.getY(),aux3.getZ());
-  					gl.glVertex3f(aux2.getX(),aux2.getY(),aux2.getZ());
-  					gl.glVertex3f(aux1.getX(),aux1.getY(),aux1.getZ());
+  				gl.glEnd();
+  				gl.glPopMatrix();
   					
-  					gl.glVertex3f(aux3.getX(),aux3.getY(),aux3.getZ());
-  					gl.glVertex3f(aux4.getX(),aux4.getY(),aux4.getZ());
-  					gl.glVertex3f(aux2.getX(),aux2.getY(),aux2.getZ());
+  				for(float i = anguloRevolucion; i <= 360 ;  i+= anguloRevolucion){	
+  					gl.glPushMatrix();
+  					gl.glRotatef(i, 0, 1, 0);
+  					gl.glBegin(GL.GL_TRIANGLES);
+  			
+  					gl.glVertex3d(aux1.getX(),aux1.getY(),aux1.getZ());
+  					gl.glVertex3d(aux2.getX(),aux2.getY(),aux2.getZ());
+  					gl.glVertex3d(rotacionX(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180),aux1.getY(), rotacionZ(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180));
   					
+  					gl.glVertex3d(aux2.getX(),aux2.getY(),aux2.getZ());
+  					gl.glVertex3d(rotacionX(aux2.getX(),aux2.getZ(),(float)Math.PI*((0+anguloRevolucion)/180)),aux2.getY(), rotacionZ(aux2.getX(),aux2.getZ(),(float)Math.PI*((0+anguloRevolucion)/180)));
+  					gl.glVertex3d(rotacionX(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180),aux1.getY(), rotacionZ(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180));
+  				
+  					gl.glEnd();
+  					gl.glPopMatrix();
   				}
+  					
   			}
-  			*/
-		gl.glScalef(0.6f, 0.6f, 0.6f);
-		gl.glBegin(GL.GL_LINE_STRIP);
-				
-				gl.glVertex3f(listaDeCurvas.get(0).getX(0f),listaDeCurvas.get(0).getY(0f),0);
-				gl.glVertex3f(listaDeCurvas.get(0).getX(0.1f),listaDeCurvas.get(0).getY(0.1f),0);
-				gl.glVertex3f(listaDeCurvas.get(0).getX(0.3f),listaDeCurvas.get(0).getY(0.3f),0);
-				gl.glVertex3f(listaDeCurvas.get(0).getX(0.4f),listaDeCurvas.get(0).getY(0.4f),0);
-				gl.glVertex3f(listaDeCurvas.get(0).getX(0.5f),listaDeCurvas.get(0).getY(0.5f),0);
-				gl.glVertex3f(listaDeCurvas.get(0).getX(0.75f),listaDeCurvas.get(0).getY(0.75f),0);
-				gl.glVertex3f(listaDeCurvas.get(0).getX(0.80f),listaDeCurvas.get(0).getY(0.80f),0);
-				gl.glVertex3f(listaDeCurvas.get(0).getX(1f),listaDeCurvas.get(0).getY(1f),0);
-				/*
-				gl.glVertex3f(listaDeCurvas.get(1).getX(0f),listaDeCurvas.get(1).getY(0f),0);
-				gl.glVertex3f(listaDeCurvas.get(1).getX(0.1f),listaDeCurvas.get(1).getY(0.1f),0);
-				gl.glVertex3f(listaDeCurvas.get(1).getX(0.3f),listaDeCurvas.get(1).getY(0.3f),0);
-				gl.glVertex3f(listaDeCurvas.get(1).getX(0.4f),listaDeCurvas.get(1).getY(0.4f),0);
-				gl.glVertex3f(listaDeCurvas.get(1).getX(0.5f),listaDeCurvas.get(1).getY(0.5f),0);
-				gl.glVertex3f(listaDeCurvas.get(1).getX(0.75f),listaDeCurvas.get(1).getY(0.75f),0);
-				gl.glVertex3f(listaDeCurvas.get(1).getX(0.80f),listaDeCurvas.get(1).getY(0.80f),0);
-				gl.glVertex3f(listaDeCurvas.get(1).getX(1f),listaDeCurvas.get(1).getY(1f),0);
-				
-				gl.glVertex3f(listaDeCurvas.get(2).getX(0f),listaDeCurvas.get(2).getY(0f),0);
-				gl.glVertex3f(listaDeCurvas.get(2).getX(0.1f),listaDeCurvas.get(2).getY(0.1f),0);
-				gl.glVertex3f(listaDeCurvas.get(2).getX(0.3f),listaDeCurvas.get(2).getY(0.3f),0);
-				gl.glVertex3f(listaDeCurvas.get(2).getX(0.4f),listaDeCurvas.get(2).getY(0.4f),0);
-				gl.glVertex3f(listaDeCurvas.get(2).getX(0.5f),listaDeCurvas.get(2).getY(0.5f),0);
-				gl.glVertex3f(listaDeCurvas.get(2).getX(0.75f),listaDeCurvas.get(2).getY(0.75f),0);
-				gl.glVertex3f(listaDeCurvas.get(2).getX(0.80f),listaDeCurvas.get(2).getY(0.80f),0);
-				gl.glVertex3f(listaDeCurvas.get(2).getX(1f),listaDeCurvas.get(2).getY(1f),0);
-				
-				gl.glVertex3f(listaDeCurvas.get(3).getX(0f),listaDeCurvas.get(3).getY(0f),0);
-				gl.glVertex3f(listaDeCurvas.get(3).getX(0.1f),listaDeCurvas.get(3).getY(0.1f),0);
-				gl.glVertex3f(listaDeCurvas.get(3).getX(0.3f),listaDeCurvas.get(3).getY(0.3f),0);
-				gl.glVertex3f(listaDeCurvas.get(3).getX(0.4f),listaDeCurvas.get(3).getY(0.4f),0);
-				gl.glVertex3f(listaDeCurvas.get(3).getX(0.5f),listaDeCurvas.get(3).getY(0.5f),0);
-				gl.glVertex3f(listaDeCurvas.get(3).getX(0.75f),listaDeCurvas.get(3).getY(0.75f),0);
-				gl.glVertex3f(listaDeCurvas.get(3).getX(0.80f),listaDeCurvas.get(3).getY(0.80f),0);
-				gl.glVertex3f(listaDeCurvas.get(3).getX(1f),listaDeCurvas.get(3).getY(1f),0);
-				
-				*/
-  			gl.glEnd();
-  		gl.glPopMatrix();	
-		
+  		}
+  			
+  		gl.glPopMatrix();
 	}
-	
-	
-	
 }
