@@ -35,16 +35,29 @@ public class Botella  implements Dibujable,Animable {
 		this.etiquetado = false;
 		this.posicion = new Vertice(0f,0f,0f);
 		ArrayList<PuntoDeControl>list = new ArrayList<PuntoDeControl>();
-				
-		//ult1
+		
+		/*opcion2
 		PuntoDeControl punto1 = new PuntoDeControl(1.7f,3f);
 		PuntoDeControl punto2 = new PuntoDeControl(1f,2f);
 		PuntoDeControl punto3 = new PuntoDeControl(0.4f,1.5f);
 		PuntoDeControl punto4 = new PuntoDeControl(0.4f,0f);
-		//ult2
+	
 		PuntoDeControl punto5 = new PuntoDeControl(3f,20f);
 		PuntoDeControl punto6 = new PuntoDeControl(1f,9f);
 		PuntoDeControl punto7 = new PuntoDeControl(2f,4.5f);
+		PuntoDeControl punto8 = new PuntoDeControl(1.7f,3f);
+		*/
+		
+		
+		//opcion1
+		PuntoDeControl punto1 = new PuntoDeControl(1.7f,3f);
+		PuntoDeControl punto2 = new PuntoDeControl(1f,2f);
+		PuntoDeControl punto3 = new PuntoDeControl(0.4f,1.5f);
+		PuntoDeControl punto4 = new PuntoDeControl(0.4f,0f);
+		
+		PuntoDeControl punto5 = new PuntoDeControl(2.1f,20f);
+		PuntoDeControl punto6 = new PuntoDeControl(5.1f,9f);
+		PuntoDeControl punto7 = new PuntoDeControl(1.8f,4.5f);
 		PuntoDeControl punto8 = new PuntoDeControl(1.7f,3f);
 		
 		list.add(punto1);
@@ -106,15 +119,11 @@ public class Botella  implements Dibujable,Animable {
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//System.out.println("Se dibujo botella");
 		final GL2 gl = gLDrawable.getGL().getGL2();
-		
 		gl.glPushMatrix();
-			gl.glTranslatef(this.posicion.getX(), 0.0f, 0.0f);
-			glut.glutSolidCylinder(0.1f, 0.5f, 20, 20);
+			gl.glTranslatef(this.posicion.getX(), 0.2f, 0.0f);
+			gl.glRotatef(90f, 1f, 0f, 0f);
+			this.sup.dibujar(gLDrawable);
 		gl.glPopMatrix();	
-
-//		this.sup.dibujar(gLDrawable);
-
-			
 	}
 
 	@Override
