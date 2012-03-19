@@ -89,7 +89,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
-		gl.glScalef(0.07f, 0.07f, 0.07f);
+		gl.glScalef(0.04f, 0.04f, 0.04f);
 		for(int h = 0; h < numCurvas; h ++){
   			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
   				Vertice aux1 = new Vertice(listaDeCurvas.get(h).getX(j),listaDeCurvas.get(h).getY(j),0);	
