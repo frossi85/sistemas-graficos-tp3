@@ -36,8 +36,8 @@ public class Botella  implements Dibujable,Animable {
 		this.posicion = new Vertice(0f,0f,0f);
 		ArrayList<PuntoDeControl>list = new ArrayList<PuntoDeControl>();
 		
-		/*opcion2
-		PuntoDeControl punto1 = new PuntoDeControl(1.7f,3f);
+		//opcion2
+		/*PuntoDeControl punto1 = new PuntoDeControl(1.7f,3f);
 		PuntoDeControl punto2 = new PuntoDeControl(1f,2f);
 		PuntoDeControl punto3 = new PuntoDeControl(0.4f,1.5f);
 		PuntoDeControl punto4 = new PuntoDeControl(0.4f,0f);
@@ -50,15 +50,15 @@ public class Botella  implements Dibujable,Animable {
 		
 		
 		//opcion1
-		PuntoDeControl punto1 = new PuntoDeControl(1.7f,3f);
-		PuntoDeControl punto2 = new PuntoDeControl(1f,2f);
+		PuntoDeControl punto1 = new PuntoDeControl(1.1f,3f);
+		PuntoDeControl punto2 = new PuntoDeControl(0.6f,2f);
 		PuntoDeControl punto3 = new PuntoDeControl(0.4f,1.5f);
 		PuntoDeControl punto4 = new PuntoDeControl(0.4f,0f);
 		
 		PuntoDeControl punto5 = new PuntoDeControl(2.1f,20f);
 		PuntoDeControl punto6 = new PuntoDeControl(5.1f,9f);
-		PuntoDeControl punto7 = new PuntoDeControl(1.8f,4.5f);
-		PuntoDeControl punto8 = new PuntoDeControl(1.7f,3f);
+		PuntoDeControl punto7 = new PuntoDeControl(1.4f,4.5f);
+		PuntoDeControl punto8 = new PuntoDeControl(1.1f,3f);
 		
 		list.add(punto1);
 		list.add(punto2);
