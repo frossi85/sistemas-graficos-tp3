@@ -12,6 +12,7 @@ import shader.FragmentGeneral;
 import shader.ManejoShaders2;
 import shader.SinDeformacionVert;
 import objetosEscena.Piso;
+import utilidades.Bspline;
 import utilidades.LineaProduccion;
 import utilidades.Utilidades;
 
@@ -27,6 +28,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import Primitivas.cubo;
 
@@ -70,6 +72,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     //ATRIBUTOS DE LA ANIMACION
     private boolean pause = false;
     private FPSAnimator animator;
+    
+    Bspline spline = new Bspline(new ArrayList<utilidades.PuntoDeControl>());
 
     public Renderer(GLCanvas glCanvas)
     {
@@ -209,11 +213,11 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   			gl.glPushMatrix();
   				//camara.render();
   			
-  				unCubo.dibujar(gl);
+  				//unCubo.dibujar(gl);
   				
   				
   				//dibujarEjes(gl);
-  				mS.usarPrograma(currentVert, GENERIC_FRAG);
+  				//mS.usarPrograma(currentVert, GENERIC_FRAG);
 
 //  		    	mS.reiniciarAnimacion();
 // 		
@@ -230,6 +234,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 //	
 //	    	mS.displayUniform();
 //	    	mS.displayVertexAttrib();
+  			
+  			spline.dibujar(gl, glu);
   		}
   		////////////////////////////////
   		

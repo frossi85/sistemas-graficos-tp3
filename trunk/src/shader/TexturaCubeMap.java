@@ -16,7 +16,7 @@ import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureData;
 import com.jogamp.opengl.util.texture.TextureIO;
-import common.TextureReader;
+//import common.TextureReader;
 
 //import common.TextureReader;
 
@@ -25,21 +25,15 @@ public class TexturaCubeMap {
 	private GL2 gl;
 	private GLU glu;
 	private int tamanioLadoCubo;
-	TextureReader.Texture xPositivo;
+	/*TextureReader.Texture xPositivo;
 	TextureReader.Texture yPositivo;
 	TextureReader.Texture zPositivo;
 	TextureReader.Texture xNegativo;
 	TextureReader.Texture yNegativo;
-	TextureReader.Texture zNegativo;
+	TextureReader.Texture zNegativo;*/
 	public int cubemap;
 	
-//	TextureData xPositivo;
-//	TextureData yPositivo;
-//	TextureData zPositivo;
-//	TextureData xNegativo;
-//	TextureData yNegativo;
-//	TextureData zNegativo;
-	
+
 	public TexturaCubeMap(GL2 gl, GLU glu, int tamanioLadoCubo)
 	{
 		this.gl = gl;
@@ -49,27 +43,27 @@ public class TexturaCubeMap {
 	
 	
 	public void cargarXPositivo(String url) {
-		xPositivo = generarTexturaDesdeURL(url);
+		//xPositivo = generarTexturaDesdeURL(url);
 	}
 	
 	public void cargarXNegativo(String url) {
-		xNegativo = generarTexturaDesdeURL(url);
+		//xNegativo = generarTexturaDesdeURL(url);
 	}
 	
 	public void cargarYPositivo(String url) {
-		yPositivo = generarTexturaDesdeURL(url);
+		//yPositivo = generarTexturaDesdeURL(url);
 	}
 	
 	public void cargarYNegativo(String url) {
-		yNegativo = generarTexturaDesdeURL(url);
+		//yNegativo = generarTexturaDesdeURL(url);
 	}
 	
 	public void cargarZPositivo(String url) {
-		zPositivo = generarTexturaDesdeURL(url);
+		//zPositivo = generarTexturaDesdeURL(url);
 	}
 	
 	public void cargarZNegativo(String url) {
-		zNegativo = generarTexturaDesdeURL(url);
+		//zNegativo = generarTexturaDesdeURL(url);
 	}
 	
 	private int genTexture(GL gl) {
@@ -80,7 +74,7 @@ public class TexturaCubeMap {
 	
 	//private TextureData generarTexturaDesdeURL(String url){
 	//private com.jogamp.opengl.util.texture.Texture generarTexturaDesdeURL(String url){
-	private TextureReader.Texture generarTexturaDesdeURL(String url) {
+	/*private TextureReader.Texture generarTexturaDesdeURL(String url) {
         TextureReader.Texture texture = null;
         try {
             texture = TextureReader.readTexture(url);
@@ -103,9 +97,9 @@ public class TexturaCubeMap {
 	    //return data;
 	    
 	    return texture;
-	}
+	}*/
 	
-    private void makeRGBTexture(GL gl, GLU glu, TextureReader.Texture img, 
+    /*private void makeRGBTexture(GL gl, GLU glu, TextureReader.Texture img, 
             int target, boolean mipmapped) {
         
         if (mipmapped) {
@@ -115,23 +109,22 @@ public class TexturaCubeMap {
             gl.glTexImage2D(target, 0, GL.GL_RGB, img.getWidth(), 
                     img.getHeight(), 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, img.getPixels());
         }
-    }
+    }*/
 	
 	public void habilitar()
 	{
 	    gl.glEnable(GL2.GL_TEXTURE_CUBE_MAP);
 
 		cubemap = genTexture(gl);
-		
-		//gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, cubemap);
-                    
-        makeRGBTexture(gl, glu, xPositivo, GL2.GL_TEXTURE_CUBE_MAP_POSITIVE_X, false);
+		                    
+        /*
+		makeRGBTexture(gl, glu, xPositivo, GL2.GL_TEXTURE_CUBE_MAP_POSITIVE_X, false);
         makeRGBTexture(gl, glu, xNegativo, GL2.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, false);
         makeRGBTexture(gl, glu, yPositivo, GL2.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, false);
         makeRGBTexture(gl, glu, yNegativo, GL2.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, false);
         makeRGBTexture(gl, glu, zPositivo, GL2.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, false);
         makeRGBTexture(gl, glu, zNegativo, GL2.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, false);
-       
+       */
 		
 		 // Typical cube map settings
 	    gl.glTexParameterf(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
