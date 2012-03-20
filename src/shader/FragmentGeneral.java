@@ -6,7 +6,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
-import common.TextureReader;
+//import common.TextureReader;
 
 public class FragmentGeneral extends FragmentShader {
 	private String fileName = "fragmentGenerico2.frag";
@@ -172,7 +172,7 @@ public class FragmentGeneral extends FragmentShader {
 	}
 	
 	
-    private void makeRGBTexture(GL gl, GLU glu, TextureReader.Texture img, 
+    /*private void makeRGBTexture(GL gl, GLU glu, TextureReader.Texture img, 
             int target, boolean mipmapped) {
         
         if (mipmapped) {
@@ -182,7 +182,7 @@ public class FragmentGeneral extends FragmentShader {
             gl.glTexImage2D(target, 0, GL.GL_RGB, img.getWidth(), 
                     img.getHeight(), 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, img.getPixels());
         }
-    }
+    }*/
 
     private int genTexture(GL gl) {
         final int[] tmp = new int[1];
