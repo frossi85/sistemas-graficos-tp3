@@ -10,6 +10,7 @@ import javax.media.opengl.glu.GLUquadric;
 
 import shader.FragmentGeneral;
 import shader.ManejoShaders2;
+import shader.Refraccion;
 import shader.SinDeformacionVert;
 import objetosEscena.Piso;
 import utilidades.Bspline;
@@ -54,6 +55,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     
     ManejoShaders2 mS;
     int SIN_DEFORMACION_VERT = ManejoShaders2.addVertexShader(new SinDeformacionVert());
+    int REFRACCION_VERT = ManejoShaders2.addVertexShader(new Refraccion());
     int GENERIC_FRAG;
     FragmentGeneral fragment;
     efectoFragment currentFrag;
@@ -119,7 +121,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 		fragment = new FragmentGeneral(gl, glu, mS);
 		GENERIC_FRAG = ManejoShaders2.addFragmentShader(fragment);
 
-		currentVert = SIN_DEFORMACION_VERT;
+		//currentVert = SIN_DEFORMACION_VERT;
+		currentVert = REFRACCION_VERT;
 		currentFrag = efectoFragment.BRILLANTE;
 		
 
@@ -173,7 +176,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = false;
+  		boolean esCodigoGustavo = true;
 
   		if(esCodigoGustavo)
   		{
@@ -217,7 +220,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   				
   				
   				//dibujarEjes(gl);
-  				//mS.usarPrograma(currentVert, GENERIC_FRAG);
+  				mS.usarPrograma(currentVert, GENERIC_FRAG);
 
 //  		    	mS.reiniciarAnimacion();
 // 		
