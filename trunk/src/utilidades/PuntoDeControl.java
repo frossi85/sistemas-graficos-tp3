@@ -3,10 +3,18 @@ package utilidades;
 public class PuntoDeControl {
 	private float x;
 	private float y;
+	private float z;
 	
 	public PuntoDeControl(float x, float y){
 		this.x = x;
 		this.y = y;
+		this.z = 0.0f;
+	}
+	
+	public PuntoDeControl(float x, float y, float z){
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 	
 	public float getX() {
@@ -23,6 +31,14 @@ public class PuntoDeControl {
 
 	public void setY(float y) {
 		this.y = y;
+	}
+
+	public float getZ() {
+		return z;
+	}
+
+	public void setZ(float z) {
+		this.z = z;
 	}
 
 }
