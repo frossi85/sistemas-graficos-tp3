@@ -220,7 +220,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   				
   				
   				//dibujarEjes(gl);
-  				mS.usarPrograma(currentVert, GENERIC_FRAG);
+  				//mS.usarPrograma(currentVert, GENERIC_FRAG);
 
 //  		    	mS.reiniciarAnimacion();
 // 		
@@ -238,7 +238,8 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 //	    	mS.displayUniform();
 //	    	mS.displayVertexAttrib();
   			
-  			spline.dibujar(gl, glu);
+  			//spline.dibujar(gl, glu);
+  			spline.dibujar3(gl, glu);
   		}
   		////////////////////////////////
   		
