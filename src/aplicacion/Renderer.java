@@ -176,7 +176,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = true;
+  		boolean esCodigoGustavo = false;
 
   		if(esCodigoGustavo)
   		{
@@ -238,8 +238,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 //	    	mS.displayUniform();
 //	    	mS.displayVertexAttrib();
   			
-  			//spline.dibujar(gl, glu);
-  			spline.dibujar3(gl, glu);
+  			spline.dibujar(gl, glu);
   		}
   		////////////////////////////////
   		
