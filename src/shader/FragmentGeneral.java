@@ -56,6 +56,10 @@ public class FragmentGeneral extends FragmentShader {
 		return this.fileName;
 	}
 	
+	public void changeFileName(String name){
+		this.fileName = name;
+	}
+	
 	public void setParametrosLuces()
 	{
 //		int uniloc = -1;
