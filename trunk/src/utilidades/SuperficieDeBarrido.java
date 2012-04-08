@@ -14,16 +14,17 @@ public class SuperficieDeBarrido implements Dibujable {
 	
 	private ArrayList<BSplineCuadratica>listaDeCurvas;	//lista de curvas de bezier
 	
-	
-	private static final float PASOS_DISCRETIZACION_ANGULO = 7;		
-	private float anguloRevolucion = 360f/PASOS_DISCRETIZACION_ANGULO;	//cuanto angulo roto para dibujar una nueva curva
-	private static final float PASOS_DISCRETIZACION_CURVA = 5;	//cuantos puntos de cada curva de bezier tomo para dibujar la botella
-	private float intervaloCurva = 1f/PASOS_DISCRETIZACION_CURVA;	//cada cuanto dibujo un vertice de la curva de bezier
+	private int divisionesCurva;
+	private int divisionesBarrido;
+	private float anchoBarrido;
 	private int numCurvas;
 	
-	public SuperficieDeBarrido(ArrayList<PuntoDeControl> puntosDeControl){	
+	public SuperficieDeBarrido(ArrayList<PuntoDeControl> puntosDeControl, int divisionesPorCurva, int divisionesBarrido, float anchoBarrido){	
 
 		listaDeCurvas = new ArrayList<BSplineCuadratica>();
+		this.anchoBarrido = anchoBarrido;
+		this.divisionesBarrido = divisionesBarrido;
+		this.divisionesCurva = divisionesPorCurva;
 		
 		for(int i = 0; i < puntosDeControl.size() - 2; i ++){
 			ArrayList<PuntoDeControl> auxL = new ArrayList<PuntoDeControl>();
@@ -112,12 +113,6 @@ public class SuperficieDeBarrido implements Dibujable {
 			listaDeCurvas.get(i).dibujar2(gl, glu);			
 		}
 	}
-
-//	@Override
-//	public void dibujar() {
-//		// TODO Auto-generated method stub
-//		
-//	}
 	
 	public float getX(float u){
 		float valor = u;
@@ -130,18 +125,9 @@ public class SuperficieDeBarrido implements Dibujable {
 		double piso = Math.floor(valor);
 		return(listaDeCurvas.get((int) piso).getY((float) (valor - piso)));
 	}
-		
-	public double rotacionX(float x, float z,float angulo){
-		return (x*Math.cos(angulo) + z*Math.sin(angulo));
-		
-	}
-	
-	public double rotacionZ(float x, float z, float angulo){
-		return  (-x*Math.sin(angulo) + z*Math.cos(angulo));
-	}
 	
 	public int CantPuntosControl(){
-		return numCurvas*4;
+		return numCurvas*3;
 	}
 	
 	
@@ -149,24 +135,29 @@ public class SuperficieDeBarrido implements Dibujable {
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
-		gl.glScalef(0.04f, 0.04f, 0.04f);
-		
-		
-		int divisionesCurva = 20;
-		int divisionesBarrido = 1;
-		float anchoBarrido = 1.0f;
+		//gl.glScalef(0.04f, 0.04f, 0.04f);
 		
 		float posicionBarrido = 0.0f;
 		float pasoDelBarrido = anchoBarrido / (float) divisionesBarrido;
 		
+		gl.glClear(GL2.GL_DEPTH_BUFFER_BIT|GL2.GL_COLOR_BUFFER_BIT);
+
+		// clear the previous transform
+		gl.glLoadIdentity();
+
+		// set the camera position
+		GLU glu = new GLU();
+		glu.gluLookAt(	1,10,30,	//	eye pos
+					0,0,0,	//	aim point
+					0,1,0);	//	up direction
+		
 		
 		//Vamos a hacer el barrido a lo largo de y
 		//1 - Por cada division a lo largo de y del barrido
-		for(int i = 0; i < divisionesBarrido - 1; i++)
+		for(int i = 0; i < divisionesBarrido; i++)
 		{
-			posicionBarrido += pasoDelBarrido;
-			
-			gl.glBegin(GL2.GL_LINE_STRIP);
+			gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+			//gl.glBegin(GL2.GL_LINE_STRIP);
 			
 			//2 - Por cada curva, hacer:
 			for(int j = 0; j < listaDeCurvas.size(); j++)
@@ -175,16 +166,41 @@ public class SuperficieDeBarrido implements Dibujable {
 				for(int k = 0; k < divisionesCurva; k++)
 				{	
 					float u = (float)k/(divisionesCurva - 1);
+					float u2 = (float)(k+1)/(divisionesCurva - 1);
 					
-					/*gl.glVertex3f(listaDeCurvas.get(j).getX(u), 
-							  listaDeCurvas.get(j).getY(u) + pasoDelBarrido,
-							  listaDeCurvas.get(j).getZ(u));*/
-					
+					//1-Primer punto del triangulo
 					gl.glVertex3f(listaDeCurvas.get(j).getX(u), 
-								  listaDeCurvas.get(j).getY(u),
-								  listaDeCurvas.get(j).getZ(u));
+								  listaDeCurvas.get(j).getY(u) + posicionBarrido,
+								  0.0f);
+					
+					//2-Segundo punto del triangulo
+					gl.glVertex3f(listaDeCurvas.get(j).getX(u2), 
+							  listaDeCurvas.get(j).getY(u2) + posicionBarrido,
+							  0.0f);
+					
+					//3-Tercer punto del triangulo
+					gl.glVertex3f(listaDeCurvas.get(j).getX(u), 
+							  listaDeCurvas.get(j).getY(u) + posicionBarrido + pasoDelBarrido,
+							  0.0f);
+					
+					////Segundo triangulo para generar un cuadrado
+					gl.glVertex3f(listaDeCurvas.get(j).getX(u), 
+							  listaDeCurvas.get(j).getY(u) + posicionBarrido + pasoDelBarrido,
+							  0.0f);
+					
+					//2-Segundo punto del triangulo
+					gl.glVertex3f(listaDeCurvas.get(j).getX(u2), 
+							  listaDeCurvas.get(j).getY(u2) + posicionBarrido,
+							  0.0f);
+					
+					gl.glVertex3f(listaDeCurvas.get(j).getX(u2), 
+							  listaDeCurvas.get(j).getY(u2) + posicionBarrido + pasoDelBarrido,
+							  0.0f);		
 				}
 			}
+			
+			posicionBarrido += pasoDelBarrido;
+			
 			gl.glEnd();
 		}
 	}
