@@ -50,9 +50,9 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 			Botella bot = it.next();
 			avanzarBotella(bot);
 		}
-		System.out.println("se movio cinta ");	
+		//System.out.println("se movio cinta ");	
 		if(this.botellas.peek() != null){
-		System.out.println("pos de primer botella: " + this.botellas.peek().getPosicion().getX());
+		//System.out.println("pos de primer botella: " + this.botellas.peek().getPosicion().getX());
 		}
 		}
 	
