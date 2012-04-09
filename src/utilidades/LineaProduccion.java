@@ -42,7 +42,7 @@ public class LineaProduccion implements Observer{
 	public void avanzarTiempo(){
 		this.timer += AVANCE_TIEMPO;
 		this.timerBotellas += AVANCE_TIEMPO;
-		System.out.println("tiempo actual: " + this.timer);
+		//System.out.println("tiempo actual: " + this.timer);
 		
 	}
 	
@@ -50,13 +50,13 @@ public class LineaProduccion implements Observer{
 		if(cinta.buscarPosicion(this.etiquetador.getPosicion().getX())){
 			this.cinta.detenerCinta();
 			this.etiquetador.animar();
-			System.out.println("animacion de etiquetador");
+			//System.out.println("animacion de etiquetador");
 			this.cinta.activarCinta();
 		}
 		if (cinta.buscarPosicion(this.rellenador.getPosicion().getX())){
 			this.cinta.detenerCinta();
 			this.rellenador.animar();
-			System.out.println("animacion de rellenador");
+			//System.out.println("animacion de rellenador");
 			this.cinta.activarCinta();
 		}
 	}
@@ -68,7 +68,7 @@ public class LineaProduccion implements Observer{
 				if(timerBotellas >= TIEMPO_ENTRE_BOTELLAS){
 					cinta.recibirBotella(this.expededoraBotellas.entregarBotella());
 					timerBotellas = 0.0f;
-					System.out.println("dispenser entrego botella a cinta");
+					//System.out.println("dispenser entrego botella a cinta");
 				}	
 				
 			}
@@ -79,7 +79,7 @@ public class LineaProduccion implements Observer{
 					if(cinta.buscarPosicion(this.empaquetador.getPosicion().getX())){
 						this.cinta.detenerCinta();
 						this.empaquetador.recibirBotella(this.cinta.entregarBotella());
-						System.out.println("cinta entrego botella a empaquetador");
+						//System.out.println("cinta entrego botella a empaquetador");
 						this.cinta.activarCinta();
 						this.cinta.avanzarCinta();
 						//this.cinta.recibirBotella(this.expededoraBotellas.entregarBotella());
@@ -97,7 +97,7 @@ public class LineaProduccion implements Observer{
 				}	
 			}		
 		ejecutarAnimacion();
-		System.out.println("num de bot en cinta: " + this.cinta.getNumeroDeBotellas());
+		//System.out.println("num de bot en cinta: " + this.cinta.getNumeroDeBotellas());
 	}
 	
 	public void dibujar(GLAutoDrawable gLDrawable){
