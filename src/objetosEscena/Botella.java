@@ -16,6 +16,7 @@ import utilidades.LineaProduccion;
 import utilidades.PuntoDeControl;
 import utilidades.SuperficieDeRevolucion;
 import utilidades.Vertice;
+import shader.TexturaCubeMap;
 
 
 
@@ -28,9 +29,21 @@ public class Botella  implements Dibujable,Animable {
 	private SuperficieDeRevolucion sup;
 	private Vertice posicion;	// posicion relativa a la cinta transportadora
 	private GLUT glut = new GLUT();
+	private TexturaCubeMap texturaCubica;
+	private GL2 gl;
+	private GLU glu;
 	
 	
 	public Botella(){
+		texturaCubica = new TexturaCubeMap(gl, glu, 512);
+
+		texturaCubica.cargarXPositivo("lib/textura_pared.jpg");
+		texturaCubica.cargarYPositivo("lib/textura_pared.jpg");
+	  	texturaCubica.cargarZPositivo("lib/textura_pared.jpg");
+	  	texturaCubica.cargarXNegativo("lib/textura_pared.jpg");
+	  	texturaCubica.cargarYNegativo("lib/textura_pared.jpg");
+	  	texturaCubica.cargarZNegativo("lib/textura_piso.jpg");
+		
 		this.lleno = false;
 		this.etiquetado = false;
 		this.posicion = new Vertice(0f,0f,0f);
@@ -118,6 +131,9 @@ public class Botella  implements Dibujable,Animable {
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//System.out.println("Se dibujo botella");
+		
+		
+
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
 			gl.glTranslatef(this.posicion.getX(), 0.2f, 0.0f);
