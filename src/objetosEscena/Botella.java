@@ -8,6 +8,8 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 
+
+
 import com.jogamp.opengl.util.gl2.GLUT;
 
 import utilidades.Animable;
@@ -16,7 +18,9 @@ import utilidades.LineaProduccion;
 import utilidades.PuntoDeControl;
 import utilidades.SuperficieDeRevolucion;
 import utilidades.Vertice;
+import shader.ManejoShaders2;
 import shader.TexturaCubeMap;
+import javax.media.opengl.GLAutoDrawable;
 
 
 
@@ -25,16 +29,22 @@ public class Botella  implements Dibujable,Animable {
 	private boolean lleno;
 	private boolean etiquetado;
 	private float porcentajeLlenado;
-	private static float altura = 1.0f;
+	public static float altura;
 	private SuperficieDeRevolucion sup;
 	private Vertice posicion;	// posicion relativa a la cinta transportadora
-	private GLUT glut = new GLUT();
+	private GLUT glut;
 	private TexturaCubeMap texturaCubica;
 	private GL2 gl;
 	private GLU glu;
+	private ManejoShaders2 shader;
 	
 	
-	public Botella(){
+	
+	public Botella(ManejoShaders2 shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
+		
+		this.gl = gLDrawable.getGL().getGL2();
+		this.glu = glu;
+		this.glut = glut;
 		texturaCubica = new TexturaCubeMap(gl, glu, 512);
 
 		texturaCubica.cargarXPositivo("lib/textura_pared.jpg");
@@ -44,10 +54,12 @@ public class Botella  implements Dibujable,Animable {
 	  	texturaCubica.cargarYNegativo("lib/textura_pared.jpg");
 	  	texturaCubica.cargarZNegativo("lib/textura_piso.jpg");
 		
-		this.lleno = false;
+		this.shader = shader;
+	  	this.lleno = false;
 		this.etiquetado = false;
 		this.posicion = new Vertice(0f,0f,0f);
 		ArrayList<PuntoDeControl>list = new ArrayList<PuntoDeControl>();
+		
 		
 		//opcion2
 		/*PuntoDeControl punto1 = new PuntoDeControl(1.7f,3f);
@@ -62,7 +74,7 @@ public class Botella  implements Dibujable,Animable {
 		*/
 		
 		
-		//opcion1
+		//opcion1	los primeros puntos de la lista tienen las coord Y mas altas (esto lo usa el calculo de altura)
 		PuntoDeControl punto1 = new PuntoDeControl(1.1f,3f);
 		PuntoDeControl punto2 = new PuntoDeControl(0.6f,2f);
 		PuntoDeControl punto3 = new PuntoDeControl(0.4f,1.5f);
@@ -84,6 +96,13 @@ public class Botella  implements Dibujable,Animable {
 		list.add(punto8);
 		
 		this.sup = new SuperficieDeRevolucion(list);
+		altura = 0;
+		//float alt = 0;
+		for (int h = 0; h < sup.getNumCurvas(); h++){
+			altura += sup.getListaCurvas().get(h).getY(0);
+			//alt += sup.getListaCurvas().get(h).getY(0);
+		}
+		
 	}
 
 	public void setPorcentajelLlenado(float porcentaje){
@@ -128,17 +147,39 @@ public class Botella  implements Dibujable,Animable {
 		return altura;
 	}
 
+		
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//System.out.println("Se dibujo botella");
-		
-		
+		texturaCubica.habilitar();
+		int uniloc = -1;
+		 //SETEO LA TEXTURA DEL UNIFORM cubeMap A LA UNIDAD DE TEXTURA 0 
+        uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "cubeMap"); 
+        if( uniloc >= 0 ) 
+            gl.glUniform1i(uniloc, texturaCubica.cubemap);   
 
 		final GL2 gl = gLDrawable.getGL().getGL2();
-		gl.glPushMatrix();
-			gl.glTranslatef(this.posicion.getX(), 0.2f, 0.0f);
-			gl.glRotatef(90f, 1f, 0f, 0f);
+		
+		//gl.glRotatef(180, 0, 0, 1);
+		gl.glTranslatef(this.posicion.getX(),0, 0.0f);
+		//gl.glScalef(0.3f, 0.3f, 0.3f);
+		gl.glBegin(GL.GL_LINES);
+			//gl.glVertex3d(0,0,0);
+			//gl.glVertex3d(0,-10,0);
+			//gl.glVertex3d(norm.getX(),norm.getY(),norm.getZ());
+			gl.glEnd();
+			//gl.glTranslatef(this.posicion.getX(), -altura/2, 0.0f);
+			//gl.glRotatef(90f, 1f, 0f, 0f);
+			
 			this.sup.dibujar(gLDrawable);
+			/*
+			gl.glBegin(GL.GL_TRIANGLES);
+			gl.glNormal3f(1, 0, 0);
+			gl.glVertex3f(0, 1,0);
+			gl.glVertex3f(0, 0,1);
+			gl.glVertex3f(0, 0,0);
+			gl.glEnd();
+			*/
 		gl.glPopMatrix();	
 	}
 
