@@ -11,6 +11,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.glu.GLU;
+
+import com.jogamp.opengl.util.gl2.GLUT;
+
+import shader.ManejoShaders2;
 
 public class LineaProduccion implements Observer{
 	
@@ -30,12 +35,12 @@ public class LineaProduccion implements Observer{
 	private static float AVANCE_BOTELLAS = VELOCIDAD_CINTA*AVANCE_TIEMPO;  //distancia = tiempo*velocidad
 	
 	
-	public LineaProduccion(){
+	public LineaProduccion(ManejoShaders2 shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
 		this.cinta = new CintaTransportadora(CAPACIDAD_CINTA, this, VELOCIDAD_CINTA, AVANCE_BOTELLAS);
 		this.rampa = new Rampa(this);
 		this.empaquetador = new Empaquetador(this,rampa);
 		this.etiquetador = new Etiquetador(this, TIEMPO_ETIQUETADO);
-		this.expededoraBotellas = new Dispenser(this);
+		this.expededoraBotellas = new Dispenser(this, shader, glut, glu, gLDrawable);
 		this.rellenador = new Rellenador(this);
 	}
 	
