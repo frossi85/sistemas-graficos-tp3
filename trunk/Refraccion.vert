@@ -1,6 +1,6 @@
 #version 110
 
-const float Eta = 0.66;
+const float Eta = 0.95;// 0.66
 const float  FresnelPower = 5.0;
 
 const float F = ((1.0 - Eta) * (1.0 - Eta)) / ((1.0 + Eta) * (1.0 + Eta));
