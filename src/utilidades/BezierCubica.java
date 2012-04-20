@@ -10,6 +10,10 @@ public class BezierCubica extends Curva {
 		super(list);
 	}
 	
+	public ArrayList<PuntoDeControl> getPuntosControl(){
+		return this.puntosDeControl;
+	}
+	
 	private float getB0(float u){
 		return (float) (Math.pow(1f-u,3f));
 	}
