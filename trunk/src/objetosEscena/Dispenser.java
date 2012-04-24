@@ -13,6 +13,7 @@ import shader.ManejoShaders2;
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
 import utilidades.Vertice;
+import aplicacion.Renderer;
 
 public class Dispenser extends Observable implements Dibujable {
 	
@@ -54,49 +55,70 @@ public class Dispenser extends Observable implements Dibujable {
 		//System.out.println("Se dibujo dispenser");
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
-			gl.glScalef(2, 2, 2);
+			//gl.glScalef(2, 2, 2);
+			gl.glRotatef(90, 0, 0, 1);
 			gl.glTranslatef(this.posicion.getX(), 0.0f, 0.0f);
 			//glut.glutSolidCube(0.5f);
+			Vertice vert1 = new Vertice(0,0,0);
+			Vertice vert2 = new Vertice(0,0,0);
+			Vertice vert3 = new Vertice(0,0,0);
+			Vertice vert4 = new Vertice(0,0,0);
+			
 			gl.glPushMatrix();	// dibujo abertura
 				gl.glTranslated(separacionAberturaX, separacionAberturaY,0);
 				
 				// PARTE IZQUIERDA
 				gl.glBegin(GL.GL_LINE_STRIP);
+				
+				vert1.set(0, 0, 0);
+				vert2.set(0, 0, +profundidadAbertura);
+				vert3.set(0, altoAbertura,+profundidadAbertura);
+				vert4.set(0, altoAbertura,0);
+				Renderer.dibujarQuads(gLDrawable, vert1, vert2, vert3, vert4);
+				/*
 				gl.glVertex3f(0, 0,0);
 				gl.glVertex3f(0, 0, -profundidadAbertura);
 				gl.glVertex3f(0, altoAbertura,-profundidadAbertura);
 				gl.glVertex3f(0, altoAbertura,0);
 				gl.glVertex3f(0, 0,0);
+				*/
 				gl.glEnd();
 				
 				//PARTE SUPERIOR
 				gl.glBegin(GL.GL_LINE_STRIP);
-				gl.glVertex3f(0, altoAbertura,-profundidadAbertura);
+				gl.glVertex3f(0, altoAbertura,+profundidadAbertura);
 				gl.glVertex3f(0, altoAbertura,0);
 				gl.glVertex3f(anchoAbertura, altoAbertura,0);
-				gl.glVertex3f(anchoAbertura, altoAbertura,-profundidadAbertura);
-				gl.glVertex3f(0, altoAbertura,-profundidadAbertura);
+				gl.glVertex3f(anchoAbertura, altoAbertura,+profundidadAbertura);
+				gl.glVertex3f(0, altoAbertura,+profundidadAbertura);
 				gl.glEnd();
 				
 				//PARTE DERECHA
 				gl.glBegin(GL.GL_LINE_STRIP);
 				gl.glVertex3f(anchoAbertura, 0,0);
-				gl.glVertex3f(anchoAbertura, 0, -profundidadAbertura);
-				gl.glVertex3f(anchoAbertura, altoAbertura,-profundidadAbertura);
+				gl.glVertex3f(anchoAbertura, 0, +profundidadAbertura);
+				gl.glVertex3f(anchoAbertura, altoAbertura,profundidadAbertura);
 				gl.glVertex3f(anchoAbertura, altoAbertura,0);
 				gl.glVertex3f(anchoAbertura, 0,0);
 				gl.glEnd();
 				
 				//PARTE INFERIOR
 				gl.glBegin(GL.GL_LINE_STRIP);
-				gl.glVertex3f(0, 0,-profundidadAbertura);
+				gl.glVertex3f(0, 0,profundidadAbertura);
 				gl.glVertex3f(0, 0,0);
 				gl.glVertex3f(anchoAbertura, 0,0);
-				gl.glVertex3f(anchoAbertura, 0,-profundidadAbertura);
-				gl.glVertex3f(0, 0,-profundidadAbertura);
+				gl.glVertex3f(anchoAbertura, 0,profundidadAbertura);
+				gl.glVertex3f(0, 0,profundidadAbertura);
 				gl.glEnd();
 			gl.glPopMatrix();
 			
+			gl.glBegin(GL.GL_TRIANGLES);
+			 vert1 = new Vertice(0,0,profundidadAbertura);
+			 vert2 = new Vertice(largo,0,profundidadAbertura);
+			 vert3 = new Vertice(largo,alto,profundidadAbertura);
+			 vert4 = new Vertice(0,alto,profundidadAbertura);
+			Renderer.dibujarQuads(gLDrawable, vert1, vert2, vert3, vert4);
+			gl.glEnd();
 		gl.glPopMatrix();	
 
 	}
