@@ -12,10 +12,13 @@ import shader.FragmentGeneral;
 import shader.ManejoShaders2;
 import shader.Refraccion;
 import shader.SinDeformacionVert;
+import objetosEscena.Botella;
+import objetosEscena.Dispenser;
 import objetosEscena.Piso;
 import utilidades.Bspline;
 import utilidades.LineaProduccion;
 import utilidades.Utilidades;
+import utilidades.Vertice;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -37,7 +40,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 //Implementar el Renderer como Singleton
-class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
+public class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
 {
     private GLU glu = new GLU();
     public static GLUT glut = new GLUT();
@@ -74,8 +77,9 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     //ATRIBUTOS DE LA ANIMACION
     private boolean pause = false;
     private FPSAnimator animator;
-    
-    Bspline spline = new Bspline(new ArrayList<utilidades.PuntoDeControl>());
+    Botella botella;
+    Dispenser dispenser;
+   // Bspline spline = new Bspline(new ArrayList<utilidades.PuntoDeControl>());
 
     public Renderer(GLCanvas glCanvas)
     {
@@ -84,8 +88,9 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     	animator = new FPSAnimator(canvas, 50);
     	animator.add(canvas);
     	animator.start();
-    	this.linea = new LineaProduccion();
+    	//this.linea = new LineaProduccion();
     	this.timer = 0.0f;
+    	//this.dispenser = new Dispenser(linea);
     	this.piso = new Piso();
     }
 
@@ -94,6 +99,21 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
     	
     }
 
+    public static void dibujarQuads(GLAutoDrawable gLDrawable, Vertice vert1, Vertice vert2, Vertice vert3, Vertice vert4){
+    	final GL2 gl = gLDrawable.getGL().getGL2();
+    	
+    	gl.glBegin(GL.GL_TRIANGLES);
+    	gl.glVertex3f(vert1.getX(), vert1.getY(), vert1.getZ());
+    	gl.glVertex3f(vert2.getX(), vert2.getY(), vert2.getZ());
+    	gl.glVertex3f(vert3.getX(), vert3.getY(), vert3.getZ());
+    	gl.glEnd();
+    	
+    	gl.glBegin(GL.GL_TRIANGLES);
+    	gl.glVertex3f(vert3.getX(), vert3.getY(), vert3.getZ());
+    	gl.glVertex3f(vert4.getX(), vert4.getY(), vert4.getZ());
+    	gl.glVertex3f(vert1.getX(), vert1.getY(), vert1.getZ());
+    	gl.glEnd();
+    }
     
 	//////////////////////////////     INICIO EVENTOS OPEN GL ////////////////////////////
     
@@ -182,6 +202,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
   		{
 	  		gl.glPushMatrix();
 	  		/////   TODO: DIBUJAR ACA   ////
+	  		fragment.changeFileName("fragmentGenerico2.frag");
 	  		camara.render();
 	  		
 	  		gl.glPushMatrix();
@@ -195,9 +216,15 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 	  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
 	  				//glut.glutSolidCube(0.5f);
 	  				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
-	  				this.linea.dibujar(gLDrawable);
-  				this.piso.dibujar(gLDrawable);
-  				
+	  				//this.linea.dibujar(gLDrawable);
+  				//this.piso.dibujar(gLDrawable);
+	  				this.linea = new LineaProduccion(mS, glut, glu, gLDrawable);
+	  				//this.linea.dibujar(gLDrawable);
+	  				this.dispenser = new Dispenser(linea, mS, glut, glu, gLDrawable);
+	  				//this.dispenser = new Dispenser(linea, mS);
+	  				
+	  				this.dispenser.dibujar(gLDrawable);
+	  				mS.usarPrograma(currentVert, GENERIC_FRAG);
 	  				if(this.timer == 0.0f){
 	  					
 	  					this.linea.actualizar();
@@ -238,7 +265,7 @@ class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMoti
 //	    	mS.displayUniform();
 //	    	mS.displayVertexAttrib();
   			
-  			spline.dibujar(gl, glu);
+  			//spline.dibujar(gl, glu);
   		}
   		////////////////////////////////
   		
