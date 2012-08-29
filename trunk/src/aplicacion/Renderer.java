@@ -15,7 +15,7 @@ import shader.SinDeformacionVert;
 import objetosEscena.Botella;
 import objetosEscena.Dispenser;
 import objetosEscena.Piso;
-import utilidades.Bspline;
+import utilidades.BSplineCuadratica;
 import utilidades.LineaProduccion;
 import utilidades.Utilidades;
 import utilidades.Vertice;
@@ -141,8 +141,8 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		fragment = new FragmentGeneral(gl, glu, mS);
 		GENERIC_FRAG = ManejoShaders2.addFragmentShader(fragment);
 
-		//currentVert = SIN_DEFORMACION_VERT;
-		currentVert = REFRACCION_VERT;
+		currentVert = SIN_DEFORMACION_VERT;
+		//currentVert = REFRACCION_VERT;
 		currentFrag = efectoFragment.BRILLANTE;
 		
 
@@ -196,7 +196,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = false;
+  		boolean esCodigoGustavo = true;
 
   		if(esCodigoGustavo)
   		{
@@ -220,10 +220,11 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
   				//this.piso.dibujar(gLDrawable);
 	  				this.linea = new LineaProduccion(mS, glut, glu, gLDrawable);
 	  				//this.linea.dibujar(gLDrawable);
-	  				this.dispenser = new Dispenser(linea, mS, glut, glu, gLDrawable);
+	  				//this.dispenser = new Dispenser(linea, mS, glut, glu, gLDrawable);
 	  				//this.dispenser = new Dispenser(linea, mS);
-	  				
-	  				this.dispenser.dibujar(gLDrawable);
+	  				botella = new Botella(mS,glut, glu, gLDrawable );
+	  				botella.dibujar(gLDrawable);
+	  				//this.dispenser.dibujar(gLDrawable);
 	  				mS.usarPrograma(currentVert, GENERIC_FRAG);
 	  				if(this.timer == 0.0f){
 	  					
