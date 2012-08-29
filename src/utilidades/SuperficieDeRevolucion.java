@@ -111,7 +111,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 		Vertice vert3 = new Vertice(vert1.getY()*vert2.getZ() - vert2.getY()*vert1.getZ(),-vert1.getX()*vert2.getZ()+ vert1.getZ()*vert2.getX() ,vert1.getX()*vert2.getY() - vert2.getX()*vert1.getY() );
 		return(vert3);
 	}
-	
+	/*
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {	
 		final GL2 gl = gLDrawable.getGL().getGL2();
@@ -157,17 +157,17 @@ public class SuperficieDeRevolucion implements Dibujable {
   					gl.glPushMatrix();
   					gl.glRotatef(i, 0, 1, 0);
   					
-  					/*
-  					gl.glPushMatrix();
+  					
+  					//gl.glPushMatrix();
   	  				//gl.glRotatef(-90f, 0, 0, 1);
-  	  				gl.glBegin(GL.GL_LINES);
-  		  				gl.glVertex3d(0,0,0);
+  	  				//gl.glBegin(GL.GL_LINES);
+  		  				//gl.glVertex3d(0,0,0);
   		  				//gl.glVertex3d(10,0,0);
   		  				
-  		  				gl.glVertex3d(norm.getX()*2,norm.getY()*2,norm.getZ()*2);
-  		  				gl.glEnd();
-  					gl.glPopMatrix();	
-  					*/
+  		  				//gl.glVertex3d(norm.getX()*2,norm.getY()*2,norm.getZ()*2);
+  		  				//gl.glEnd();
+  					//gl.glPopMatrix();	
+  					
   					
   					gl.glBegin(GL.GL_TRIANGLES);
   					gl.glNormal3f(norm.getX(), norm.getY(), norm.getZ());
@@ -188,5 +188,22 @@ public class SuperficieDeRevolucion implements Dibujable {
   		}
   			
   		gl.glPopMatrix();
+	}*/
+	
+	public void dibujar(GLAutoDrawable gLDrawable) {
+		final GL2 gl = gLDrawable.getGL().getGL2();
+		gl.glPushMatrix();
+		gl.glScalef(0.09f, 0.09f, 0.09f);
+		for(int h = 0; h < numCurvas; h ++){
+  			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
+  				Vertice aux1 = new Vertice(listaDeCurvas.get(h).getX(j),listaDeCurvas.get(h).getY(j),0);
+  				gl.glBegin(GL.GL_LINES);
+				gl.glVertex3d(1f,1f,1f);
+				gl.glVertex3d(2f,2f,2f);
+				gl.glEnd();
+  			}
+		}
+		
+		gl.glPopMatrix();
 	}
 }
