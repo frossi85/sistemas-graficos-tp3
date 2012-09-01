@@ -45,14 +45,14 @@ public class Botella  implements Dibujable,Animable {
 		this.gl = gLDrawable.getGL().getGL2();
 		this.glu = glu;
 		this.glut = glut;
-		//texturaCubica = new TexturaCubeMap(gl, glu, 512);
+		texturaCubica = new TexturaCubeMap(gl, glu, 512);
 
-		//texturaCubica.cargarXPositivo("lib/textura_pared.jpg");
-		//texturaCubica.cargarYPositivo("lib/textura_pared.jpg");
-	  	//texturaCubica.cargarZPositivo("lib/textura_pared.jpg");
-	  	//texturaCubica.cargarXNegativo("lib/textura_pared.jpg");
-	  	//texturaCubica.cargarYNegativo("lib/textura_pared.jpg");
-	  	//texturaCubica.cargarZNegativo("lib/textura_piso.jpg");
+		texturaCubica.cargarXPositivo("lib/textura_pared.jpg");
+		texturaCubica.cargarYPositivo("lib/textura_pared.jpg");
+	  	texturaCubica.cargarZPositivo("lib/textura_pared.jpg");
+	  	texturaCubica.cargarXNegativo("lib/textura_pared.jpg");
+	  	texturaCubica.cargarYNegativo("lib/textura_pared.jpg");
+	  	texturaCubica.cargarZNegativo("lib/textura_piso.jpg");
 		
 		this.shader = shader;
 	  	this.lleno = false;
@@ -70,17 +70,17 @@ public class Botella  implements Dibujable,Animable {
 		PuntoDeControl punto7 = new PuntoDeControl(1.4f,4.5f);
 		PuntoDeControl punto8 = new PuntoDeControl(1.1f,3f);
 		*/
-		PuntoDeControl punto1 = new PuntoDeControl(1.1f,3f);
-		PuntoDeControl punto2 = new PuntoDeControl(0.6f,2f);
-		PuntoDeControl punto3 = new PuntoDeControl(0.4f,1.5f);
-		PuntoDeControl punto4 = new PuntoDeControl(0.4f,0f);
+		PuntoDeControl punto1 = new PuntoDeControl(1.21f-1f,0.64f);
+		PuntoDeControl punto2 = new PuntoDeControl(1.14f-1f ,-0.82f);
+		PuntoDeControl punto3 = new PuntoDeControl(3.71f-1f,-4.28f);
+		PuntoDeControl punto4 = new PuntoDeControl(2.81f-1f,-7.32f);
 		
-		PuntoDeControl punto5 = new PuntoDeControl(2.1f,20f);
-		PuntoDeControl punto6 = new PuntoDeControl(5.1f,9f);
-		PuntoDeControl punto7 = new PuntoDeControl(1.4f,4.5f);
-		PuntoDeControl punto8 = new PuntoDeControl(1.1f,3f);
+		PuntoDeControl punto5 = new PuntoDeControl(2.81f-1f,-7.32f);
+		PuntoDeControl punto6 = new PuntoDeControl(2.54f-1f,-8.22f);
+		PuntoDeControl punto7 = new PuntoDeControl(4.97f-1f,-12.45f);
+		PuntoDeControl punto8 = new PuntoDeControl(3.39f-1.5f,-13.15f);
 		
-		list.add(punto1);
+		list.add(punto1);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde
 		list.add(punto2);
 		list.add(punto3);
 		list.add(punto4);
@@ -145,16 +145,18 @@ public class Botella  implements Dibujable,Animable {
 		
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		//texturaCubica.habilitar();
+		texturaCubica.habilitar();
 		int uniloc = -1;
 		 //SETEO LA TEXTURA DEL UNIFORM cubeMap A LA UNIDAD DE TEXTURA 0 
         uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "cubeMap"); 
         if( uniloc >= 0 ) 
             gl.glUniform1i(uniloc, texturaCubica.cubemap);   
         final GL2 gl = gLDrawable.getGL().getGL2();
-		gl.glTranslatef(this.posicion.getX(),0, 0.0f);
+		gl.glPushMatrix();
+        gl.glTranslatef(this.posicion.getX(),0, 0.0f);
+        //gl.glRotatef(180, 0, 0, 1f);
 		this.sup.dibujar(gLDrawable);
-		//gl.glPopMatrix();	
+		gl.glPopMatrix();	
 	}
 
 	@Override
