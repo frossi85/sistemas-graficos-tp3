@@ -18,7 +18,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 	
 	private static final float PASOS_DISCRETIZACION_ANGULO = 7;		//7
 	private float anguloRevolucion = 360f/PASOS_DISCRETIZACION_ANGULO;	//cuanto angulo roto para dibujar una nueva curva
-	private static final float PASOS_DISCRETIZACION_CURVA = 5;	//cuantos puntos de cada curva de bezier tomo para dibujar la botella
+	private static final float PASOS_DISCRETIZACION_CURVA = 5;	// 5 cuantos puntos de cada curva de bezier tomo para dibujar la botella
 	private float intervaloCurva = 1f/PASOS_DISCRETIZACION_CURVA;	//cada cuanto dibujo un vertice de la curva de bezier
 	private int numCurvas;
 	
@@ -111,12 +111,13 @@ public class SuperficieDeRevolucion implements Dibujable {
 		Vertice vert3 = new Vertice(vert1.getY()*vert2.getZ() - vert2.getY()*vert1.getZ(),-vert1.getX()*vert2.getZ()+ vert1.getZ()*vert2.getX() ,vert1.getX()*vert2.getY() - vert2.getX()*vert1.getY() );
 		return(vert3);
 	}
-	/*
+	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {	
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
-		gl.glScalef(0.09f, 0.09f, 0.09f);
+		gl.glScalef(0.1f, 0.1f, 0.1f);
+		//gl.glRotatef(180, 0, 0, 1f);
 		//gl.glTranslatef(0, Botella.altura, 0);
 		for(int h = 0; h < numCurvas; h ++){
   			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
@@ -171,7 +172,7 @@ public class SuperficieDeRevolucion implements Dibujable {
   					
   					gl.glBegin(GL.GL_TRIANGLES);
   					gl.glNormal3f(norm.getX(), norm.getY(), norm.getZ());
-  					//gl.glNormal3f((float) rotacionX(norm.getX(),norm.getZ(),(float)Math.PI*((0+i)/180)),norm.getY(),(float) rotacionZ(norm.getX(), norm.getZ(), (float)Math.PI*((0+i)/180)));
+  					// viejo_por las dudas lo dejo gl.glNormal3f((float) rotacionX(norm.getX(),norm.getZ(),(float)Math.PI*((0+i)/180)),norm.getY(),(float) rotacionZ(norm.getX(), norm.getZ(), (float)Math.PI*((0+i)/180)));
   					gl.glVertex3d(aux1.getX(),aux1.getY(),aux1.getZ());
   					gl.glVertex3d(aux2.getX(),aux2.getY(),aux2.getZ());
   					gl.glVertex3d(rotacionX(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180),aux1.getY(), rotacionZ(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180));
@@ -188,8 +189,8 @@ public class SuperficieDeRevolucion implements Dibujable {
   		}
   			
   		gl.glPopMatrix();
-	}*/
-	
+	}
+	/*
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
@@ -197,13 +198,23 @@ public class SuperficieDeRevolucion implements Dibujable {
 		for(int h = 0; h < numCurvas; h ++){
   			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
   				Vertice aux1 = new Vertice(listaDeCurvas.get(h).getX(j),listaDeCurvas.get(h).getY(j),0);
+  				Vertice aux2 = new Vertice(listaDeCurvas.get(h).getX(j+intervaloCurva),listaDeCurvas.get(h).getY(j+intervaloCurva),0);
   				gl.glBegin(GL.GL_LINES);
-				gl.glVertex3d(1f,1f,1f);
-				gl.glVertex3d(2f,2f,2f);
+				//gl.glVertex3d(1f,1f,1f);
+				//gl.glVertex3d(2f,2f,2f);
+  				gl.glVertex3d(aux1.getX(),aux1.getY(),aux1.getZ());
+  				gl.glVertex3d(aux2.getX(),aux2.getY(),aux2.getZ());
 				gl.glEnd();
   			}
+  			gl.glBegin(GL.GL_LINES);
+  			gl.glVertex3d(0f,0f,0f);
+  			gl.glVertex3d(7f,1f,1f);
+  			
+  			gl.glVertex3d(0f,0f,0f);
+  			gl.glVertex3d(0f,4f,0f);
+			gl.glEnd();
 		}
 		
 		gl.glPopMatrix();
-	}
+	}*/
 }
