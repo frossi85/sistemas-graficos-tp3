@@ -60,15 +60,17 @@ public class Botella  implements Dibujable,Animable {
 		this.posicion = new Vertice(0f,0f,0f);
 		ArrayList<PuntoDeControl>list = new ArrayList<PuntoDeControl>();
 		//opcion1	los primeros puntos de la lista tienen las coord Y mas altas (esto lo usa el calculo de altura)
-		/*PuntoDeControl punto1 = new PuntoDeControl(1.1f,3f);
-		PuntoDeControl punto2 = new PuntoDeControl(0.6f,2f);
-		PuntoDeControl punto3 = new PuntoDeControl(0.4f,1.5f);
-		PuntoDeControl punto4 = new PuntoDeControl(0.4f,0f);
 		
-		PuntoDeControl punto5 = new PuntoDeControl(2.1f,20f);
-		PuntoDeControl punto6 = new PuntoDeControl(5.1f,9f);
-		PuntoDeControl punto7 = new PuntoDeControl(1.4f,4.5f);
-		PuntoDeControl punto8 = new PuntoDeControl(1.1f,3f);
+		/*
+		 * PuntoDeControl punto1 = new PuntoDeControl(1.21f-1f,0.64f);
+		PuntoDeControl punto2 = new PuntoDeControl(1.14f-1f ,-0.82f);
+		PuntoDeControl punto3 = new PuntoDeControl(3.71f-1f,-4.28f);
+		PuntoDeControl punto4 = new PuntoDeControl(2.81f-1f,-7.32f);
+		
+		PuntoDeControl punto5 = new PuntoDeControl(2.81f-1f,-7.32f);
+		PuntoDeControl punto6 = new PuntoDeControl(2.54f-1f,-8.22f);
+		PuntoDeControl punto7 = new PuntoDeControl(4.97f-1f,-12.45f);
+		PuntoDeControl punto8 = new PuntoDeControl(3.39f-1.5f,-13.15f);
 		*/
 		PuntoDeControl punto1 = new PuntoDeControl(1.21f-1f,0.64f);
 		PuntoDeControl punto2 = new PuntoDeControl(1.14f-1f ,-0.82f);
@@ -77,7 +79,7 @@ public class Botella  implements Dibujable,Animable {
 		
 		PuntoDeControl punto5 = new PuntoDeControl(2.81f-1f,-7.32f);
 		PuntoDeControl punto6 = new PuntoDeControl(2.54f-1f,-8.22f);
-		PuntoDeControl punto7 = new PuntoDeControl(4.97f-1f,-12.45f);
+		PuntoDeControl punto7 = new PuntoDeControl(4.4f-1f,-12.45f);
 		PuntoDeControl punto8 = new PuntoDeControl(3.39f-1.5f,-13.15f);
 		
 		list.add(punto1);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde
