@@ -117,7 +117,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
 		gl.glScalef(0.1f, 0.1f, 0.1f);
-		//gl.glRotatef(180, 0, 0, 1f);
+		gl.glRotatef(180, 0, 0, 1f);
 		//gl.glTranslatef(0, Botella.altura, 0);
 		for(int h = 0; h < numCurvas; h ++){
   			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
@@ -159,15 +159,15 @@ public class SuperficieDeRevolucion implements Dibujable {
   					gl.glRotatef(i, 0, 1, 0);
   					
   					
-  					//gl.glPushMatrix();
+  					/*gl.glPushMatrix();
   	  				//gl.glRotatef(-90f, 0, 0, 1);
-  	  				//gl.glBegin(GL.GL_LINES);
-  		  				//gl.glVertex3d(0,0,0);
+  	  				gl.glBegin(GL.GL_LINES);
+  		  				gl.glVertex3d(0,0,0);
   		  				//gl.glVertex3d(10,0,0);
   		  				
-  		  				//gl.glVertex3d(norm.getX()*2,norm.getY()*2,norm.getZ()*2);
-  		  				//gl.glEnd();
-  					//gl.glPopMatrix();	
+  		  				gl.glVertex3d(norm.getX()*2,norm.getY()*2,norm.getZ()*2);
+  		  				gl.glEnd();
+  					gl.glPopMatrix();*/	
   					
   					
   					gl.glBegin(GL.GL_TRIANGLES);
