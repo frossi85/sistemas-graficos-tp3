@@ -104,9 +104,11 @@ public class AreaDeIncidencia {
 	
 	public Vertice[] getArea(){
 		Vertice resultado[] = new Vertice [4];
-		resultado[0] = vertice1;
-		resultado[2] = vertice2;
-		resultado[3] = vertice4;
+		
+		resultado[0] = new Vertice(vertice1.getX(), vertice1.getY(), vertice1.getZ());
+		resultado[1] = new Vertice(vertice2.getX(), vertice2.getY(), vertice2.getZ());
+		resultado[2] = new Vertice(vertice3.getX(), vertice3.getY(), vertice3.getZ());
+		resultado[3] = new Vertice(vertice4.getX(), vertice4.getY(), vertice4.getZ());
 		return resultado;
 	}
 
