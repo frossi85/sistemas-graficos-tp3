@@ -21,6 +21,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 	private static final float PASOS_DISCRETIZACION_CURVA = 5;	// 5 cuantos puntos de cada curva de bezier tomo para dibujar la botella
 	private float intervaloCurva = 1f/PASOS_DISCRETIZACION_CURVA;	//cada cuanto dibujo un vertice de la curva de bezier
 	private int numCurvas;
+	private float factorEscalado;
 	
 	public SuperficieDeRevolucion(ArrayList<PuntoDeControl>list){	
 		/*this.curva1 = new BezierCubica(list);
@@ -40,6 +41,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 		curva4.setPuntoDeControl(2, list.get(1));
 		curva4.setPuntoDeControl(3, list.get(2));
 		*/
+		factorEscalado = 0.1f;
 		listaDeCurvas = new ArrayList<BezierCubica>();
 		
 		for(int i = 0; i < list.size(); i += 4){
@@ -107,6 +109,10 @@ public class SuperficieDeRevolucion implements Dibujable {
 		return numCurvas*4;
 	}
 	
+	public float getFactorEscalado(){
+		return factorEscalado;
+	}
+	
 	public Vertice getPerpendicular(Vertice vert1, Vertice vert2){
 		Vertice vert3 = new Vertice(vert1.getY()*vert2.getZ() - vert2.getY()*vert1.getZ(),-vert1.getX()*vert2.getZ()+ vert1.getZ()*vert2.getX() ,vert1.getX()*vert2.getY() - vert2.getX()*vert1.getY() );
 		return(vert3);
@@ -116,8 +122,8 @@ public class SuperficieDeRevolucion implements Dibujable {
 	public void dibujar(GLAutoDrawable gLDrawable) {	
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
-		gl.glScalef(0.1f, 0.1f, 0.1f);
-		gl.glRotatef(180, 0, 0, 1f);
+		gl.glScalef(factorEscalado, factorEscalado, factorEscalado);
+		gl.glRotatef(180, 1f, 0f, 0f);
 		//gl.glTranslatef(0, Botella.altura, 0);
 		for(int h = 0; h < numCurvas; h ++){
   			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
@@ -159,15 +165,14 @@ public class SuperficieDeRevolucion implements Dibujable {
   					gl.glRotatef(i, 0, 1, 0);
   					
   					
-  					/*gl.glPushMatrix();
-  	  				//gl.glRotatef(-90f, 0, 0, 1);
-  	  				gl.glBegin(GL.GL_LINES);
-  		  				gl.glVertex3d(0,0,0);
-  		  				//gl.glVertex3d(10,0,0);
-  		  				
-  		  				gl.glVertex3d(norm.getX()*2,norm.getY()*2,norm.getZ()*2);
-  		  				gl.glEnd();
-  					gl.glPopMatrix();*/	
+//  					gl.glPushMatrix();
+//  	  				gl.glBegin(GL.GL_LINES);
+//  		  				gl.glVertex3d(0,0,0);
+//  		  				//gl.glVertex3d(10,0,0);
+//  		  				
+//  		  				gl.glVertex3d(norm.getX()*2,norm.getY()*2,norm.getZ()*2);
+//  		  				gl.glEnd();
+//  					gl.glPopMatrix();
   					
   					
   					gl.glBegin(GL.GL_TRIANGLES);
