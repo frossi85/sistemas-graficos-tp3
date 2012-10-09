@@ -42,6 +42,7 @@ public class Botella  implements Dibujable,Animable {
 	
 	
 	
+	
 	public Botella(ManejoShaders2 shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
 		
 		this.gl = gLDrawable.getGL().getGL2();
@@ -89,12 +90,12 @@ public class Botella  implements Dibujable,Animable {
 		
 		PuntoDeControl punto1 = new PuntoDeControl(0.3f,13.79f);
 		PuntoDeControl punto2 = new PuntoDeControl(0.15f ,13.09f);
-		PuntoDeControl punto3 = new PuntoDeControl(2.71f,8.86f);
+		PuntoDeControl punto3 = new PuntoDeControl(2.51f,10.86f);
 		PuntoDeControl punto4 = new PuntoDeControl(1.81f,7.96f);
 		
 		PuntoDeControl punto5 = new PuntoDeControl(1.81f,7.96f);
 		PuntoDeControl punto6 = new PuntoDeControl(1.54f,4.92f);
-		PuntoDeControl punto7 = new PuntoDeControl(3.4f,1.46f);
+		PuntoDeControl punto7 = new PuntoDeControl(3.1f,1.46f);
 		PuntoDeControl punto8 = new PuntoDeControl(1.89f,0f);	
 				
 		list.add(punto1);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde (?)
@@ -178,17 +179,32 @@ public class Botella  implements Dibujable,Animable {
           //  gl.glUniform1i(uniloc, texturaCubica.cubemap);   
         final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
-        gl.glTranslatef(this.posicion.getX(),0, 0.0f);
-        //gl.glRotatef(180, 0, 0, 1f);
+		gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());
+		//gl.glTranslatef(this.posicion.getX(),0, 0.0f);
+        gl.glPushMatrix();
+		gl.glRotatef(90, 1, 0, 0f);
+        
 		this.sup.dibujar(gLDrawable);
-		gl.glBegin(gl.GL_TRIANGLES);
-		gl.glVertex3f(this.area.getArea()[0].getX()*this.sup.getFactorEscalado(),this.area.getArea()[0].getY()*this.sup.getFactorEscalado() ,this.area.getArea()[0].getZ()*this.sup.getFactorEscalado());
-		gl.glVertex3f(this.area.getArea()[1].getX()*this.sup.getFactorEscalado(),this.area.getArea()[1].getY()*this.sup.getFactorEscalado() ,this.area.getArea()[1].getZ()*this.sup.getFactorEscalado());
-		gl.glVertex3f(this.area.getArea()[2].getX()*this.sup.getFactorEscalado(),this.area.getArea()[2].getY()*this.sup.getFactorEscalado() ,this.area.getArea()[2].getZ()*this.sup.getFactorEscalado());
-		gl.glVertex3f(this.area.getArea()[3].getX()*this.sup.getFactorEscalado(),this.area.getArea()[3].getY()*this.sup.getFactorEscalado() ,this.area.getArea()[3].getZ()*this.sup.getFactorEscalado());
-		gl.glVertex3f(this.area.getArea()[1].getX()*this.sup.getFactorEscalado(),this.area.getArea()[1].getY()*this.sup.getFactorEscalado() ,this.area.getArea()[1].getZ()*this.sup.getFactorEscalado());
-		gl.glVertex3f(this.area.getArea()[2].getX()*this.sup.getFactorEscalado(),this.area.getArea()[2].getY()*this.sup.getFactorEscalado() ,this.area.getArea()[2].getZ()*this.sup.getFactorEscalado());
-		gl.glEnd();
+//		gl.glBegin(gl.GL_TRIANGLES);
+//		// dibujo el area de incidencia
+//		gl.glVertex3f(this.area.getArea()[0].getX(),this.area.getArea()[0].getY() ,this.area.getArea()[0].getZ());
+//		gl.glVertex3f(this.area.getArea()[1].getX(),this.area.getArea()[1].getY() ,this.area.getArea()[1].getZ());
+//		gl.glVertex3f(this.area.getArea()[2].getX(),this.area.getArea()[2].getY() ,this.area.getArea()[2].getZ());
+//		gl.glVertex3f(this.area.getArea()[3].getX(),this.area.getArea()[3].getY() ,this.area.getArea()[3].getZ());
+//		gl.glVertex3f(this.area.getArea()[1].getX(),this.area.getArea()[1].getY() ,this.area.getArea()[1].getZ());
+//		gl.glVertex3f(this.area.getArea()[2].getX(),this.area.getArea()[2].getY() ,this.area.getArea()[2].getZ());
+//		gl.glEnd();
+		gl.glPopMatrix();
+//		ejes de coord		
+//		gl.glBegin(gl.GL_LINES);
+//		gl.glVertex3f(5f,0f,0f);
+//		gl.glVertex3f(0f,0f,0f);
+//		gl.glVertex3f(0f,3f,0f);
+//		gl.glVertex3f(0f,0f,0f);
+//		gl.glVertex3f(0f,0f,2f);
+//		gl.glVertex3f(0f,0f,0f);
+//		gl.glEnd();
+		
 		gl.glPopMatrix();	
 	}
 
