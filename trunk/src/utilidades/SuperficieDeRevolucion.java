@@ -122,13 +122,13 @@ public class SuperficieDeRevolucion implements Dibujable {
 	public void dibujar(GLAutoDrawable gLDrawable) {	
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		gl.glPushMatrix();
-		gl.glScalef(factorEscalado, factorEscalado, factorEscalado);
-		gl.glRotatef(180, 1f, 0f, 0f);
+		//gl.glScalef(factorEscalado, factorEscalado, factorEscalado);
+		//gl.glRotatef(180, 1f, 0f, 0f);
 		//gl.glTranslatef(0, Botella.altura, 0);
 		for(int h = 0; h < numCurvas; h ++){
   			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva){
-  				Vertice aux1 = new Vertice(listaDeCurvas.get(h).getX(j),listaDeCurvas.get(h).getY(j) - Botella.altura/2,0);	//10
-  				Vertice aux2 = new Vertice(listaDeCurvas.get(h).getX(j + intervaloCurva),listaDeCurvas.get(h).getY(j + intervaloCurva) - Botella.altura/2,0);
+  				Vertice aux1 = new Vertice(listaDeCurvas.get(h).getX(j),listaDeCurvas.get(h).getY(j) ,0);	//10
+  				Vertice aux2 = new Vertice(listaDeCurvas.get(h).getX(j + intervaloCurva),listaDeCurvas.get(h).getY(j + intervaloCurva) ,0);
   				Vertice gen1 = new Vertice(aux2.getX() - aux1.getX(), aux2.getY() - aux1.getY(), aux2.getZ() - aux1.getZ());
   				Vertice mitad = new Vertice(gen1.getX()/2, gen1.getY()/2, gen1.getZ()/2);
   				Vertice norm;
