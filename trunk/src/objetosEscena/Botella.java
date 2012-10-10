@@ -20,6 +20,7 @@ import utilidades.PuntoDeControl;
 import utilidades.SuperficieDeRevolucion;
 import utilidades.Vertice;
 import shader.ManejoShaders2;
+import shader.ManejoShadersMejorado;
 import shader.TexturaCubeMap;
 import javax.media.opengl.GLAutoDrawable;
 
@@ -37,13 +38,13 @@ public class Botella  implements Dibujable,Animable {
 	private TexturaCubeMap texturaCubica;
 	private GL2 gl;
 	private GLU glu;
-	private ManejoShaders2 shader;
+	private ManejoShadersMejorado shader;
 	private AreaDeIncidencia area;
 	
 	
 	
 	
-	public Botella(ManejoShaders2 shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
+	public Botella(ManejoShadersMejorado shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
 		
 		this.gl = gLDrawable.getGL().getGL2();
 		this.glu = glu;

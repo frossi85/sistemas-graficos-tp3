@@ -10,6 +10,7 @@ import javax.media.opengl.glu.GLUquadric;
 
 import shader.FragmentGeneral;
 import shader.ManejoShaders2;
+import shader.ManejoShadersMejorado;
 import shader.Refraccion;
 import shader.SinDeformacionVert;
 import objetosEscena.Botella;
@@ -56,7 +57,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     private static float W_HEIGHT = window_size[1];
  
     
-    ManejoShaders2 mS;
+    ManejoShadersMejorado mS;
     int SIN_DEFORMACION_VERT = ManejoShaders2.addVertexShader(new SinDeformacionVert());
     int REFRACCION_VERT = ManejoShaders2.addVertexShader(new Refraccion());
     int GENERIC_FRAG;
@@ -136,10 +137,10 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		
 		//SETEO DE SHADERS
-		mS = new ManejoShaders2(gLDrawable);
+		mS = new ManejoShadersMejorado(gLDrawable);
 
 		fragment = new FragmentGeneral(gl, glu, mS);
-		GENERIC_FRAG = ManejoShaders2.addFragmentShader(fragment);
+		GENERIC_FRAG = SIN_DEFORMACION_VERT = ManejoShadersMejorado.addShader(new SinDeformacionVert(), fragment);
 
 		currentVert = SIN_DEFORMACION_VERT;
 		//currentVert = REFRACCION_VERT;

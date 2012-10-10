@@ -12,7 +12,7 @@ public class FragmentGeneral extends FragmentShader {
 	private String fileName = "fragmentGenerico2.frag";
 	private GL2 gl;
 	//private ManejoShaders shader;
-	private ManejoShaders2 shader;
+	private ManejoShadersMejorado shader;
 	private GLU glu;
 	int texturaLadrillo;
 	TexturaCubeMap texturaCubica;
@@ -34,10 +34,11 @@ public class FragmentGeneral extends FragmentShader {
 //	  	texturaCubica.cargarZNegativo("negz.jpeg");
 //	}
 	
-	public FragmentGeneral(GL2 gl, GLU glu, ManejoShaders2 shader)
+	public FragmentGeneral(GL2 gl, GLU glu, ManejoShadersMejorado mS)
 	{
 		this.gl = gl;
-		this.shader = shader;
+		this.shader = mS;
+		
 		this.glu = glu;
 		
 		//Inicializacion de cube map
