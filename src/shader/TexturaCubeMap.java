@@ -12,6 +12,8 @@ import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
 
+//import shaders.TexturaCubeMap;
+
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureData;
@@ -20,6 +22,25 @@ import com.jogamp.opengl.util.texture.TextureIO;
 import common.TextureReader;
 
 //import common.TextureReader;
+
+/*	EJEMPLO DE USO
+ * 
+ * Inicializacion de cube map
+  	texturaCubica = new TexturaCubeMap(gl, glu, 512);  //512px x 512px
+  	
+  	texturaCubica.cargarXPositivo("posx.jpeg");
+  	texturaCubica.cargarYPositivo("posy.jpeg");
+  	texturaCubica.cargarZPositivo("posz.jpeg");
+  	texturaCubica.cargarXNegativo("negx.jpeg");
+  	texturaCubica.cargarYNegativo("negy.jpeg");
+  	texturaCubica.cargarZNegativo("negz.jpeg");
+  	
+  	//Para usarlo
+  	texturaCubica.habilitar();
+  	texturaCubica.desabilitar();  	
+ * 
+ * 
+ */
 
 public class TexturaCubeMap {
 	

@@ -4,12 +4,14 @@ import java.util.Observable;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
-
 import com.jogamp.opengl.util.gl2.GLUT;
-
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
 import utilidades.Vertice;
+import model.ModelFactory;
+import model.ModelLoadException;
+import model.iModel3DRenderer;
+import model.geometry.Model;
 
 public class Empaquetador extends Observable implements Dibujable {
 
@@ -17,12 +19,44 @@ public class Empaquetador extends Observable implements Dibujable {
 	private Vertice posicion;
 	public static int CAPACIDAD_BOTELLAS = 4;
 	private GLUT glut = new GLUT();
+	private Model model;
+	private iModel3DRenderer renderer;
 	
-	public Empaquetador(LineaProduccion linea,Rampa rampa){
+	public Empaquetador(LineaProduccion linea, Rampa rampa, iModel3DRenderer modelRenderer) {
 		this.cantidadBotellasRecibidas = 0;
 		this.posicion = new Vertice(9f,0f,0f);
 		addObserver(linea);
 		addObserver(rampa);
+		
+		renderer = modelRenderer;
+		
+		try
+	    {
+	        // Call the factory for a model from a local file
+	        model = ModelFactory.createModel("model/examples/models/obj/empaquetadora.obj");
+	                        
+	        // When loading the model, adjust the center to the boundary center
+	        model.centerModelOnPosition(true);
+
+	        model.setUseTexture(true);
+
+	        // Render the bounding box of the entire model
+	        model.setRenderModelBounds(false);
+
+	        // Render the bounding boxes for all of the objects of the model
+	        model.setRenderObjectBounds(false);
+
+	        // Make the model unit size
+	        model.setUnitizeSize(true);
+
+	        // Get the radius of the model to use for lighting and view presetting
+	        //radius = model.getBounds().getRadius();
+	        
+	    }
+	    catch (ModelLoadException ex)
+	    {
+	        ex.printStackTrace();
+	    }
 	}
 	
 	public Vertice getPosicion(){
@@ -52,9 +86,16 @@ public class Empaquetador extends Observable implements Dibujable {
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//System.out.println("Se dibujo empaquetador");
 		final GL2 gl = gLDrawable.getGL().getGL2();
+//		gl.glPushMatrix();
+//			gl.glTranslatef(this.posicion.getX() + 0.75f, 0.0f, 0.0f);
+//			glut.glutSolidCube(1.5f);
+//		gl.glPopMatrix();
+		
 		gl.glPushMatrix();
-			gl.glTranslatef(this.posicion.getX() + 0.75f, 0.0f, 0.0f);
-			glut.glutSolidCube(1.5f);
+		//gl.glTranslatef(this.posicion.getX() + 0.75f, 0.0f, 0.0f);
+//		glut.glutSolidCube(1.5f);
+		
+			renderer.render(gl, model);
 		gl.glPopMatrix();
 	}
 

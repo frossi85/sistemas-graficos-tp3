@@ -1,5 +1,7 @@
 package utilidades;
 
+import model.iModel3DRenderer;
+import model.examples.DisplayListRenderer;
 import objetosEscena.CintaTransportadora;
 import objetosEscena.Dispenser;
 import objetosEscena.Empaquetador;
@@ -16,6 +18,7 @@ import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 import shader.ManejoShaders2;
+import shader.ManejoShadersMejorado;
 
 public class LineaProduccion implements Observer{
 	
@@ -33,15 +36,23 @@ public class LineaProduccion implements Observer{
 	private static int CAPACIDAD_CINTA = 10;
 	private static float TIEMPO_ETIQUETADO = 3f;
 	private static float AVANCE_BOTELLAS = VELOCIDAD_CINTA*AVANCE_TIEMPO;  //distancia = tiempo*velocidad
+    private iModel3DRenderer modelRenderer;
+    private GLUT glut = new GLUT();
 	
-	
-	public LineaProduccion(ManejoShaders2 shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
+	public LineaProduccion(ManejoShadersMejorado shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
+		//HAcer singleton de la conf del model rederer asi no se la paso a todos los constructores
+		//O mejor un factory que me devuelva toda la instancia creada
+		// Get an instance of the display list renderer a renderer
+        modelRenderer = DisplayListRenderer.getInstance();
+        // Turn on debugging
+        modelRenderer.debug(true);
+		
 		this.cinta = new CintaTransportadora(CAPACIDAD_CINTA, this, VELOCIDAD_CINTA, AVANCE_BOTELLAS);
 		this.rampa = new Rampa(this);
-		this.empaquetador = new Empaquetador(this,rampa);
-		this.etiquetador = new Etiquetador(this, TIEMPO_ETIQUETADO);
-		this.expededoraBotellas = new Dispenser(this, shader, glut, glu, gLDrawable);
-		this.rellenador = new Rellenador(this);
+		this.empaquetador = new Empaquetador(this,rampa, modelRenderer);
+		this.etiquetador = new Etiquetador(this, modelRenderer, TIEMPO_ETIQUETADO);
+		this.expededoraBotellas = new Dispenser(this, modelRenderer, shader, glut, glu, gLDrawable);
+		this.rellenador = new Rellenador(this, modelRenderer);
 	}
 	
 	public void avanzarTiempo(){
