@@ -10,14 +10,14 @@ import javax.media.opengl.glu.GLU;
 
 import com.jogamp.opengl.util.gl2.GLUT;
 
-public class SuperficieDeBarridoMejorada implements Dibujable {
+public class SuperficieDeBarrido implements Dibujable {
 	
 	private ICurva3D recorrido;	//long path
 	private ICurva3D barrido;	//width path
 	private int divisionesRecorrido;
 	private int divisionesBarrido;
 	
-	public SuperficieDeBarridoMejorada(ICurva3D recorrido, ICurva3D barrido, int divisionesRecorrido, int divisionesBarrido) throws Exception{	
+	public SuperficieDeBarrido(ICurva3D recorrido, ICurva3D barrido, int divisionesRecorrido, int divisionesBarrido) throws Exception{	
 
 		this.barrido = barrido;
 		this.recorrido = recorrido;

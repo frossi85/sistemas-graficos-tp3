@@ -17,7 +17,7 @@ import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
 import utilidades.LineaRecta;
 import utilidades.PuntoDeControl;
-import utilidades.SuperficieDeBarridoMejorada;
+import utilidades.SuperficieDeBarrido;
 import utilidades.Vertice;
 
 public class CintaTransportadora extends Observable implements Dibujable,Animable {
@@ -29,10 +29,10 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private boolean avanzando = true;
 	private float alto = 0.75f;
 	private float ancho = 0.5f;
-	private SuperficieDeBarridoMejorada caraSuperiorInferior;
-	private SuperficieDeBarridoMejorada caraLaterales;
+	private SuperficieDeBarrido caraSuperiorInferior;
+	private SuperficieDeBarrido caraLaterales;
 	
-	private SuperficieDeBarridoMejorada caraPrueba;
+	private SuperficieDeBarrido caraPrueba;
 	
 	
 	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea,float velCinta, float avanceBotellas){
@@ -68,9 +68,9 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		try {
 			ICurva3D spline = new BSplineGenerica(puntos);
 			ICurva3D spline2 = new BSplineGenerica(puntos2);
-			caraSuperiorInferior = new SuperficieDeBarridoMejorada(spline, new LineaRecta(puntoInicial, new PuntoDeControl(0f, ancho, 0f)) , 50, 50);
-			caraLaterales = new SuperficieDeBarridoMejorada(spline, new LineaRecta(puntoInicial, new PuntoDeControl(0f, 0f, alto)) , 50, 50);
-			caraPrueba = new SuperficieDeBarridoMejorada(spline, spline2, 50, 50);
+			caraSuperiorInferior = new SuperficieDeBarrido(spline, new LineaRecta(puntoInicial, new PuntoDeControl(0f, ancho, 0f)) , 50, 50);
+			caraLaterales = new SuperficieDeBarrido(spline, new LineaRecta(puntoInicial, new PuntoDeControl(0f, 0f, alto)) , 50, 50);
+			caraPrueba = new SuperficieDeBarrido(spline, spline2, 50, 50);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

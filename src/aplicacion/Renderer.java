@@ -24,7 +24,7 @@ import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
 import utilidades.LineaRecta;
 import utilidades.PuntoDeControl;
-import utilidades.SuperficieDeBarridoMejorada;
+import utilidades.SuperficieDeBarrido;
 import utilidades.Utilidades;
 import utilidades.Vertice;
 
@@ -90,7 +90,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     ICurva3D spline;
     ICurva3D spline2;
     ICurva3D lineaRecta;
-    SuperficieDeBarridoMejorada SuperficieBarrido;
+    SuperficieDeBarrido SuperficieBarrido;
 
     public Renderer(GLCanvas glCanvas)
     {
@@ -185,7 +185,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		try {
 			lineaRecta = new LineaRecta(new PuntoDeControl(0f, 0f, 0f), new PuntoDeControl(0.5f, 0.5f, 0.0f));
 			//SuperficieBarrido = new SuperficieDeBarridoMejorada(spline, lineaRecta, 50, 50);
-			SuperficieBarrido = new SuperficieDeBarridoMejorada(spline, spline2, 50, 50);
+			SuperficieBarrido = new SuperficieDeBarrido(spline, spline2, 50, 50);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
