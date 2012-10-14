@@ -96,26 +96,36 @@ public class SuperficieDeBarridoMejorada implements Dibujable {
 					float zU2Siguiente = barrido.getZ(u2Siguiente);
 					
 					gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+						//Cambiar de normales por face a nomales por vetex
+					
+						PuntoDeControl p1 = new PuntoDeControl(xU + getDistanciaNormalizada(xU, xU2), 
+															   yU + getDistanciaNormalizada(yU, yU2),
+															   zU + getDistanciaNormalizada(zU, zU2));
+						
+						PuntoDeControl p2 = new PuntoDeControl(xUSiguiente + getDistanciaNormalizada(xUSiguiente, xU2),
+								  							   yUSiguiente + getDistanciaNormalizada(yUSiguiente, yU2),
+								  							   zUSiguiente + getDistanciaNormalizada(zUSiguiente, zU2));
+					
+						PuntoDeControl p3 = new PuntoDeControl(xU + getDistanciaNormalizada(xU, xU2Siguiente), 
+							      								yU + getDistanciaNormalizada(yU, yU2Siguiente),
+							      								zU + getDistanciaNormalizada(zU, zU2Siguiente));
+						
+						PuntoDeControl p4 = new PuntoDeControl(xUSiguiente + getDistanciaNormalizada(xUSiguiente, xU2Siguiente),
+							  	  							   yUSiguiente + getDistanciaNormalizada(yUSiguiente, yU2Siguiente),
+						  	  							   	   zUSiguiente + getDistanciaNormalizada(zUSiguiente, zU2Siguiente));
+						
 						//1-Primer punto del cuadrado
-						gl.glVertex3f(xU + getDistanciaNormalizada(xU, xU2), 
-									  yU + getDistanciaNormalizada(yU, yU2),
-									  zU + getDistanciaNormalizada(zU, zU2));
+						Utilidades.glVertex(p1);
 						
 						//2-Segundo punto del cuadrado
-						gl.glVertex3f(xUSiguiente + getDistanciaNormalizada(xUSiguiente, xU2),
-									  yUSiguiente + getDistanciaNormalizada(yUSiguiente, yU2),
-									  zUSiguiente + getDistanciaNormalizada(zUSiguiente, zU2));
+						Utilidades.glVertex(p2);
 								
 						
 						//3-Tercer punto del cuadrado
-						gl.glVertex3f(xU + getDistanciaNormalizada(xU, xU2Siguiente), 
-								      yU + getDistanciaNormalizada(yU, yU2Siguiente),
-								      zU + getDistanciaNormalizada(zU, zU2Siguiente));
+						Utilidades.glVertex(p3);
 
 						//4-Cuarto punto del cuadrado
-						gl.glVertex3f(xUSiguiente + getDistanciaNormalizada(xUSiguiente, xU2Siguiente),
-								  	  yUSiguiente + getDistanciaNormalizada(yUSiguiente, yU2Siguiente),
-							  	  	  zUSiguiente + getDistanciaNormalizada(zUSiguiente, zU2Siguiente));
+						Utilidades.glVertex(p4);
 					gl.glEnd();
 					
 			}

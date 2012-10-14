@@ -19,6 +19,7 @@ import objetosEscena.Dispenser;
 import objetosEscena.Piso;
 import utilidades.BSplineCuadratica;
 import utilidades.BSplineGenerica;
+import utilidades.GLProvider;
 import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
 import utilidades.LineaRecta;
@@ -106,22 +107,22 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     {
     	
     }
-
-    public static void dibujarQuads(GLAutoDrawable gLDrawable, Vertice vert1, Vertice vert2, Vertice vert3, Vertice vert4){
-    	final GL2 gl = gLDrawable.getGL().getGL2();
-    	
-    	gl.glBegin(GL.GL_TRIANGLES);
-    	gl.glVertex3f(vert1.getX(), vert1.getY(), vert1.getZ());
-    	gl.glVertex3f(vert2.getX(), vert2.getY(), vert2.getZ());
-    	gl.glVertex3f(vert3.getX(), vert3.getY(), vert3.getZ());
-    	gl.glEnd();
-    	
-    	gl.glBegin(GL.GL_TRIANGLES);
-    	gl.glVertex3f(vert3.getX(), vert3.getY(), vert3.getZ());
-    	gl.glVertex3f(vert4.getX(), vert4.getY(), vert4.getZ());
-    	gl.glVertex3f(vert1.getX(), vert1.getY(), vert1.getZ());
-    	gl.glEnd();
-    }
+//
+//    public static void dibujarQuads(GLAutoDrawable gLDrawable, Vertice vert1, Vertice vert2, Vertice vert3, Vertice vert4){
+//    	final GL2 gl = gLDrawable.getGL().getGL2();
+//    	
+//    	gl.glBegin(GL.GL_TRIANGLES);
+//    	gl.glVertex3f(vert1.getX(), vert1.getY(), vert1.getZ());
+//    	gl.glVertex3f(vert2.getX(), vert2.getY(), vert2.getZ());
+//    	gl.glVertex3f(vert3.getX(), vert3.getY(), vert3.getZ());
+//    	gl.glEnd();
+//    	
+//    	gl.glBegin(GL.GL_TRIANGLES);
+//    	gl.glVertex3f(vert3.getX(), vert3.getY(), vert3.getZ());
+//    	gl.glVertex3f(vert4.getX(), vert4.getY(), vert4.getZ());
+//    	gl.glVertex3f(vert1.getX(), vert1.getY(), vert1.getZ());
+//    	gl.glEnd();
+//    }
     
 	//////////////////////////////     INICIO EVENTOS OPEN GL ////////////////////////////
     
@@ -131,7 +132,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
     	//System.out.println("GL_VERSION: "+ gl2.glGetString(GL3.GL_VERSION)); ;
     	//System.out.println("GL_SHADING_LANGUAGE_VERSION: " + gl2.glGetString(GL4.GL_SHADING_LANGUAGE_VERSION));
-
+    	
 
     	GL2 gl = gLDrawable.getGL().getGL2();
 
@@ -237,6 +238,8 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     	
     	
     	final GL2 gl = gLDrawable.getGL().getGL2();
+    	
+    	GLProvider.SetUp(gLDrawable);
 
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 
