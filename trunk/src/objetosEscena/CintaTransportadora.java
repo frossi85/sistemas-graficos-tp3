@@ -1,5 +1,6 @@
 package objetosEscena;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Queue;
@@ -10,8 +11,13 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
 import utilidades.Animable;
+import utilidades.BSplineGenerica;
 import utilidades.Dibujable;
+import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
+import utilidades.LineaRecta;
+import utilidades.PuntoDeControl;
+import utilidades.SuperficieDeBarridoMejorada;
 import utilidades.Vertice;
 
 public class CintaTransportadora extends Observable implements Dibujable,Animable {
@@ -21,8 +27,13 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private float velocidadCinta;
 	private float avanceBotellas;
 	private boolean avanzando = true;
-	private float largo = 8.5f;
-	private float ancho = 1f;
+	private float alto = 0.75f;
+	private float ancho = 0.5f;
+	private SuperficieDeBarridoMejorada caraSuperiorInferior;
+	private SuperficieDeBarridoMejorada caraLaterales;
+	
+	private SuperficieDeBarridoMejorada caraPrueba;
+	
 	
 	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea,float velCinta, float avanceBotellas){
 		this.capacidadBotellas = capacidadBotellas;  //cant max de botellas que puede tener la cinta transportadora
@@ -30,6 +41,40 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		this.avanceBotellas = avanceBotellas;
 		this.botellas = new LinkedList<Botella>();
 		addObserver(linea);
+		
+		//Lo necesario para dibujarla
+		ArrayList<PuntoDeControl> puntos = new ArrayList<PuntoDeControl>();
+		PuntoDeControl puntoInicial = new PuntoDeControl(0f, 0f, 0f);
+		
+		puntos.add(puntoInicial);
+		puntos.add(new PuntoDeControl(0.25f, 0f, 0f));
+		puntos.add(new PuntoDeControl(0.75f, 1f, 0f));
+		puntos.add(new PuntoDeControl(2.75f, 1f, 0f));
+		puntos.add(new PuntoDeControl(3.25f, 0f, 0f));
+		puntos.add(new PuntoDeControl(4f, 0f, 0f));
+		
+		ArrayList<PuntoDeControl> puntos2 = new ArrayList<PuntoDeControl>();
+		
+		puntos2.add(puntoInicial);
+		puntos2.add(new PuntoDeControl(0f, 0f, 0.25f));
+		puntos2.add(new PuntoDeControl(0f, 0.25f, 0.5f));
+		puntos2.add(new PuntoDeControl(0f, 0.5f, 0.5f));
+		puntos2.add(new PuntoDeControl(0f, 0.75f, 0.25f));
+		puntos2.add(new PuntoDeControl(0f, 1f, 0f));
+		
+		
+		
+		
+		try {
+			ICurva3D spline = new BSplineGenerica(puntos);
+			ICurva3D spline2 = new BSplineGenerica(puntos2);
+			caraSuperiorInferior = new SuperficieDeBarridoMejorada(spline, new LineaRecta(puntoInicial, new PuntoDeControl(0f, ancho, 0f)) , 50, 50);
+			caraLaterales = new SuperficieDeBarridoMejorada(spline, new LineaRecta(puntoInicial, new PuntoDeControl(0f, 0f, alto)) , 50, 50);
+			caraPrueba = new SuperficieDeBarridoMejorada(spline, spline2, 50, 50);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	} 
 	
 	public void recibirBotella(Botella botella){ 
@@ -100,21 +145,47 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//System.out.println("Se dibujo cinta transportadora");
 		final GL2 gl = gLDrawable.getGL().getGL2();
-		gl.glPushMatrix();
-  			gl.glColor3d(1.0f, 0.0f, 0.0f);
-  			gl.glBegin(GL.GL_LINE_STRIP);
-  			gl.glVertex3f(0f, ancho/2f, 0f);
-  			gl.glVertex3f(largo, ancho/2f, 0f);
-  			gl.glVertex3f(largo, ancho/2f, 0f);
-  			gl.glVertex3f(largo, -ancho/2f, 0f);
-  			gl.glVertex3f(largo, -ancho/2f, 0f);
-  			gl.glVertex3f(0f, -ancho/2f, 0f);
-  			gl.glVertex3f(0f, -ancho/2f, 0f);
-  			gl.glVertex3f(0f, ancho/2f, 0f);
-  			
-  			gl.glEnd();
-  		gl.glPopMatrix();	
+//		gl.glPushMatrix();
+//  			gl.glColor3d(1.0f, 0.0f, 0.0f);
+//  			gl.glBegin(GL.GL_LINE_STRIP);
+//  			gl.glVertex3f(0f, ancho/2f, 0f);
+//  			gl.glVertex3f(largo, ancho/2f, 0f);
+//  			gl.glVertex3f(largo, ancho/2f, 0f);
+//  			gl.glVertex3f(largo, -ancho/2f, 0f);
+//  			gl.glVertex3f(largo, -ancho/2f, 0f);
+//  			gl.glVertex3f(0f, -ancho/2f, 0f);
+//  			gl.glVertex3f(0f, -ancho/2f, 0f);
+//  			gl.glVertex3f(0f, ancho/2f, 0f);
+//  			
+//  			gl.glEnd();
+//  		gl.glPopMatrix();
 		
+		//Para optimizar el dibujado puedo crear una display list y luego llamarla
+		
+//		gl.glPushMatrix();
+//			caraSuperiorInferior.dibujar(gLDrawable);
+//		gl.glPopMatrix();
+//		
+//		gl.glPushMatrix();
+//			gl.glTranslatef(0f, 0f, alto);
+//			caraSuperiorInferior.dibujar(gLDrawable);
+//			gl.glPopMatrix();
+//		
+//		gl.glPushMatrix();
+//			caraLaterales.dibujar(gLDrawable);
+//		gl.glPopMatrix();
+//		
+//		gl.glPushMatrix();
+//			gl.glTranslatef(0f, ancho, 0f);
+//			caraLaterales.dibujar(gLDrawable);
+//		gl.glPopMatrix();
+		
+		
+		gl.glPushMatrix();
+			caraPrueba.dibujar(gLDrawable);
+		gl.glPopMatrix();
+		  		
+  		
 		java.util.Iterator<Botella> it =  this.botellas.iterator();
 		while(it.hasNext()){
 				it.next().dibujar(gLDrawable);

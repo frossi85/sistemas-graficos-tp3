@@ -160,5 +160,24 @@ public class Camara {
   		gl.glTranslated(-xPos, -yPos, -zPos);
     }
     
+    public void beginRender()
+    {
+    	gl.glPushMatrix();
+  		// Transformaciones de la camara para rotar y mover los objetos alrededor de ella.
+  			gl.glRotatef((float) pitch, 1, 0, 0);
+  			
+  			gl.glPushMatrix();
+  				gl.glRotatef((float) yaw, 0, 1, 0);
+  				
+  				gl.glPushMatrix();
+  					gl.glTranslated(-xPos, -yPos, -zPos);
+    }
+    
+    public void endRender()
+    {
+    	gl.glPopMatrix();
+    	gl.glPopMatrix();
+    	gl.glPopMatrix();
+    }
 
 }

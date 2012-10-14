@@ -41,4 +41,7 @@ public class PuntoDeControl {
 		this.z = z;
 	}
 
+	void print() {
+		System.out.println("(x, y, z) = (" + x + ", " + y + ", " + z + ")");
+	}
 }
