@@ -117,12 +117,13 @@ public class LineaProduccion implements Observer{
 	}
 	
 	public void dibujar(GLAutoDrawable gLDrawable){
-		this.expededoraBotellas.dibujar(gLDrawable);
+//		this.expededoraBotellas.dibujar(gLDrawable);
+//		this.etiquetador.dibujar(gLDrawable);
+//		this.rellenador.dibujar(gLDrawable);
+//		this.empaquetador.dibujar(gLDrawable);
+//		this.rampa.dibujar(gLDrawable);
+		
 		this.cinta.dibujar(gLDrawable);
-		this.etiquetador.dibujar(gLDrawable);
-		this.rellenador.dibujar(gLDrawable);
-		this.empaquetador.dibujar(gLDrawable);
-		this.rampa.dibujar(gLDrawable);
 	}
 	
 	public void actualizar(){

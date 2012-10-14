@@ -12,16 +12,16 @@ import com.jogamp.opengl.util.gl2.GLUT;
 
 public class SuperficieDeBarrido implements Dibujable {
 	
-	private ArrayList<BSplineCuadratica>listaDeCurvas;	//lista de curvas de bezier
+	private ArrayList<ICurva3D> listaDeCurvas;	//lista de curvas de bezier
 	
 	private int divisionesCurva;
 	private int divisionesBarrido;
 	private float anchoBarrido;
 	private int numCurvas;
 	
-	public SuperficieDeBarrido(ArrayList<PuntoDeControl> puntosDeControl, int divisionesPorCurva, int divisionesBarrido, float anchoBarrido){	
+	public SuperficieDeBarrido(ArrayList<PuntoDeControl> puntosDeControl, int divisionesPorCurva, int divisionesBarrido, float anchoBarrido) throws Exception{	
 
-		listaDeCurvas = new ArrayList<BSplineCuadratica>();
+		listaDeCurvas = new ArrayList<ICurva3D>();
 		this.anchoBarrido = anchoBarrido;
 		this.divisionesBarrido = divisionesBarrido;
 		this.divisionesCurva = divisionesPorCurva;
@@ -31,14 +31,14 @@ public class SuperficieDeBarrido implements Dibujable {
 			auxL.add(puntosDeControl.get(i));
 			auxL.add(puntosDeControl.get(i+1));
 			auxL.add(puntosDeControl.get(i+2));
-			BSplineCuadratica auxB = new BSplineCuadratica(auxL, 20);
+			BSplineCuadratica auxB = new BSplineCuadratica(auxL);
 			listaDeCurvas.add(auxB);
 		}	
 		
 		numCurvas = listaDeCurvas.size();
 	}
 	
-	public void dibujar(GL2 gl, GLU glu) 
+	public void dibujar(GL2 gl, GLU glu) throws Exception 
 	{
 		ArrayList<utilidades.PuntoDeControl> puntosDeControl = new ArrayList<utilidades.PuntoDeControl>();
 		
@@ -48,14 +48,14 @@ public class SuperficieDeBarrido implements Dibujable {
 		puntosDeControl.add(new PuntoDeControl(-10f, 5f, -2f));
 		puntosDeControl.add(new PuntoDeControl(-15f, 2f, -2));	
 		
-		listaDeCurvas = new ArrayList<BSplineCuadratica>();
+		listaDeCurvas = new ArrayList<ICurva3D>();
 		
 		for(int i = 0; i < puntosDeControl.size() - 2; i ++){
 			ArrayList<PuntoDeControl> auxL = new ArrayList<PuntoDeControl>();
 			auxL.add(puntosDeControl.get(i));
 			auxL.add(puntosDeControl.get(i+1));
 			auxL.add(puntosDeControl.get(i+2));
-			BSplineCuadratica auxB = new BSplineCuadratica(auxL, 20);
+			BSplineCuadratica auxB = new BSplineCuadratica(auxL);
 			listaDeCurvas.add(auxB);
 		}	
 
@@ -71,13 +71,13 @@ public class SuperficieDeBarrido implements Dibujable {
 
 		
 		for(int i = 0; i < listaDeCurvas.size(); i ++){
-			listaDeCurvas.get(i).dibujar2(gl, glu);			
+			((BSplineCuadratica) listaDeCurvas.get(i)).dibujar2(gl, glu);			
 		}
 		
 		
 	}
 	
-	public void dibujarBspline(GL2 gl, GLU glu)
+	public void dibujarBspline(GL2 gl, GLU glu) throws Exception
 	{
 		ArrayList<utilidades.PuntoDeControl> puntosDeControl = new ArrayList<utilidades.PuntoDeControl>();
 		
@@ -87,14 +87,14 @@ public class SuperficieDeBarrido implements Dibujable {
 		puntosDeControl.add(new PuntoDeControl(-10f, 5f, -2f));
 		puntosDeControl.add(new PuntoDeControl(-15f, 2f, -2));	
 		
-		listaDeCurvas = new ArrayList<BSplineCuadratica>();
+		listaDeCurvas = new ArrayList<ICurva3D>();
 		
 		for(int i = 0; i < puntosDeControl.size() - 2; i ++){
 			ArrayList<PuntoDeControl> auxL = new ArrayList<PuntoDeControl>();
 			auxL.add(puntosDeControl.get(i));
 			auxL.add(puntosDeControl.get(i+1));
 			auxL.add(puntosDeControl.get(i+2));
-			BSplineCuadratica auxB = new BSplineCuadratica(auxL, 20);
+			BSplineCuadratica auxB = new BSplineCuadratica(auxL);
 			listaDeCurvas.add(auxB);
 		}	
 
@@ -110,7 +110,7 @@ public class SuperficieDeBarrido implements Dibujable {
 
 		
 		for(int i = 0; i < listaDeCurvas.size(); i ++){
-			listaDeCurvas.get(i).dibujar2(gl, glu);			
+			((BSplineCuadratica) listaDeCurvas.get(i)).dibujar2(gl, glu);			
 		}
 	}
 	

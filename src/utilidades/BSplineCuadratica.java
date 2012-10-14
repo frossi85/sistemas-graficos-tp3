@@ -4,18 +4,13 @@ import java.util.ArrayList;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
-public class BSplineCuadratica extends Curva {	
+public class BSplineCuadratica extends Curva implements ICurva3D {	
 	
-	private int rangeU; 
-	
-	public BSplineCuadratica(ArrayList<PuntoDeControl> arrayList, int rangeU) {
+	public BSplineCuadratica(ArrayList<PuntoDeControl> arrayList) throws Exception {
 		super(arrayList);
 		
-		//if(arrayList.size() != 3)
-		//	throw new Exception("La cantidad de puntos en una Bspline Cuadratica debe ser 3");
-		
-		/// the level of detail of the curve
-		this.rangeU = rangeU;
+		if(arrayList.size() != 3)
+			throw new Exception("BSplineCuadratica: La cantidad de puntos de control debe ser 3");
 	}
 	
 	// calculate blending function B0
@@ -100,21 +95,21 @@ public class BSplineCuadratica extends Curva {
 		gl.glEnd();
 
 		// draw the control points
-		gl.glColor3f(0,1,0);
-		gl.glPointSize(3);
-		gl.glBegin(GL2.GL_POINTS);
-		for(int i=0;i!=3;++i) {
-			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
-		}
-		gl.glEnd();
-
-		// draw the hull of the curve
-		gl.glColor3f(0,1,1);
-		gl.glBegin(GL2.GL_LINE_STRIP);
-		for(int i=0;i!=3;++i) {
-			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
-		}
-		gl.glEnd();		
+//		gl.glColor3f(0,1,0);
+//		gl.glPointSize(3);
+//		gl.glBegin(GL2.GL_POINTS);
+//		for(int i=0;i!=3;++i) {
+//			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
+//		}
+//		gl.glEnd();
+//
+//		// draw the hull of the curve
+//		gl.glColor3f(0,1,1);
+//		gl.glBegin(GL2.GL_LINE_STRIP);
+//		for(int i=0;i!=3;++i) {
+//			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
+//		}
+//		gl.glEnd();		
 	}
 	
 	
@@ -171,20 +166,20 @@ public class BSplineCuadratica extends Curva {
 		gl.glEnd();
 
 		// draw the control points
-		gl.glColor3f(0,1,0);
-		gl.glPointSize(3);
-		gl.glBegin(GL2.GL_POINTS);
-		for(int i=0;i!=cantidadPtosControl;++i) {
-			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
-		}
-		gl.glEnd();
-
-		// draw the hull of the curve
-		gl.glColor3f(0,1,1);
-		gl.glBegin(GL2.GL_LINE_STRIP);
-		for(int i=0;i!=cantidadPtosControl;++i) {
-			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
-		}
-		gl.glEnd();
+//		gl.glColor3f(0,1,0);
+//		gl.glPointSize(3);
+//		gl.glBegin(GL2.GL_POINTS);
+//		for(int i=0;i!=cantidadPtosControl;++i) {
+//			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
+//		}
+//		gl.glEnd();
+//
+//		// draw the hull of the curve
+//		gl.glColor3f(0,1,1);
+//		gl.glBegin(GL2.GL_LINE_STRIP);
+//		for(int i=0;i!=cantidadPtosControl;++i) {
+//			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
+//		}
+//		gl.glEnd();
 	}
 }

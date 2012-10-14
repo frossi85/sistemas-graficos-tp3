@@ -14,10 +14,16 @@ import shader.ManejoShadersMejorado;
 import shader.Refraccion;
 import shader.SinDeformacionVert;
 import objetosEscena.Botella;
+import objetosEscena.CintaTransportadora;
 import objetosEscena.Dispenser;
 import objetosEscena.Piso;
 import utilidades.BSplineCuadratica;
+import utilidades.BSplineGenerica;
+import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
+import utilidades.LineaRecta;
+import utilidades.PuntoDeControl;
+import utilidades.SuperficieDeBarridoMejorada;
 import utilidades.Utilidades;
 import utilidades.Vertice;
 
@@ -80,7 +86,10 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     private FPSAnimator animator;
     Botella botella;
     Dispenser dispenser;
-   // Bspline spline = new Bspline(new ArrayList<utilidades.PuntoDeControl>());
+    ICurva3D spline;
+    ICurva3D spline2;
+    ICurva3D lineaRecta;
+    SuperficieDeBarridoMejorada SuperficieBarrido;
 
     public Renderer(GLCanvas glCanvas)
     {
@@ -89,9 +98,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     	animator = new FPSAnimator(canvas, 50);
     	animator.add(canvas);
     	animator.start();
-    	//this.linea = new LineaProduccion();
     	this.timer = 0.0f;
-    	//this.dispenser = new Dispenser(linea);
     	this.piso = new Piso();
     }
 
@@ -146,8 +153,45 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		//currentVert = REFRACCION_VERT;
 		currentFrag = efectoFragment.BRILLANTE;
 		
-
+		linea = new LineaProduccion(mS, glut, glu, gLDrawable);
 		
+		ArrayList<PuntoDeControl> puntos = new ArrayList<PuntoDeControl>();
+		
+		puntos.add(new PuntoDeControl(0f, 0f, 0f));
+		puntos.add(new PuntoDeControl(0.5f, 0.5f, 0f));
+		puntos.add(new PuntoDeControl(1.0f, 0.0f, 0f));
+		puntos.add(new PuntoDeControl(1.5f, 0.5f, 0f));
+		puntos.add(new PuntoDeControl(2.0f, 0.0f, 0f));
+		puntos.add(new PuntoDeControl(2.5f, 0.5f, 0f));
+		
+		ArrayList<PuntoDeControl> puntos2 = new ArrayList<PuntoDeControl>();
+		
+		puntos2.add(new PuntoDeControl(0f, 0f, 0f));
+		puntos2.add(new PuntoDeControl(0f, 0.5f, 0.5f));
+		puntos2.add(new PuntoDeControl(0f, 1.0f, 0.0f));
+		puntos2.add(new PuntoDeControl(0f, 1.5f, 0.5f));
+		puntos2.add(new PuntoDeControl(0f, 2.0f, 0.0f));
+		puntos2.add(new PuntoDeControl(0f, 2.5f, 0.5f));
+		
+		try {
+			spline = new BSplineGenerica(puntos);
+			spline2 = new BSplineGenerica(puntos2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			lineaRecta = new LineaRecta(new PuntoDeControl(0f, 0f, 0f), new PuntoDeControl(0.5f, 0.5f, 0.0f));
+			//SuperficieBarrido = new SuperficieDeBarridoMejorada(spline, lineaRecta, 50, 50);
+			SuperficieBarrido = new SuperficieDeBarridoMejorada(spline, spline2, 50, 50);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//((BSplineGenerica)spline).test();
+		//((LineaRecta)lineaRecta).test();
+			
 		//TODO:  CREACION DE LA LINEA DE PRODUCCION Y SETTEOS INICIALES /////
 		//TODO: los shader se crean y actualizan solo dentro de la linea de produccion o de una clase utilidad q reciba una linea de produccion y maneje el shader
 		
@@ -157,7 +201,8 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		//this.linea.dibujar(gLDrawable);
 		
-		
+			//glu.gluLookAt(0.0f, 0.0f, -1f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		//glu.gluLookAt(0,0,2, 0,0,0, 0,1,0);
 		
     }
     
@@ -197,7 +242,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = true;
+  		boolean esCodigoGustavo = false;
 
   		if(esCodigoGustavo)
   		{
@@ -240,10 +285,36 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
   		}
   		else
   		{
-  			
-  			
+			//camara.beginRender();
   			gl.glPushMatrix();
-  				//camara.render();
+  				camara.render();
+  				//spline.dibujar(gl, glu);
+  			
+  				gl.glScalef(0.5f, 0.5f, 0.5f);
+  				
+  				//SuperficieBarrido.dibujar(gLDrawable);
+  				
+//  				gl.glPushMatrix();
+//  					gl.glRotatef(45.0f, 0f, 1f, 0f);
+//	  				gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+//	  					gl.glVertex3f(0f, 0f, 0f);
+//	  					gl.glVertex3f(1f, 0f, 0f);
+//	  					gl.glVertex3f(0.5f, 1f, 0f);
+//	  				gl.glEnd();
+//  				gl.glPopMatrix();
+//  				
+//  				gl.glPushMatrix();
+//  					gl.glRotatef(45.0f, 0f, -1f, 0f);
+//	  				gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+//						gl.glVertex3f(0f, 0f, 0f);
+//						gl.glVertex3f(1f, 0f, 0f);
+//						gl.glVertex3f(0.5f, 1f, 0f);
+//					gl.glEnd();
+//				gl.glPopMatrix();
+  				
+  				linea.dibujar(gLDrawable);
+  				
+  				//lineaRecta.dibujar(gl, glu);
   			
   				//unCubo.dibujar(gl);
   				
@@ -267,7 +338,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 //	    	mS.displayUniform();
 //	    	mS.displayVertexAttrib();
   			
-  			//spline.dibujar(gl, glu);
+  			//camara.endRender();
   		}
   		////////////////////////////////
   		
