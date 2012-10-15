@@ -17,8 +17,13 @@ public class Utilidades {
 	    return fb;
     }
     
-    public static void glVertex(PuntoDeControl p)
+    public static void glVertex(Vertice p)
     {
     	GLProvider.getGL2().glVertex3f(p.getX(), p.getY(), p.getZ());
+    }
+    
+    public static void glNormal(Vertice p)
+    {
+    	GLProvider.getGL2().glNormal3f(p.getX(), p.getY(), p.getZ());
     }
 }

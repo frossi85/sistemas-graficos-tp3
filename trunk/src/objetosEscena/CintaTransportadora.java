@@ -16,7 +16,7 @@ import utilidades.Dibujable;
 import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
 import utilidades.LineaRecta;
-import utilidades.PuntoDeControl;
+import utilidades.Vertice;
 import utilidades.SuperficieDeBarrido;
 import utilidades.Vertice;
 
@@ -27,12 +27,12 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private float velocidadCinta;
 	private float avanceBotellas;
 	private boolean avanzando = true;
-	private float alto = 0.75f;
-	private float ancho = 0.5f;
-	private SuperficieDeBarrido caraSuperiorInferior;
+	private float alto = 750f;
+	private float ancho = 400f;
+	private SuperficieDeBarrido caraSuperior;
 	private SuperficieDeBarrido caraLaterales;
 	
-	private SuperficieDeBarrido caraPrueba;
+	private SuperficieDeBarrido borde;
 	
 	
 	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea,float velCinta, float avanceBotellas){
@@ -43,34 +43,48 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		addObserver(linea);
 		
 		//Lo necesario para dibujarla
-		ArrayList<PuntoDeControl> puntos = new ArrayList<PuntoDeControl>();
-		PuntoDeControl puntoInicial = new PuntoDeControl(0f, 0f, 0f);
+		ArrayList<Vertice> puntos = new ArrayList<Vertice>();
+		Vertice puntoInicial = new Vertice(0f, 0f, 0f);
 		
 		puntos.add(puntoInicial);
-		puntos.add(new PuntoDeControl(0.25f, 0f, 0f));
-		puntos.add(new PuntoDeControl(0.75f, 1f, 0f));
-		puntos.add(new PuntoDeControl(2.75f, 1f, 0f));
-		puntos.add(new PuntoDeControl(3.25f, 0f, 0f));
-		puntos.add(new PuntoDeControl(4f, 0f, 0f));
+		puntos.add(new Vertice(30.926f, -0.055f, 0));
+		puntos.add(new Vertice(91.916f, 10.143f, 0));
+		puntos.add(new Vertice(134.774f, 53.001f, 0));
+		puntos.add(new Vertice(180.488f, 121.572f, 0));
+		puntos.add(new Vertice(267.021f, 162.879f, 0));
+		puntos.add(new Vertice(328.208f, 164.435f, 0));
+		puntos.add(new Vertice(439.611f, 160.796f, 0));
+		puntos.add(new Vertice(500.352f, 126.245f, 0));
+		puntos.add(new Vertice(523.209f, -10.898f, 0));
+		puntos.add(new Vertice(588.011f, -82.337f, 0));
+		puntos.add(new Vertice(647.883f, -88.572f, 0));
+		puntos.add(new Vertice(691.781f, -86.224f, 0));
 		
-		ArrayList<PuntoDeControl> puntos2 = new ArrayList<PuntoDeControl>();
+		
+		
+		ArrayList<Vertice> puntos2 = new ArrayList<Vertice>();
 		
 		puntos2.add(puntoInicial);
-		puntos2.add(new PuntoDeControl(0f, 0f, 0.25f));
-		puntos2.add(new PuntoDeControl(0f, 0.25f, 0.5f));
-		puntos2.add(new PuntoDeControl(0f, 0.5f, 0.5f));
-		puntos2.add(new PuntoDeControl(0f, 0.75f, 0.25f));
-		puntos2.add(new PuntoDeControl(0f, 1f, 0f));
-		
-		
-		
+		puntos2.add(new Vertice(0, -60.374f, 63.497f));
+		puntos2.add(new Vertice(0, -59.333f, 67.661f));
+		puntos2.add(new Vertice(0, -40.596f, 106.175f));
+		puntos2.add(new Vertice(0, 34.351f, 110.339f));
+		puntos2.add(new Vertice(0, 57.252f, 74.947f));
+		puntos2.add(new Vertice(0, 35.392f, 16.655f));
+		puntos2.add(new Vertice(0, -42.815f, 19.671f));
+		puntos2.add(new Vertice(0, -57.251f, 42.679f));
+		puntos2.add(new Vertice(0, -60.374f, 63.497f));
+		puntos2.add(new Vertice(0, -59.333f, 67.661f));
+
+			
 		
 		try {
 			ICurva3D spline = new BSplineGenerica(puntos);
 			ICurva3D spline2 = new BSplineGenerica(puntos2);
-			caraSuperiorInferior = new SuperficieDeBarrido(spline, new LineaRecta(puntoInicial, new PuntoDeControl(0f, ancho, 0f)) , 50, 50);
-			caraLaterales = new SuperficieDeBarrido(spline, new LineaRecta(puntoInicial, new PuntoDeControl(0f, 0f, alto)) , 50, 50);
-			caraPrueba = new SuperficieDeBarrido(spline, spline2, 50, 50);
+			ICurva3D lineaRecta = new LineaRecta(puntoInicial, new Vertice(0f, 0f, alto));
+			caraSuperior = new SuperficieDeBarrido(spline, new LineaRecta(puntoInicial, new Vertice(0f, ancho, 0f)) , 50, 50);
+			caraLaterales = new SuperficieDeBarrido(spline, lineaRecta, 50, 50);
+			borde = new SuperficieDeBarrido(spline, spline2, 100, 100);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -145,46 +159,51 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//System.out.println("Se dibujo cinta transportadora");
 		final GL2 gl = gLDrawable.getGL().getGL2();
-//		gl.glPushMatrix();
-//  			gl.glColor3d(1.0f, 0.0f, 0.0f);
-//  			gl.glBegin(GL.GL_LINE_STRIP);
-//  			gl.glVertex3f(0f, ancho/2f, 0f);
-//  			gl.glVertex3f(largo, ancho/2f, 0f);
-//  			gl.glVertex3f(largo, ancho/2f, 0f);
-//  			gl.glVertex3f(largo, -ancho/2f, 0f);
-//  			gl.glVertex3f(largo, -ancho/2f, 0f);
-//  			gl.glVertex3f(0f, -ancho/2f, 0f);
-//  			gl.glVertex3f(0f, -ancho/2f, 0f);
-//  			gl.glVertex3f(0f, ancho/2f, 0f);
-//  			
-//  			gl.glEnd();
-//  		gl.glPopMatrix();
 		
 		//Para optimizar el dibujado puedo crear una display list y luego llamarla
 		
-//		gl.glPushMatrix();
-//			caraSuperiorInferior.dibujar(gLDrawable);
-//		gl.glPopMatrix();
-//		
-//		gl.glPushMatrix();
-//			gl.glTranslatef(0f, 0f, alto);
-//			caraSuperiorInferior.dibujar(gLDrawable);
-//			gl.glPopMatrix();
-//		
-//		gl.glPushMatrix();
-//			caraLaterales.dibujar(gLDrawable);
-//		gl.glPopMatrix();
-//		
-//		gl.glPushMatrix();
-//			gl.glTranslatef(0f, ancho, 0f);
-//			caraLaterales.dibujar(gLDrawable);
-//		gl.glPopMatrix();
+		float scala = 0.001f;
+		
+		gl.glPushMatrix();
+		gl.glRotatef(90, -1, 0, 0);	
 		
 		
 		gl.glPushMatrix();
-			caraPrueba.dibujar(gLDrawable);
+			gl.glScalef(3*scala, scala, scala);
+			
+			//CARAS INFERIOR y SUPERIOR
+			gl.glPushMatrix();
+				caraSuperior.dibujar(gLDrawable);
+			gl.glPopMatrix();
+			
+			
+			//CARAS LATERALES
+			gl.glPushMatrix();
+				caraLaterales.dibujar(gLDrawable);
+			gl.glPopMatrix();
+			
+			gl.glPushMatrix();
+				gl.glTranslatef(0, -ancho, 0);
+				caraLaterales.dibujar(gLDrawable);
+			gl.glPopMatrix();
+			
+			gl.glPopMatrix();
+			
+			///BORDES
+			gl.glPushMatrix();
+				gl.glScalef(3*scala, scala, scala);
+				
+				gl.glPushMatrix();
+					gl.glTranslatef(0, -ancho, 60);
+					borde.dibujar(gLDrawable);
+				gl.glPopMatrix();
+				
+				gl.glPushMatrix();
+					gl.glTranslatef(0, 0, 60f);
+					borde.dibujar(gLDrawable);
+				gl.glPopMatrix();
+			gl.glPopMatrix();
 		gl.glPopMatrix();
-		  		
   		
 		java.util.Iterator<Botella> it =  this.botellas.iterator();
 		while(it.hasNext()){

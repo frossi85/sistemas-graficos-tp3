@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public abstract class Curva {
 
-	protected ArrayList<PuntoDeControl> puntosDeControl;
+	protected ArrayList<Vertice> puntosDeControl;
 	
-	public Curva(ArrayList<PuntoDeControl>list){
+	public Curva(ArrayList<Vertice>list){
 		this.puntosDeControl = list;
 	}
 	
@@ -13,7 +13,7 @@ public abstract class Curva {
 		return this.puntosDeControl.size();
 	}
 	
-	public void setPuntoDeControl(int index,PuntoDeControl punto){
+	public void setPuntoDeControl(int index,Vertice punto){
 		this.puntosDeControl.add(index, punto);
 	}	
 }

@@ -23,7 +23,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 	private int numCurvas;
 	private float factorEscalado;
 	
-	public SuperficieDeRevolucion(ArrayList<PuntoDeControl>list){	
+	public SuperficieDeRevolucion(ArrayList<Vertice>list){	
 		/*this.curva1 = new BezierCubica(list);
 		this.curva2 = new BezierCubica(list);
 		curva2.setPuntoDeControl(0, list.get(1));
@@ -45,7 +45,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 		listaDeCurvas = new ArrayList<BezierCubica>();
 		
 		for(int i = 0; i < list.size(); i += 4){
-			ArrayList<PuntoDeControl> auxL = new ArrayList<PuntoDeControl>();
+			ArrayList<Vertice> auxL = new ArrayList<Vertice>();
 			auxL.add(list.get(i));
 			auxL.add(list.get(i+1));
 			auxL.add(list.get(i+2));

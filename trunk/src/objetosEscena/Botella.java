@@ -16,7 +16,7 @@ import utilidades.Animable;
 import utilidades.AreaDeIncidencia;
 import utilidades.Dibujable;
 import utilidades.LineaProduccion;
-import utilidades.PuntoDeControl;
+import utilidades.Vertice;
 import utilidades.SuperficieDeRevolucion;
 import utilidades.Vertice;
 import shader.ManejoShaders2;
@@ -62,42 +62,42 @@ public class Botella  implements Dibujable,Animable {
 	  	this.lleno = false;
 		this.etiquetado = false;
 		this.posicion = new Vertice(0f,0f,0f);
-		ArrayList<PuntoDeControl>list = new ArrayList<PuntoDeControl>();
+		ArrayList<Vertice>list = new ArrayList<Vertice>();
 		//opcion1	los primeros puntos de la lista tienen las coord Y mas altas (esto lo usa el calculo de altura)
 		
 		/*	ORIGINALES
-		 * PuntoDeControl punto1 = new PuntoDeControl(1.21f-1f,0.64f);
-		PuntoDeControl punto2 = new PuntoDeControl(1.14f-1f ,-0.82f);
-		PuntoDeControl punto3 = new PuntoDeControl(3.71f-1f,-4.28f);
-		PuntoDeControl punto4 = new PuntoDeControl(2.81f-1f,-7.32f);
+		 * Vertice punto1 = new Vertice(1.21f-1f,0.64f);
+		Vertice punto2 = new Vertice(1.14f-1f ,-0.82f);
+		Vertice punto3 = new Vertice(3.71f-1f,-4.28f);
+		Vertice punto4 = new Vertice(2.81f-1f,-7.32f);
 		
-		PuntoDeControl punto5 = new PuntoDeControl(2.81f-1f,-7.32f);
-		PuntoDeControl punto6 = new PuntoDeControl(2.54f-1f,-8.22f);
-		PuntoDeControl punto7 = new PuntoDeControl(4.97f-1f,-12.45f);
-		PuntoDeControl punto8 = new PuntoDeControl(3.39f-1.5f,-13.15f);
+		Vertice punto5 = new Vertice(2.81f-1f,-7.32f);
+		Vertice punto6 = new Vertice(2.54f-1f,-8.22f);
+		Vertice punto7 = new Vertice(4.97f-1f,-12.45f);
+		Vertice punto8 = new Vertice(3.39f-1.5f,-13.15f);
 		*/
 		
 		/*BOTELLA AL REVES
-		PuntoDeControl punto1 = new PuntoDeControl(0.3f,0f);
-		PuntoDeControl punto2 = new PuntoDeControl(0.15f ,1.46f);
-		PuntoDeControl punto3 = new PuntoDeControl(2.71f,4.92f);
-		PuntoDeControl punto4 = new PuntoDeControl(1.81f,7.96f);
+		Vertice punto1 = new Vertice(0.3f,0f);
+		Vertice punto2 = new Vertice(0.15f ,1.46f);
+		Vertice punto3 = new Vertice(2.71f,4.92f);
+		Vertice punto4 = new Vertice(1.81f,7.96f);
 		
-		PuntoDeControl punto5 = new PuntoDeControl(1.81f,7.96f);
-		PuntoDeControl punto6 = new PuntoDeControl(1.54f,8.86f);
-		PuntoDeControl punto7 = new PuntoDeControl(3.4f,13.09f);
-		PuntoDeControl punto8 = new PuntoDeControl(1.89f,13.79f);	
+		Vertice punto5 = new Vertice(1.81f,7.96f);
+		Vertice punto6 = new Vertice(1.54f,8.86f);
+		Vertice punto7 = new Vertice(3.4f,13.09f);
+		Vertice punto8 = new Vertice(1.89f,13.79f);	
 		*/
 		
-		PuntoDeControl punto1 = new PuntoDeControl(0.3f,13.79f);
-		PuntoDeControl punto2 = new PuntoDeControl(0.15f ,13.09f);
-		PuntoDeControl punto3 = new PuntoDeControl(2.51f,10.86f);
-		PuntoDeControl punto4 = new PuntoDeControl(1.81f,7.96f);
+		Vertice punto1 = new Vertice(0.3f,13.79f);
+		Vertice punto2 = new Vertice(0.15f ,13.09f);
+		Vertice punto3 = new Vertice(2.51f,10.86f);
+		Vertice punto4 = new Vertice(1.81f,7.96f);
 		
-		PuntoDeControl punto5 = new PuntoDeControl(1.81f,7.96f);
-		PuntoDeControl punto6 = new PuntoDeControl(1.54f,4.92f);
-		PuntoDeControl punto7 = new PuntoDeControl(3.1f,1.46f);
-		PuntoDeControl punto8 = new PuntoDeControl(1.89f,0f);	
+		Vertice punto5 = new Vertice(1.81f,7.96f);
+		Vertice punto6 = new Vertice(1.54f,4.92f);
+		Vertice punto7 = new Vertice(3.1f,1.46f);
+		Vertice punto8 = new Vertice(1.89f,0f);	
 				
 		list.add(punto1);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde (?)
 		list.add(punto2);

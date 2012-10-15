@@ -23,7 +23,7 @@ import utilidades.GLProvider;
 import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
 import utilidades.LineaRecta;
-import utilidades.PuntoDeControl;
+import utilidades.Vertice;
 import utilidades.SuperficieDeBarrido;
 import utilidades.Utilidades;
 import utilidades.Vertice;
@@ -156,23 +156,23 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		linea = new LineaProduccion(mS, glut, glu, gLDrawable);
 		
-		ArrayList<PuntoDeControl> puntos = new ArrayList<PuntoDeControl>();
+		ArrayList<Vertice> puntos = new ArrayList<Vertice>();
 		
-		puntos.add(new PuntoDeControl(0f, 0f, 0f));
-		puntos.add(new PuntoDeControl(0.5f, 0.5f, 0f));
-		puntos.add(new PuntoDeControl(1.0f, 0.0f, 0f));
-		puntos.add(new PuntoDeControl(1.5f, 0.5f, 0f));
-		puntos.add(new PuntoDeControl(2.0f, 0.0f, 0f));
-		puntos.add(new PuntoDeControl(2.5f, 0.5f, 0f));
+		puntos.add(new Vertice(0f, 0f, 0f));
+		puntos.add(new Vertice(0.5f, 0.5f, 0f));
+		puntos.add(new Vertice(1.0f, 0.0f, 0f));
+		puntos.add(new Vertice(1.5f, 0.5f, 0f));
+		puntos.add(new Vertice(2.0f, 0.0f, 0f));
+		puntos.add(new Vertice(2.5f, 0.5f, 0f));
 		
-		ArrayList<PuntoDeControl> puntos2 = new ArrayList<PuntoDeControl>();
+		ArrayList<Vertice> puntos2 = new ArrayList<Vertice>();
 		
-		puntos2.add(new PuntoDeControl(0f, 0f, 0f));
-		puntos2.add(new PuntoDeControl(0f, 0.5f, 0.5f));
-		puntos2.add(new PuntoDeControl(0f, 1.0f, 0.0f));
-		puntos2.add(new PuntoDeControl(0f, 1.5f, 0.5f));
-		puntos2.add(new PuntoDeControl(0f, 2.0f, 0.0f));
-		puntos2.add(new PuntoDeControl(0f, 2.5f, 0.5f));
+		puntos2.add(new Vertice(0f, 0f, 0f));
+		puntos2.add(new Vertice(0f, 0.5f, 0.5f));
+		puntos2.add(new Vertice(0f, 1.0f, 0.0f));
+		puntos2.add(new Vertice(0f, 1.5f, 0.5f));
+		puntos2.add(new Vertice(0f, 2.0f, 0.0f));
+		puntos2.add(new Vertice(0f, 2.5f, 0.5f));
 		
 		try {
 			spline = new BSplineGenerica(puntos);
@@ -183,7 +183,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		}
 		
 		try {
-			lineaRecta = new LineaRecta(new PuntoDeControl(0f, 0f, 0f), new PuntoDeControl(0.5f, 0.5f, 0.0f));
+			lineaRecta = new LineaRecta(new Vertice(0f, 0f, 0f), new Vertice(0.5f, 0.5f, 0.0f));
 			//SuperficieBarrido = new SuperficieDeBarridoMejorada(spline, lineaRecta, 50, 50);
 			SuperficieBarrido = new SuperficieDeBarrido(spline, spline2, 50, 50);
 		} catch (Exception e) {
