@@ -33,6 +33,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private SuperficieDeBarrido caraLaterales;
 	
 	private SuperficieDeBarrido borde;
+	private float scala = 0.001f;
 	
 	
 	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea,float velCinta, float avanceBotellas){
@@ -41,11 +42,14 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		this.avanceBotellas = avanceBotellas;
 		this.botellas = new LinkedList<Botella>();
 		addObserver(linea);
-		
+			
 		//Lo necesario para dibujarla
 		ArrayList<Vertice> puntos = new ArrayList<Vertice>();
 		Vertice puntoInicial = new Vertice(0f, 0f, 0f);
 		
+		new Vertice(30.926f, -0.055f, 0).escalar(3*scala, scala, scala);
+		
+		//Los puntos de control se obtuvieron con Inkscape, un programa de dibujo vecorial pero se necesita escalarlos
 		puntos.add(puntoInicial);
 		puntos.add(new Vertice(30.926f, -0.055f, 0));
 		puntos.add(new Vertice(91.916f, 10.143f, 0));
@@ -83,8 +87,8 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 			ICurva3D spline2 = new BSplineGenerica(puntos2);
 			ICurva3D lineaRecta = new LineaRecta(puntoInicial, new Vertice(0f, 0f, alto));
 			caraSuperior = new SuperficieDeBarrido(spline, new LineaRecta(puntoInicial, new Vertice(0f, ancho, 0f)) , 50, 50);
-			caraLaterales = new SuperficieDeBarrido(spline, lineaRecta, 50, 50);
-			borde = new SuperficieDeBarrido(spline, spline2, 100, 100);
+			caraLaterales = new SuperficieDeBarrido(spline, lineaRecta, 100, 50);
+			borde = new SuperficieDeBarrido(spline, spline2, 100, 50);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -160,10 +164,9 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		//System.out.println("Se dibujo cinta transportadora");
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		
-		//Para optimizar el dibujado puedo crear una display list y luego llamarla
+		//Para optimizar el dibujado puedo crear una display list y luego llamarla (Se puede y luego usar shader??))
 		
-		float scala = 0.001f;
-		
+
 		gl.glPushMatrix();
 		gl.glRotatef(90, -1, 0, 0);	
 		

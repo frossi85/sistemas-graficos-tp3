@@ -93,7 +93,7 @@ public class SuperficieDeBarrido implements Dibujable {
 					Vertice v4 = Vertice.restar(p3, p4);
 							
 					Vertice normalFace1 = Vertice.productoVectorial(v1, v2);
-					Vertice normalFace2 = Vertice.productoVectorial(v3, v4);
+					Vertice normalFace2 = Vertice.productoVectorial(v4, v3);
 						
 					gl.glBegin(GL2.GL_TRIANGLE_STRIP);
 						//1-Primer punto del cuadrado
@@ -114,11 +114,11 @@ public class SuperficieDeBarrido implements Dibujable {
 					gl.glBegin(GL2.GL_TRIANGLE_STRIP);
 					
 						//3-Tercer punto del cuadrado
-						Utilidades.glNormal(normalFace1);
+						Utilidades.glNormal(normalFace2);
 						Utilidades.glVertex(p3);
 						
 						//2-Segundo punto del cuadrado
-						Utilidades.glNormal(normalFace1);
+						Utilidades.glNormal(normalFace2);
 						Utilidades.glVertex(p2);
 
 						//4-Cuarto punto del cuadrado

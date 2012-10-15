@@ -63,4 +63,13 @@ public class Vertice {
 	{
 		return new Vertice(v1.getX() - v2.getX(), v1.getY() - v2.getY(), v1.getZ() - v2.getZ());
 	}
+	
+	public Vertice escalar(float x, float y, float z)
+	{
+		this.x *= x;
+		this.y *= y;
+		this.z *= z;
+		
+		return this;
+	}
 }
