@@ -10,12 +10,12 @@ public class BSplineGenerica implements ICurva3D {
 	private ArrayList<BSplineCuadratica> listaDeCurvas;	//lista de curvas de bezier
 	private int numCurvas;
 
-	public BSplineGenerica(ArrayList<PuntoDeControl> puntosDeControl) throws Exception {
+	public BSplineGenerica(ArrayList<Vertice> puntosDeControl) throws Exception {
 				
 		listaDeCurvas = new ArrayList<BSplineCuadratica>();
 		
 		for(int i = 0; i < puntosDeControl.size() - 2; i ++){
-			ArrayList<PuntoDeControl> auxL = new ArrayList<PuntoDeControl>();
+			ArrayList<Vertice> auxL = new ArrayList<Vertice>();
 			auxL.add(puntosDeControl.get(i));
 			auxL.add(puntosDeControl.get(i+1));
 			auxL.add(puntosDeControl.get(i+2));
@@ -55,6 +55,11 @@ public class BSplineGenerica implements ICurva3D {
 	
 	public float getZ(float u) {
 		return getCurvaAEvaluar(u).getZ(getPasoNormalizado(u));
+	}
+	
+	public Vertice getPoint(float u)
+	{
+		return new Vertice(getX(u), getY(u), getZ(u));
 	}
 	
 	public void test() {

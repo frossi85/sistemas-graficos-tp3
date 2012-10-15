@@ -6,7 +6,7 @@ import javax.media.opengl.glu.GLU;
 
 public class BSplineCuadratica extends Curva implements ICurva3D {	
 	
-	public BSplineCuadratica(ArrayList<PuntoDeControl> arrayList) throws Exception {
+	public BSplineCuadratica(ArrayList<Vertice> arrayList) throws Exception {
 		super(arrayList);
 		
 		if(arrayList.size() != 3)
@@ -181,5 +181,10 @@ public class BSplineCuadratica extends Curva implements ICurva3D {
 //			gl.glVertex3f( this.puntosDeControl.get(i).getX(), this.puntosDeControl.get(i).getY(), this.puntosDeControl.get(i).getZ() );
 //		}
 //		gl.glEnd();
+	}
+
+	@Override
+	public Vertice getPoint(float u) {
+		return new Vertice(getX(u), getY(u), getZ(u));
 	}
 }

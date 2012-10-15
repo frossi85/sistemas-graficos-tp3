@@ -7,13 +7,13 @@ import javax.media.opengl.glu.GLU;
 
 public class LineaRecta implements ICurva3D {
 
-	private PuntoDeControl Direccion;
-	private PuntoDeControl Pivote;
+	private Vertice Direccion;
+	private Vertice Pivote;
 	
-	public LineaRecta(final PuntoDeControl p1, final PuntoDeControl p2) {
+	public LineaRecta(final Vertice p1, final Vertice p2) {
 		
 		Pivote = p1;
-		Direccion = new PuntoDeControl(p2.getX() - p1.getX(), 
+		Direccion = new Vertice(p2.getX() - p1.getX(), 
 									p2.getY() - p1.getY(),
 									p2.getZ() -p1.getZ());
 		
@@ -91,6 +91,11 @@ public class LineaRecta implements ICurva3D {
 		}
 		
 		gl.glEnd();
+	}
+
+	@Override
+	public Vertice getPoint(float u) {
+		return new Vertice(getX(u), getY(u), getZ(u));
 	}
 	
 }

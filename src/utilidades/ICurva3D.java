@@ -11,5 +11,7 @@ public interface ICurva3D {
 	
 	float getZ(float u);
 	
+	Vertice getPoint(float u);
+	
 	void dibujar(GL2 gl, GLU glu);
 }

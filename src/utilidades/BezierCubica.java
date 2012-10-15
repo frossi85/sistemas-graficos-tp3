@@ -6,11 +6,11 @@ public class BezierCubica extends Curva {
 	
 	private final float codError = -9999f; 
 	
-	public BezierCubica(ArrayList<PuntoDeControl>list){
+	public BezierCubica(ArrayList<Vertice>list){
 		super(list);
 	}
 	
-	public ArrayList<PuntoDeControl> getPuntosControl(){
+	public ArrayList<Vertice> getPuntosControl(){
 		return this.puntosDeControl;
 	}
 	
