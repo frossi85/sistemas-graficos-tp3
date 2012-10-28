@@ -31,6 +31,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private float ancho = 400f;
 	private SuperficieDeBarrido caraSuperior;
 	private SuperficieDeBarrido caraLaterales;
+	private ICurva3D pathDeBotellas;
 	
 	private SuperficieDeBarrido borde;
 	private float scala = 0.001f;
@@ -83,10 +84,12 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 			
 		
 		try {
-			ICurva3D spline = new BSplineGenerica(puntos);
-			ICurva3D spline2 = new BSplineGenerica(puntos2);
-			ICurva3D lineaRecta = new LineaRecta(puntoInicial, new Vertice(0f, 0f, alto));
-			caraSuperior = new SuperficieDeBarrido(spline, new LineaRecta(puntoInicial, new Vertice(0f, ancho, 0f)) , 50, 50);
+			ICurva3D spline = new BSplineGenerica(puntos).escalar(3*scala, scala, scala);
+			pathDeBotellas = spline;
+			ICurva3D spline2 = new BSplineGenerica(puntos2).escalar(3*scala, scala, scala);
+			ICurva3D lineaRecta = new LineaRecta(puntoInicial, new Vertice(0f, 0f, alto)).escalar(3*scala, scala, scala);
+			ICurva3D lineaRecta2 = new LineaRecta(puntoInicial, new Vertice(0f, ancho, 0f)).escalar(3*scala, scala, scala);
+			caraSuperior = new SuperficieDeBarrido(spline, lineaRecta2, 50, 50);
 			caraLaterales = new SuperficieDeBarrido(spline, lineaRecta, 100, 50);
 			borde = new SuperficieDeBarrido(spline, spline2, 100, 50);
 		} catch (Exception e) {
@@ -159,6 +162,10 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		return this.botellas.size();
 	}
 	
+	public ICurva3D getReccorido() {
+		return pathDeBotellas;
+	}
+	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//System.out.println("Se dibujo cinta transportadora");
@@ -172,38 +179,38 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		
 		
 		gl.glPushMatrix();
-			gl.glScalef(3*scala, scala, scala);
+			//gl.glScalef(3*scala, scala, scala);
 			
-			//CARAS INFERIOR y SUPERIOR
+			//CARAS SUPERIOR
 			gl.glPushMatrix();
-				caraSuperior.dibujar(gLDrawable);
+				caraSuperior.dibujar(false);
 			gl.glPopMatrix();
 			
 			
 			//CARAS LATERALES
 			gl.glPushMatrix();
-				caraLaterales.dibujar(gLDrawable);
+				caraLaterales.dibujar(true);
 			gl.glPopMatrix();
 			
 			gl.glPushMatrix();
-				gl.glTranslatef(0, -ancho, 0);
-				caraLaterales.dibujar(gLDrawable);
+				//gl.glTranslatef(0, -ancho, 0);
+				caraLaterales.dibujar(false);
 			gl.glPopMatrix();
 			
 			gl.glPopMatrix();
 			
 			///BORDES
 			gl.glPushMatrix();
-				gl.glScalef(3*scala, scala, scala);
+				//gl.glScalef(3*scala, scala, scala);
 				
 				gl.glPushMatrix();
-					gl.glTranslatef(0, -ancho, 60);
-					borde.dibujar(gLDrawable);
+					//gl.glTranslatef(0, -ancho, 60);
+					borde.dibujar(true);
 				gl.glPopMatrix();
 				
 				gl.glPushMatrix();
-					gl.glTranslatef(0, 0, 60f);
-					borde.dibujar(gLDrawable);
+					//gl.glTranslatef(0, 0, 60f);
+					borde.dibujar(true);
 				gl.glPopMatrix();
 			gl.glPopMatrix();
 		gl.glPopMatrix();

@@ -116,6 +116,10 @@ public class LineaProduccion implements Observer{
 		//System.out.println("num de bot en cinta: " + this.cinta.getNumeroDeBotellas());
 	}
 	
+	public CintaTransportadora getCinta() {
+		return cinta;
+	}
+	
 	public void dibujar(GLAutoDrawable gLDrawable){
 //		this.expededoraBotellas.dibujar(gLDrawable);
 //		this.etiquetador.dibujar(gLDrawable);

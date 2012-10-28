@@ -53,7 +53,7 @@ public class SuperficieDeBarrido implements Dibujable {
 			for(int j = 0; j < divisionesRecorrido; j++, u += pasoRecorrido)
 			{	
 				Vertice v1= recorrido.getPoint(u);
-				Vertice desfasaje = getDistanciaNormalizada(v1, barrido.getPoint(u2));
+				Vertice desfasaje = Utilidades.getDistancia(v1, barrido.getPoint(u2));
 				curvas.get(i).add(Vertice.restar(v1, desfasaje));
 			}
 		}
@@ -61,12 +61,15 @@ public class SuperficieDeBarrido implements Dibujable {
 	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		final GL2 gl = gLDrawable.getGL().getGL2();
+		dibujar(false);
+	}
+	
+	public void dibujar(boolean invetirNormales) {
+		final GL2 gl = GLProvider.getGL2();
 		
 		int cantidadPuntoCurvaRecorrido = curvas.get(0).size();
 		
-		//FALTAAAAAAAAAAAAAAAAAAAAAAAAAAAA NORMALESSSSSSSSSSSS
-		//Falta el calculo de NORMALES
+		//El calculo de las normales se puede hacer antes y tener una grilla de normales, consume mas meoria pero ahorro calculo
 
 		for(int i = 0; i < curvas.size() - 1; i++)
 		{
@@ -74,72 +77,63 @@ public class SuperficieDeBarrido implements Dibujable {
 			ArrayList<Vertice> curva2 = curvas.get(i+1);
 			
 			for(int j = 0; j < cantidadPuntoCurvaRecorrido - 1; j++)
-			{					
+			{		
 				
-					
-					//Cambiar de normales por face a nomales por vetex
+				ArrayList<Vertice> adyacentes;
 				
-					Vertice p1 = curva1.get(j);
+				//Cambiar de normales por face a nomales por vetex
+				
+				Vertice v1 = curva1.get(j);
+				Vertice v2 = curva1.get(j+1);
+				Vertice v3 = curva2.get(j);
+				Vertice v4 = curva2.get(j+1);
+			
+				
+				Vertice normal1 = Utilidades.getNormalVerticeIJ(curvas, i, j);
+				Vertice normal2 = Utilidades.getNormalVerticeIJ(curvas, i, j+1);
+				Vertice normal3 = Utilidades.getNormalVerticeIJ(curvas, i+1, j);
+				Vertice normal4 = Utilidades.getNormalVerticeIJ(curvas, i+1, j+1);
+				
+				if(invetirNormales) {
+					normal1 = normal1.productoEscalar(-1);
+					normal2 = normal2.productoEscalar(-1);
+					normal3 = normal3.productoEscalar(-1);
+					normal4 = normal4.productoEscalar(-1);
+				}
 					
-					Vertice p2 = curva1.get(j+1);
-					
-					Vertice p3 = curva2.get(j);
-					
-					Vertice p4 = curva2.get(j+1);
-					
-					Vertice v1 = Vertice.restar(p2, p1);
-					Vertice v2 = Vertice.restar(p3, p1);
-					Vertice v3 = Vertice.restar(p2, p4);
-					Vertice v4 = Vertice.restar(p3, p4);
-							
-					Vertice normalFace1 = Vertice.productoVectorial(v1, v2);
-					Vertice normalFace2 = Vertice.productoVectorial(v4, v3);
-						
-					gl.glBegin(GL2.GL_TRIANGLE_STRIP);
-						//1-Primer punto del cuadrado
-						Utilidades.glNormal(normalFace1);
-						Utilidades.glVertex(p1);
-						
-						//2-Segundo punto del cuadrado
-						Utilidades.glNormal(normalFace1);
-						Utilidades.glVertex(p2);
-								
-						
-						//3-Tercer punto del cuadrado
-						Utilidades.glNormal(normalFace1);
-						Utilidades.glVertex(p3);
-						
-					gl.glEnd();
-					
-					gl.glBegin(GL2.GL_TRIANGLE_STRIP);
-					
-						//3-Tercer punto del cuadrado
-						Utilidades.glNormal(normalFace2);
-						Utilidades.glVertex(p3);
-						
-						//2-Segundo punto del cuadrado
-						Utilidades.glNormal(normalFace2);
-						Utilidades.glVertex(p2);
 
-						//4-Cuarto punto del cuadrado
-						Utilidades.glNormal(normalFace2);
-						Utilidades.glVertex(p4);
-					gl.glEnd();
+			
+				gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+					//1-Primer punto del cuadrado
+					Utilidades.glNormal(normal1);
+					Utilidades.glVertex(v1);
+					
+					//2-Segundo punto del cuadrado
+					Utilidades.glNormal(normal2);
+					Utilidades.glVertex(v2);
+							
+					//3-Tercer punto del cuadrado
+					Utilidades.glNormal(normal3);
+					Utilidades.glVertex(v3);
+					
+				gl.glEnd();
+				
+				gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+				
+					//3-Tercer punto del cuadrado
+					Utilidades.glNormal(normal3);
+					Utilidades.glVertex(v3);
+					
+					//2-Segundo punto del cuadrado
+					Utilidades.glNormal(normal2);
+					Utilidades.glVertex(v2);
+
+					//4-Cuarto punto del cuadrado
+					Utilidades.glNormal(normal4);
+					Utilidades.glVertex(v4);
+				gl.glEnd();
 					
 			}
 		}
-	}
-	
-	private Vertice getDistanciaNormalizada(Vertice v1, Vertice v2) {
-		float x = getDistanciaNormalizada(v1.getX(), v2.getX());
-		float y = getDistanciaNormalizada(v1.getY(), v2.getY());
-		float z = getDistanciaNormalizada(v1.getZ(), v2.getZ());
-		
-		return new Vertice(x, y, z);
-	}
-	
-	private float getDistanciaNormalizada(float x1, float x2)
-	{
-		return (x2 - x1);
 	}
 }

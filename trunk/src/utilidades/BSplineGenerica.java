@@ -7,8 +7,11 @@ import javax.media.opengl.glu.GLU;
 
 public class BSplineGenerica implements ICurva3D {
 	
-	private ArrayList<BSplineCuadratica> listaDeCurvas;	//lista de curvas de bezier
+	private ArrayList<BSplineCuadratica> listaDeCurvas;	
 	private int numCurvas;
+	private float escalaX;
+	private float escalaY;
+	private float escalaZ;
 
 	public BSplineGenerica(ArrayList<Vertice> puntosDeControl) throws Exception {
 				
@@ -22,15 +25,25 @@ public class BSplineGenerica implements ICurva3D {
 			BSplineCuadratica auxB = new BSplineCuadratica(auxL);
 			listaDeCurvas.add(auxB);
 		}	
+		escalaX = 1.0f;
+		escalaY = 1.0f;
+		escalaZ = 1.0f;
 		
 		numCurvas = listaDeCurvas.size();
 		System.err.print(numCurvas);
 	}
 	
+	public BSplineGenerica escalar(float x, float y, float z) {
+		escalaX = x;
+		escalaY = y;
+		escalaZ = z;
+		
+		return this;
+	}
+	
 	private int getIndiceCurvaSeleccionada(float u)
 	{
-		return (int) (u * (float) numCurvas); //Ver si el casteo esta bien o hay que hacer algun metodo
-		//de redondeo
+		return (int) (u * (float) numCurvas); 
 	}
 	
 	private BSplineCuadratica getCurvaAEvaluar(float u) {
@@ -46,15 +59,15 @@ public class BSplineGenerica implements ICurva3D {
 	}
 	
 	public float getX(float u) {
-		return getCurvaAEvaluar(u).getX(getPasoNormalizado(u));
+		return getCurvaAEvaluar(u).getX(getPasoNormalizado(u)) * escalaX;
 	}
 	
 	public float getY(float u) {
-		return getCurvaAEvaluar(u).getY(getPasoNormalizado(u));
+		return getCurvaAEvaluar(u).getY(getPasoNormalizado(u)) * escalaY;
 	}
 	
 	public float getZ(float u) {
-		return getCurvaAEvaluar(u).getZ(getPasoNormalizado(u));
+		return getCurvaAEvaluar(u).getZ(getPasoNormalizado(u)) * escalaZ;
 	}
 	
 	public Vertice getPoint(float u)
@@ -79,40 +92,38 @@ public class BSplineGenerica implements ICurva3D {
 	
 	public void dibujar(GL2 gl, GLU glu) {
 		/// the level of detail of the curve
-				int LOD=300;
-				
-				
-				gl.glBegin(GL2.GL_LINE_STRIP);
+		int LOD=300;
+		
+		
+		gl.glBegin(GL2.GL_LINE_STRIP);
 
 
-				// use the parametric time value 0 to 1			
-				float paso = 1.0f / LOD;
-				float t = 0f;
-				
-				for(int i=0;i<=LOD;i++) {
+		// use the parametric time value 0 to 1			
+		float paso = 1.0f / LOD;
+		float t = 0f;
+		
+		for(int i=0;i<=LOD;i++) {
 
-					// sum the control points mulitplied by their respective blending functions
-					float x = getX(t);
+			// sum the control points mulitplied by their respective blending functions
+			float x = getX(t);
 
-					float y = getY(t);
+			float y = getY(t);
 
-					float z = getZ(t);
+			float z = getZ(t);
 
-					// specify the point
-					gl.glVertex3f( x,y,z );
-					
-					t += paso;
-				}
-				
-				gl.glEnd();
-				
-				
+			// specify the point
+			gl.glVertex3f( x,y,z );
+			
+			t += paso;
+		}
+		
+		gl.glEnd();	
 	}
 	
 	public void dibujarTodoDeAUnaCurva(GL2 gl, GLU glu)
 	{
 		for(int i = 0; i < listaDeCurvas.size(); i ++){
-			((BSplineCuadratica) listaDeCurvas.get(i)).dibujar2(gl, glu);			
+			((BSplineCuadratica) listaDeCurvas.get(i)).dibujar(gl, glu);			
 		}
 	}
 }

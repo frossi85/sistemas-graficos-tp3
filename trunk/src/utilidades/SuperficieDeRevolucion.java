@@ -22,25 +22,9 @@ public class SuperficieDeRevolucion implements Dibujable {
 	private float intervaloCurva = 1f/PASOS_DISCRETIZACION_CURVA;	//cada cuanto dibujo un vertice de la curva de bezier
 	private int numCurvas;
 	private float factorEscalado;
+	private ArrayList<ArrayList<Vertice>> grilla;
 	
 	public SuperficieDeRevolucion(ArrayList<Vertice>list){	
-		/*this.curva1 = new BezierCubica(list);
-		this.curva2 = new BezierCubica(list);
-		curva2.setPuntoDeControl(0, list.get(1));
-		curva2.setPuntoDeControl(1, list.get(2));
-		curva2.setPuntoDeControl(2, list.get(3));
-		curva2.setPuntoDeControl(3, list.get(0));
-		this.curva3 = new BezierCubica(list);
-		curva3.setPuntoDeControl(0, list.get(2));
-		curva3.setPuntoDeControl(1, list.get(3));
-		curva3.setPuntoDeControl(2, list.get(0));
-		curva3.setPuntoDeControl(3, list.get(1));
-		this.curva4 = new BezierCubica(list);
-		curva4.setPuntoDeControl(0, list.get(3));
-		curva4.setPuntoDeControl(1, list.get(0));
-		curva4.setPuntoDeControl(2, list.get(1));
-		curva4.setPuntoDeControl(3, list.get(2));
-		*/
 		factorEscalado = 0.1f;
 		listaDeCurvas = new ArrayList<BezierCubica>();
 		
@@ -55,13 +39,9 @@ public class SuperficieDeRevolucion implements Dibujable {
 		}
 		
 		numCurvas = listaDeCurvas.size();
+		
+		generarGrillaPuntos();
 	}
-
-//	@Override
-//	public void dibujar() {
-//		// TODO Auto-generated method stub
-//		
-//	}
 	
 	public float getX(float u){
 		float valor = u;
@@ -116,6 +96,29 @@ public class SuperficieDeRevolucion implements Dibujable {
 	public Vertice getPerpendicular(Vertice vert1, Vertice vert2){
 		Vertice vert3 = new Vertice(vert1.getY()*vert2.getZ() - vert2.getY()*vert1.getZ(),-vert1.getX()*vert2.getZ()+ vert1.getZ()*vert2.getX() ,vert1.getX()*vert2.getY() - vert2.getX()*vert1.getY() );
 		return(vert3);
+	}
+	
+	private Vertice rotarEnXY(Vertice v, float angulo) {
+		return null;
+	}
+	
+	private void generarGrillaPuntos() {
+		grilla = new ArrayList<ArrayList<Vertice>>();
+
+		for(int h = 0, nivel = 0; h < numCurvas; h ++){
+			
+  			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva, nivel++){
+  				grilla.add(new ArrayList<Vertice>());	
+  				
+  				for(float i = anguloRevolucion; i <= 360 ;  i+= anguloRevolucion){	
+  					Vertice aux1 = new Vertice(listaDeCurvas.get(h).getX(j),listaDeCurvas.get(h).getY(j) ,0);
+  					Vertice v = new Vertice((float)rotacionX(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180), aux1.getY(), (float) (rotacionZ(aux1.getX(),aux1.getZ(), (float)Math.PI*(0+anguloRevolucion)/180)));
+  					
+  					grilla.get(nivel).add(v);
+  				}
+  					
+  			}
+  		}
 	}
 	
 	@Override
@@ -222,4 +225,78 @@ public class SuperficieDeRevolucion implements Dibujable {
 		
 		gl.glPopMatrix();
 	}*/
+	
+	
+	public void dibujar(boolean invetirNormales) {
+		final GL2 gl = GLProvider.getGL2();
+		
+		int cantidadPuntoCurvaRecorrido = grilla.get(0).size();
+		
+		//El calculo de las normales se puede hacer antes y tener una grilla de normales, consume mas meoria pero ahorro calculo
+
+		for(int i = 0; i < grilla.size() - 1; i++)
+		{
+			ArrayList<Vertice> curva1 = grilla.get(i);
+			ArrayList<Vertice> curva2 = grilla.get(i+1);
+			
+			for(int j = 0; j < cantidadPuntoCurvaRecorrido - 1; j++)
+			{		
+				
+				ArrayList<Vertice> adyacentes;
+				
+				//Cambiar de normales por face a nomales por vetex
+				
+				Vertice v1 = curva1.get(j);
+				Vertice v2 = curva1.get(j+1);
+				Vertice v3 = curva2.get(j);
+				Vertice v4 = curva2.get(j+1);
+			
+				
+				Vertice normal1 = Utilidades.getNormalVerticeIJ(grilla, i, j);
+				Vertice normal2 = Utilidades.getNormalVerticeIJ(grilla, i, j+1);
+				Vertice normal3 = Utilidades.getNormalVerticeIJ(grilla, i+1, j);
+				Vertice normal4 = Utilidades.getNormalVerticeIJ(grilla, i+1, j+1);
+				
+				if(invetirNormales) {
+					normal1 = normal1.productoEscalar(-1);
+					normal2 = normal2.productoEscalar(-1);
+					normal3 = normal3.productoEscalar(-1);
+					normal4 = normal4.productoEscalar(-1);
+				}
+					
+
+			
+				gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+					//1-Primer punto del cuadrado
+					Utilidades.glNormal(normal1);
+					Utilidades.glVertex(v1);
+					
+					//2-Segundo punto del cuadrado
+					Utilidades.glNormal(normal2);
+					Utilidades.glVertex(v2);
+							
+					//3-Tercer punto del cuadrado
+					Utilidades.glNormal(normal3);
+					Utilidades.glVertex(v3);
+					
+				gl.glEnd();
+				
+				gl.glBegin(GL2.GL_TRIANGLE_STRIP);
+				
+					//3-Tercer punto del cuadrado
+					Utilidades.glNormal(normal3);
+					Utilidades.glVertex(v3);
+					
+					//2-Segundo punto del cuadrado
+					Utilidades.glNormal(normal2);
+					Utilidades.glVertex(v2);
+
+					//4-Cuarto punto del cuadrado
+					Utilidades.glNormal(normal4);
+					Utilidades.glVertex(v4);
+				gl.glEnd();
+					
+			}
+		}
+	}
 }
