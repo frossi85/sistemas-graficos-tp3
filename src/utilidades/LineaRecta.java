@@ -9,6 +9,9 @@ public class LineaRecta implements ICurva3D {
 
 	private Vertice Direccion;
 	private Vertice Pivote;
+	private float escalaX;
+	private float escalaY;
+	private float escalaZ;
 	
 	public LineaRecta(final Vertice p1, final Vertice p2) {
 		
@@ -17,21 +20,31 @@ public class LineaRecta implements ICurva3D {
 									p2.getY() - p1.getY(),
 									p2.getZ() -p1.getZ());
 		
+		escalaX = 1.0f;
+		escalaY = 1.0f;
+		escalaZ = 1.0f;
+	}
+	
+	public LineaRecta escalar(float x, float y, float z) {
+		escalaX = x;
+		escalaY = y;
+		escalaZ = z;
 		
+		return this;
 	}
 	
 	//en los geters u no debe superar 1
 	
 	public float getX(float u) {
-		return (Direccion.getX() * u) + Pivote.getX();
+		return ((Direccion.getX() * u) + Pivote.getX()) * escalaX;
 	}
 	
 	public float getY(float u) {
-		return (Direccion.getY() * u) + Pivote.getY();
+		return ((Direccion.getY() * u) + Pivote.getY()) * escalaY;
 	}
 	
 	public float getZ(float u) {
-		return (Direccion.getZ() * u) + Pivote.getZ();
+		return ((Direccion.getZ() * u) + Pivote.getZ()) * escalaZ;
 	}
 	
 	public void test()

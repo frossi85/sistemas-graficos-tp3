@@ -15,6 +15,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import utilidades.Animable;
 import utilidades.AreaDeIncidencia;
 import utilidades.Dibujable;
+import utilidades.GLProvider;
 import utilidades.LineaProduccion;
 import utilidades.Vertice;
 import utilidades.SuperficieDeRevolucion;
@@ -99,15 +100,25 @@ public class Botella  implements Dibujable,Animable {
 		Vertice punto7 = new Vertice(3.1f,1.46f);
 		Vertice punto8 = new Vertice(1.89f,0f);	
 				
-		list.add(punto1);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde (?)
-		list.add(punto2);
-		list.add(punto3);
-		list.add(punto4);
+//		list.add(punto1);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde (?)
+//		list.add(punto2);
+//		list.add(punto3);
+//		list.add(punto4);
+//		
+//		list.add(punto5);
+//		list.add(punto6);
+//		list.add(punto7);
+//		list.add(punto8);
 		
-		list.add(punto5);
-		list.add(punto6);
+		list.add(punto8);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde (?)
 		list.add(punto7);
-		list.add(punto8);
+		list.add(punto6);
+		list.add(punto5);
+		
+		list.add(punto4);
+		list.add(punto3);
+		list.add(punto2);
+		list.add(punto1);
 		
 		
 		// armo el area de incidencia de la botella tomando 1)el punto de la base, 2) el punto de la base con -x, 3)  intercambio y por x, 4) -x de el punto anterior
@@ -208,7 +219,27 @@ public class Botella  implements Dibujable,Animable {
 		
 		gl.glPopMatrix();	
 	}
-
+	
+	public void dibujar() {
+		GL2 gl = GLProvider.getGL2();
+		
+		//texturaCubica.habilitar();
+				int uniloc = -1;
+				 //SETEO LA TEXTURA DEL UNIFORM cubeMap A LA UNIDAD DE TEXTURA 0 
+		        //uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "cubeMap"); 
+		        //if( uniloc >= 0 ) 
+		          //  gl.glUniform1i(uniloc, texturaCubica.cubemap);   
+				gl.glPushMatrix();
+				gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());
+		        gl.glPushMatrix();
+				gl.glRotatef(90, 1, 0, 0f);
+		        
+				this.sup.dibujar(true);
+				gl.glPopMatrix();
+				
+				gl.glPopMatrix();	
+		
+	}
 	@Override
 	public void animar() {
 		// TODO Auto-generated method stub

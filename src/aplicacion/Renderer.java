@@ -91,6 +91,8 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     ICurva3D spline2;
     ICurva3D lineaRecta;
     SuperficieDeBarrido SuperficieBarrido;
+    
+    float u = 0.0f;
 
     public Renderer(GLCanvas glCanvas)
     {
@@ -105,7 +107,11 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
     private void update(GL2 gl)
     {
+    	u += 0.01;
     	
+    	if(u >= 1.0f)
+    		u = 0.0f;
+    		
     }
 //
 //    public static void dibujarQuads(GLAutoDrawable gLDrawable, Vertice vert1, Vertice vert2, Vertice vert3, Vertice vert4){
@@ -155,6 +161,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		currentFrag = efectoFragment.BRILLANTE;
 		
 		linea = new LineaProduccion(mS, glut, glu, gLDrawable);
+		botella = new Botella(mS,glut, glu, gLDrawable );
 		
 		ArrayList<Vertice> puntos = new ArrayList<Vertice>();
 		
@@ -245,13 +252,13 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = false;
+  		boolean esCodigoGustavo = true;
 
   		if(esCodigoGustavo)
   		{
 	  		gl.glPushMatrix();
 	  		/////   TODO: DIBUJAR ACA   ////
-	  		fragment.changeFileName("fragmentGenerico2.frag");
+	  		//fragment.changeFileName("fragmentGenerico2.frag");
 	  		camara.render();
 	  		
 	  		gl.glPushMatrix();
@@ -267,18 +274,19 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 	  				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
 	  				//this.linea.dibujar(gLDrawable);
   				//this.piso.dibujar(gLDrawable);
-	  				this.linea = new LineaProduccion(mS, glut, glu, gLDrawable);
+	  				//this.linea = new LineaProduccion(mS, glut, glu, gLDrawable);
 	  				//this.linea.dibujar(gLDrawable);
 	  				//this.dispenser = new Dispenser(linea, mS, glut, glu, gLDrawable);
 	  				//this.dispenser = new Dispenser(linea, mS);
-	  				botella = new Botella(mS,glut, glu, gLDrawable );
-	  				botella.dibujar(gLDrawable);
+	  				//botella = new Botella(mS,glut, glu, gLDrawable );
+	  				//botella.dibujar(gLDrawable);
+	  				botella.dibujar();
 	  				//this.dispenser.dibujar(gLDrawable);
-	  				mS.usarPrograma(currentVert, GENERIC_FRAG);
-	  				if(this.timer == 0.0f){
-	  					
-	  					this.linea.actualizar();
-	  				}
+//	  				mS.usarPrograma(currentVert, GENERIC_FRAG);
+//	  				if(this.timer == 0.0f){
+//	  					
+//	  					this.linea.actualizar();
+//	  				}
 	  			gl.glPopMatrix();
 	  			
 	  		
@@ -296,30 +304,23 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
   				gl.glScalef(0.5f, 0.5f, 0.5f);
   				
   				//SuperficieBarrido.dibujar(gLDrawable);
-  				
-//  				gl.glPushMatrix();
-//  					gl.glRotatef(45.0f, 0f, 1f, 0f);
-//	  				gl.glBegin(GL2.GL_TRIANGLE_STRIP);
-//	  					gl.glVertex3f(0f, 0f, 0f);
-//	  					gl.glVertex3f(1f, 0f, 0f);
-//	  					gl.glVertex3f(0.5f, 1f, 0f);
-//	  				gl.glEnd();
-//  				gl.glPopMatrix();
-//  				
-//  				gl.glPushMatrix();
-//  					gl.glRotatef(45.0f, 0f, -1f, 0f);
-//	  				gl.glBegin(GL2.GL_TRIANGLE_STRIP);
-//						gl.glVertex3f(0f, 0f, 0f);
-//						gl.glVertex3f(1f, 0f, 0f);
-//						gl.glVertex3f(0.5f, 1f, 0f);
-//					gl.glEnd();
-//				gl.glPopMatrix();
+  			
   				
   				linea.dibujar(gLDrawable);
   				
   				//lineaRecta.dibujar(gl, glu);
+  				
+  				CintaTransportadora cinta = linea.getCinta();
   			
-  				//unCubo.dibujar(gl);
+  				gl.glPushMatrix();
+  					gl.glRotatef(90, -1, 0, 0);	
+  					gl.glTranslatef(cinta.getReccorido().getX(u), cinta.getReccorido().getY(u), cinta.getReccorido().getZ(u));
+  					gl.glPushMatrix();
+  					gl.glScalef(0.5f, 0.5f, 0.5f);
+  					glut.glutSolidCube(1.0f);
+  				
+  					gl.glPopMatrix();
+  				gl.glPopMatrix();
   				
   				
   				//dibujarEjes(gl);

@@ -1,5 +1,7 @@
 package utilidades;
 
+import java.util.ArrayList;
+
 public class Vertice {
 
 	private float x;
@@ -72,4 +74,36 @@ public class Vertice {
 		
 		return this;
 	}
+	
+	public Vertice productoEscalar(float k)
+	{
+		return new Vertice(x*k, y*k, z*k);
+	}
+	
+	public Vertice normalizar()
+	{
+		float length = (float) Math.sqrt((double) (x*x + y*y + z*z));
+		
+		x = x/length;
+		y = y/length;
+		z = z/length;
+		
+		return this;
+	}
+	
+	public static Vertice sumar(ArrayList<Vertice> vertices)
+	{
+		float x = 0;
+		float y = 0;
+		float z = 0;
+		
+		for(int i = 0; i < vertices.size(); i++) {
+			x += vertices.get(i).getX();
+			y += vertices.get(i).getY();
+			z += vertices.get(i).getZ();
+		}
+	
+		return new Vertice(x, y, z);
+	}
+	
 }
