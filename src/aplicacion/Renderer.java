@@ -252,7 +252,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = true;
+  		boolean esCodigoGustavo = false;
 
   		if(esCodigoGustavo)
   		{
