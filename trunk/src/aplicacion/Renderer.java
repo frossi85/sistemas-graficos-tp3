@@ -91,6 +91,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     ICurva3D spline2;
     ICurva3D lineaRecta;
     SuperficieDeBarrido SuperficieBarrido;
+    CintaTransportadora cinta;
     
     float u = 0.0f;
 
@@ -158,10 +159,14 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
 		currentVert = SIN_DEFORMACION_VERT;
 		//currentVert = REFRACCION_VERT;
-		currentFrag = efectoFragment.BRILLANTE;
+		currentFrag = efectoFragment.REFLEJAR_ENTORNO;
 		
 		linea = new LineaProduccion(mS, glut, glu, gLDrawable);
 		botella = new Botella(mS,glut, glu, gLDrawable );
+		cinta = linea.getCinta();
+		
+		
+		
 		
 		ArrayList<Vertice> puntos = new ArrayList<Vertice>();
 		
@@ -206,6 +211,8 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		//TODO: Settear las luces de la escena?? o mejor hacerlo en una clase que seahabitacion o algo asi y poner el setter aca
 		DemoLight(gl);
+		
+		
 		
 		//this.linea.dibujar(gLDrawable);
 		
@@ -252,7 +259,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = false;
+  		boolean esCodigoGustavo = true;
 
   		if(esCodigoGustavo)
   		{
@@ -274,13 +281,14 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 	  				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
 	  				//this.linea.dibujar(gLDrawable);
   				//this.piso.dibujar(gLDrawable);
-	  				//this.linea = new LineaProduccion(mS, glut, glu, gLDrawable);
-	  				//this.linea.dibujar(gLDrawable);
+	  				this.linea.dibujar(gLDrawable);
+	  				linea.avanzarTiempo();
+	  				linea.producir();
 	  				//this.dispenser = new Dispenser(linea, mS, glut, glu, gLDrawable);
 	  				//this.dispenser = new Dispenser(linea, mS);
 	  				//botella = new Botella(mS,glut, glu, gLDrawable );
 	  				//botella.dibujar(gLDrawable);
-	  				botella.dibujar();
+	  					  				
 	  				//this.dispenser.dibujar(gLDrawable);
 //	  				mS.usarPrograma(currentVert, GENERIC_FRAG);
 //	  				if(this.timer == 0.0f){
@@ -348,7 +356,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
   		
 	  	//En ves de glutSwapBuffers();.. va gl.glFlush();
 	    gl.glFlush();
-	    this.timer += 0.1f;
+	    this.timer += 0.01f;
 	    
     }
 
