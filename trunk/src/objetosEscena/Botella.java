@@ -50,65 +50,32 @@ public class Botella  implements Dibujable,Animable {
 		this.gl = gLDrawable.getGL().getGL2();
 		this.glu = glu;
 		this.glut = glut;
-		//texturaCubica = new TexturaCubeMap(gl, glu, 512);
+		texturaCubica = new TexturaCubeMap(gl, glu, 512);
 
-		//texturaCubica.cargarXPositivo("lib/textura_pared.jpg");
-		//texturaCubica.cargarYPositivo("lib/textura_pared.jpg");
-	  	//texturaCubica.cargarZPositivo("lib/textura_pared.jpg");
-	  	//texturaCubica.cargarXNegativo("lib/textura_pared.jpg");
-	  	//texturaCubica.cargarYNegativo("lib/textura_pared.jpg");
-	  	//texturaCubica.cargarZNegativo("lib/textura_piso.jpg");
+//		texturaCubica.cargarXPositivo("lib/textura_pared.jpg");
+//		texturaCubica.cargarYPositivo("lib/textura_pared.jpg");
+//	  	texturaCubica.cargarZPositivo("lib/textura_pared.jpg");
+//	  	texturaCubica.cargarXNegativo("lib/textura_pared.jpg");
+//	  	texturaCubica.cargarYNegativo("lib/textura_pared.jpg");
+//	  	texturaCubica.cargarZNegativo("lib/textura_pared.jpg");
 		
 		this.shader = shader;
 	  	this.lleno = false;
 		this.etiquetado = false;
 		this.posicion = new Vertice(0f,0f,0f);
 		ArrayList<Vertice>list = new ArrayList<Vertice>();
-		//opcion1	los primeros puntos de la lista tienen las coord Y mas altas (esto lo usa el calculo de altura)
 		
-		/*	ORIGINALES
-		 * Vertice punto1 = new Vertice(1.21f-1f,0.64f);
-		Vertice punto2 = new Vertice(1.14f-1f ,-0.82f);
-		Vertice punto3 = new Vertice(3.71f-1f,-4.28f);
-		Vertice punto4 = new Vertice(2.81f-1f,-7.32f);
-		
-		Vertice punto5 = new Vertice(2.81f-1f,-7.32f);
-		Vertice punto6 = new Vertice(2.54f-1f,-8.22f);
-		Vertice punto7 = new Vertice(4.97f-1f,-12.45f);
-		Vertice punto8 = new Vertice(3.39f-1.5f,-13.15f);
-		*/
-		
-		/*BOTELLA AL REVES
-		Vertice punto1 = new Vertice(0.3f,0f);
-		Vertice punto2 = new Vertice(0.15f ,1.46f);
-		Vertice punto3 = new Vertice(2.71f,4.92f);
-		Vertice punto4 = new Vertice(1.81f,7.96f);
-		
-		Vertice punto5 = new Vertice(1.81f,7.96f);
-		Vertice punto6 = new Vertice(1.54f,8.86f);
-		Vertice punto7 = new Vertice(3.4f,13.09f);
-		Vertice punto8 = new Vertice(1.89f,13.79f);	
-		*/
 		
 		Vertice punto1 = new Vertice(0.3f,13.79f);
-		Vertice punto2 = new Vertice(0.15f ,13.09f);
+		Vertice punto2 = new Vertice(0.15f ,11.5f);
 		Vertice punto3 = new Vertice(2.51f,10.86f);
 		Vertice punto4 = new Vertice(1.81f,7.96f);
 		
 		Vertice punto5 = new Vertice(1.81f,7.96f);
 		Vertice punto6 = new Vertice(1.54f,4.92f);
 		Vertice punto7 = new Vertice(3.1f,1.46f);
-		Vertice punto8 = new Vertice(1.89f,0f);	
-				
-//		list.add(punto1);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde (?)
-//		list.add(punto2);
-//		list.add(punto3);
-//		list.add(punto4);
-//		
-//		list.add(punto5);
-//		list.add(punto6);
-//		list.add(punto7);
-//		list.add(punto8);
+		Vertice punto8 = new Vertice(1.89f,0f);					
+
 		
 		list.add(punto8);	// agregadas al reves para q se vea bien la normal en efecto de iluminacion verde (?)
 		list.add(punto7);
@@ -132,8 +99,7 @@ public class Botella  implements Dibujable,Animable {
 		altura = 0;
 		//float alt = 0;
 		for (int h = 0; h < sup.getNumCurvas(); h++){
-			altura += sup.getListaCurvas().get(h).getY(0);
-			//alt += sup.getListaCurvas().get(h).getY(0);
+			altura += sup.getListaCurvas().get(h).getY(0);			
 		}
 		
 	}
@@ -180,7 +146,7 @@ public class Botella  implements Dibujable,Animable {
 		return altura;
 	}
 
-		
+	//No se usa	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
 		//texturaCubica.habilitar();
@@ -215,31 +181,30 @@ public class Botella  implements Dibujable,Animable {
 //		gl.glVertex3f(0f,0f,0f);
 //		gl.glVertex3f(0f,0f,2f);
 //		gl.glVertex3f(0f,0f,0f);
-//		gl.glEnd();
-		
+//		gl.glEnd();		
 		gl.glPopMatrix();	
 	}
 	
 	public void dibujar() {
-		GL2 gl = GLProvider.getGL2();
-		
+		GL2 gl = GLProvider.getGL2();		
 		//texturaCubica.habilitar();
 				int uniloc = -1;
 				 //SETEO LA TEXTURA DEL UNIFORM cubeMap A LA UNIDAD DE TEXTURA 0 
-		        //uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "cubeMap"); 
-		        //if( uniloc >= 0 ) 
-		          //  gl.glUniform1i(uniloc, texturaCubica.cubemap);   
-				gl.glPushMatrix();
-				gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());
-		        gl.glPushMatrix();
-				gl.glRotatef(90, 1, 0, 0f);
-		        
-				this.sup.dibujar(true);
-				gl.glPopMatrix();
-				
-				gl.glPopMatrix();	
-		
+		        uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "cubeMap"); 
+		        if( uniloc >= 0 ) 
+		          // gl.glUniform1i(uniloc, texturaCubica.cubemap);   
+				gl.glPushMatrix();					
+					gl.glPushMatrix();
+						gl.glRotatef(180, 1, 0, 0f);
+						gl.glPushMatrix();
+							gl.glTranslatef(posicion.getX(), posicion.getY(), posicion.getZ());
+							gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());
+							this.sup.dibujar(true);
+						gl.glPopMatrix();	
+					gl.glPopMatrix();				
+				gl.glPopMatrix();			
 	}
+	
 	@Override
 	public void animar() {
 		// TODO Auto-generated method stub
