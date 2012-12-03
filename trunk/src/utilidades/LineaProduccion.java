@@ -28,9 +28,9 @@ public class LineaProduccion implements Observer{
 	private Rellenador rellenador;
 	private Empaquetador empaquetador;
 	private Rampa rampa;
-	private float timer = 0.0f;
+	private float timer = 0.0f;	// timer total desde que se inicia la produccion.
 	private float timerBotellas = 0.0f;	// hace cuanto salio la ultima botella del dispenser 
-	private static float AVANCE_TIEMPO = 0.1f;
+	private static float AVANCE_TIEMPO = 0.05f;
 	private static float 	TIEMPO_ENTRE_BOTELLAS = 1f;	// tiempo de demora entre que sale una botella del dispenser a otra
 	private static float VELOCIDAD_CINTA = 1f;
 	private static int CAPACIDAD_CINTA = 10;
@@ -62,7 +62,7 @@ public class LineaProduccion implements Observer{
 		
 	}
 	
-	public void ejecutarAnimacion(){
+	public void ejecutarAnimacion(){	// falta comparar con area de incidencia
 		if(cinta.buscarPosicion(this.etiquetador.getPosicion().getX())){
 			this.cinta.detenerCinta();
 			this.etiquetador.animar();
@@ -95,21 +95,12 @@ public class LineaProduccion implements Observer{
 					if(cinta.buscarPosicion(this.empaquetador.getPosicion().getX())){
 						this.cinta.detenerCinta();
 						this.empaquetador.recibirBotella(this.cinta.entregarBotella());
-						//System.out.println("cinta entrego botella a empaquetador");
+						
 						this.cinta.activarCinta();
-						this.cinta.avanzarCinta();
-						//this.cinta.recibirBotella(this.expededoraBotellas.entregarBotella());
-						//System.out.println("dispenser entrego botella a cinta");
+						this.cinta.avanzarCinta();						
 					}
 					else 
-						cinta.avanzarCinta();
-					/*
-					this.empaquetador.recibirBotella(this.cinta.entregarBotella());
-					System.out.println("cinta entrego botella a empaquetador");
-					this.cinta.avanzarCinta();
-					this.cinta.recibirBotella(this.expededoraBotellas.entregarBotella());
-					System.out.println("dispenser entrego botella a cinta");
-				*/
+						cinta.avanzarCinta();					
 				}	
 			}		
 		ejecutarAnimacion();
