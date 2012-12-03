@@ -25,7 +25,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 	private ArrayList<ArrayList<Vertice>> grilla;
 	
 	public SuperficieDeRevolucion(ArrayList<Vertice>list){	
-		factorEscalado = 0.1f;
+		factorEscalado = 0.05f;
 		listaDeCurvas = new ArrayList<BezierCubica>();
 		
 		for(int i = 0; i < list.size(); i += 4){
@@ -107,18 +107,18 @@ public class SuperficieDeRevolucion implements Dibujable {
 
 		for(int h = 0, nivel = 0; h < numCurvas; h ++){
 			
-  			for(float j = 0; j <= 1 - intervaloCurva; j += intervaloCurva, nivel++){
+  			for(float j = 0; j <= 1 ; j += intervaloCurva, nivel++){
   				grilla.add(new ArrayList<Vertice>());	
   				
-  				for(float i = anguloRevolucion; i <= 360 ;  i+= anguloRevolucion){	
+  				for(float i = 0; i <= 360 ;  i+= anguloRevolucion){	
   					Vertice aux1 = new Vertice(listaDeCurvas.get(h).getX(j),listaDeCurvas.get(h).getY(j) ,0);
-  					Vertice v = new Vertice((float)rotacionX(aux1.getX(),aux1.getZ(),(float)Math.PI*(0+anguloRevolucion)/180), aux1.getY(), (float) (rotacionZ(aux1.getX(),aux1.getZ(), (float)Math.PI*(0+anguloRevolucion)/180)));
+  					Vertice v = new Vertice((float)rotacionX(aux1.getX(),aux1.getZ(),(float)Math.PI*(i)/180), aux1.getY(), (float) (rotacionZ(aux1.getX(),aux1.getZ(), (float)Math.PI*(i)/180)));
   					
   					grilla.get(nivel).add(v);
   				}
   					
-  			}
-  		}
+  			}  		
+		}
 	}
 	
 	@Override
@@ -294,7 +294,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 					//4-Cuarto punto del cuadrado
 					Utilidades.glNormal(normal4);
 					Utilidades.glVertex(v4);
-				gl.glEnd();
+				gl.glEnd();			
 					
 			}
 		}
