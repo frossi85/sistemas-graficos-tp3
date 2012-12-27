@@ -1,4 +1,4 @@
-package utilidades;
+package superficie;
 
 import java.util.ArrayList;
 import java.lang.Math;
@@ -8,8 +8,14 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 
 import objetosEscena.Botella;
+import utilidades.Dibujable;
+import utilidades.GLProvider;
+import utilidades.Utilidades;
+import utilidades.Vertice;
 
 import com.jogamp.opengl.util.gl2.GLUT;
+
+import curva.BezierCubica;
 
 public class SuperficieDeRevolucion implements Dibujable {
 	

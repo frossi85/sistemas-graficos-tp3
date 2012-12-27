@@ -13,18 +13,14 @@ import shader.ManejoShaders2;
 import shader.ManejoShadersMejorado;
 import shader.Refraccion;
 import shader.SinDeformacionVert;
+import superficie.SuperficieDeBarrido;
 import objetosEscena.Botella;
 import objetosEscena.CintaTransportadora;
 import objetosEscena.Dispenser;
 import objetosEscena.Piso;
-import utilidades.BSplineCuadratica;
-import utilidades.BSplineGenerica;
 import utilidades.GLProvider;
-import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
-import utilidades.LineaRecta;
 import utilidades.Vertice;
-import utilidades.SuperficieDeBarrido;
 import utilidades.Utilidades;
 import utilidades.Vertice;
 
@@ -46,6 +42,11 @@ import Primitivas.cubo;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.gl2.GLUT;
+
+import curva.BSplineCuadratica;
+import curva.BSplineGenerica;
+import curva.ICurva3D;
+import curva.LineaRecta;
 
 //Implementar el Renderer como Singleton
 public class Renderer implements GLEventListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
@@ -80,7 +81,6 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 	public GLCanvas canvas;
 	
 	private LineaProduccion linea;
-	private Piso piso;
 
     //ATRIBUTOS DE LA ANIMACION
     private boolean pause = false;
@@ -103,7 +103,6 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     	animator.add(canvas);
     	animator.start();
     	this.timer = 0.0f;
-    	this.piso = new Piso();
     }
 
     private void update(GL2 gl)
@@ -114,22 +113,6 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     		u = 0.0f;
     		
     }
-//
-//    public static void dibujarQuads(GLAutoDrawable gLDrawable, Vertice vert1, Vertice vert2, Vertice vert3, Vertice vert4){
-//    	final GL2 gl = gLDrawable.getGL().getGL2();
-//    	
-//    	gl.glBegin(GL.GL_TRIANGLES);
-//    	gl.glVertex3f(vert1.getX(), vert1.getY(), vert1.getZ());
-//    	gl.glVertex3f(vert2.getX(), vert2.getY(), vert2.getZ());
-//    	gl.glVertex3f(vert3.getX(), vert3.getY(), vert3.getZ());
-//    	gl.glEnd();
-//    	
-//    	gl.glBegin(GL.GL_TRIANGLES);
-//    	gl.glVertex3f(vert3.getX(), vert3.getY(), vert3.getZ());
-//    	gl.glVertex3f(vert4.getX(), vert4.getY(), vert4.getZ());
-//    	gl.glVertex3f(vert1.getX(), vert1.getY(), vert1.getZ());
-//    	gl.glEnd();
-//    }
     
 	//////////////////////////////     INICIO EVENTOS OPEN GL ////////////////////////////
     
@@ -162,48 +145,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		currentFrag = efectoFragment.REFLEJAR_ENTORNO;
 		
 		linea = new LineaProduccion(mS, glut, glu, gLDrawable);
-		botella = new Botella(mS,glut, glu, gLDrawable );
-		cinta = linea.getCinta();
 		
-		
-		
-		
-		ArrayList<Vertice> puntos = new ArrayList<Vertice>();
-		
-		puntos.add(new Vertice(0f, 0f, 0f));
-		puntos.add(new Vertice(0.5f, 0.5f, 0f));
-		puntos.add(new Vertice(1.0f, 0.0f, 0f));
-		puntos.add(new Vertice(1.5f, 0.5f, 0f));
-		puntos.add(new Vertice(2.0f, 0.0f, 0f));
-		puntos.add(new Vertice(2.5f, 0.5f, 0f));
-		
-		ArrayList<Vertice> puntos2 = new ArrayList<Vertice>();
-		
-		puntos2.add(new Vertice(0f, 0f, 0f));
-		puntos2.add(new Vertice(0f, 0.5f, 0.5f));
-		puntos2.add(new Vertice(0f, 1.0f, 0.0f));
-		puntos2.add(new Vertice(0f, 1.5f, 0.5f));
-		puntos2.add(new Vertice(0f, 2.0f, 0.0f));
-		puntos2.add(new Vertice(0f, 2.5f, 0.5f));
-		
-		try {
-			spline = new BSplineGenerica(puntos);
-			spline2 = new BSplineGenerica(puntos2);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			lineaRecta = new LineaRecta(new Vertice(0f, 0f, 0f), new Vertice(0.5f, 0.5f, 0.0f));
-			//SuperficieBarrido = new SuperficieDeBarridoMejorada(spline, lineaRecta, 50, 50);
-			SuperficieBarrido = new SuperficieDeBarrido(spline, spline2, 50, 50);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//((BSplineGenerica)spline).test();
-		//((LineaRecta)lineaRecta).test();
 			
 		//TODO:  CREACION DE LA LINEA DE PRODUCCION Y SETTEOS INICIALES /////
 		//TODO: los shader se crean y actualizan solo dentro de la linea de produccion o de una clase utilidad q reciba una linea de produccion y maneje el shader
@@ -211,10 +153,6 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		//TODO: Settear las luces de la escena?? o mejor hacerlo en una clase que seahabitacion o algo asi y poner el setter aca
 		DemoLight(gl);
-		
-		
-		
-		//this.linea.dibujar(gLDrawable);
 		
 			//glu.gluLookAt(0.0f, 0.0f, -1f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 		//glu.gluLookAt(0,0,2, 0,0,0, 0,1,0);
@@ -259,99 +197,30 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 
   		update(gl);
   		
-  		boolean esCodigoGustavo = true;
-
-  		if(esCodigoGustavo)
-  		{
-	  		gl.glPushMatrix();
-	  		/////   TODO: DIBUJAR ACA   ////
-	  		//fragment.changeFileName("fragmentGenerico2.frag");
-	  		camara.render();
-	  		
-	  		gl.glPushMatrix();
-	  		
-  			gl.glColor3d(1.0f, 1.0f, 0.0f);
-	  			//glut.glutSolidCube(10.0f);
-	  			//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
-	  			
-	  			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
-	  			gl.glPushMatrix();
-	  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-	  				//glut.glutSolidCube(0.5f);
-	  				//glut.glutSolidCylinder(1.0f, 2.0f, 20, 20);
-	  				//this.linea.dibujar(gLDrawable);
-  				//this.piso.dibujar(gLDrawable);
-	  				this.linea.dibujar(gLDrawable);
-	  				linea.avanzarTiempo();
-	  				linea.producir();
-	  				//this.dispenser = new Dispenser(linea, mS, glut, glu, gLDrawable);
-	  				//this.dispenser = new Dispenser(linea, mS);
-	  				//botella = new Botella(mS,glut, glu, gLDrawable );
-	  				//botella.dibujar(gLDrawable);
-	  					  				
-	  				//this.dispenser.dibujar(gLDrawable);
-//	  				mS.usarPrograma(currentVert, GENERIC_FRAG);
-//	  				if(this.timer == 0.0f){
-//	  					
-//	  					this.linea.actualizar();
-//	  				}
-	  			gl.glPopMatrix();
-	  			
-	  		
-	  		gl.glPopMatrix();	
-	  		
-	  		gl.glPopMatrix();
-  		}
-  		else
-  		{
-			//camara.beginRender();
+  		gl.glPushMatrix();
+  		/////   TODO: DIBUJAR ACA   ////
+  		//fragment.changeFileName("fragmentGenerico2.frag");
+  		camara.render();
+  		
+  		gl.glPushMatrix();
+  		
+		gl.glColor3d(1.0f, 1.0f, 0.0f);
+  			
+  			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
   			gl.glPushMatrix();
-  				camara.render();
-  				//spline.dibujar(gl, glu);
-  			
-  				gl.glScalef(0.5f, 0.5f, 0.5f);
-  				
-  				//SuperficieBarrido.dibujar(gLDrawable);
-  			
-  				
-  				linea.dibujar(gLDrawable);
-  				
-  				//lineaRecta.dibujar(gl, glu);
-  				
-  				CintaTransportadora cinta = linea.getCinta();
-  			
-  				gl.glPushMatrix();
-  					gl.glRotatef(90, -1, 0, 0);	
-  					gl.glTranslatef(cinta.getReccorido().getX(u), cinta.getReccorido().getY(u), cinta.getReccorido().getZ(u));
-  					gl.glPushMatrix();
-  					gl.glScalef(0.5f, 0.5f, 0.5f);
-  					glut.glutSolidCube(1.0f);
-  				
-  					gl.glPopMatrix();
-  				gl.glPopMatrix();
-  				
-  				
-  				//dibujarEjes(gl);
-  				//mS.usarPrograma(currentVert, GENERIC_FRAG);
+  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
+  				this.linea.dibujar(gLDrawable);
+  				//linea.avanzarTiempo();
+  				//linea.producir();
 
-//  		    	mS.reiniciarAnimacion();
-// 		
-//  		    	fragment.setEfectoSemiMate();
-//  		
-//  		    	mS.displayUniform();
-//  		    	mS.displayVertexAttrib();
   			gl.glPopMatrix();
-//  	  		
-//	  	  	mS.usarPrograma(currentVert, GENERIC_FRAG);
-//	    	mS.reiniciarAnimacion();
-//	
-//	    	fragment.setEfectoSemiMate();
-//	
-//	    	mS.displayUniform();
-//	    	mS.displayVertexAttrib();
   			
-  			//camara.endRender();
-  		}
+  		
+  		gl.glPopMatrix();	
+  		
+  		gl.glPopMatrix();
+
+
   		////////////////////////////////
   		
 	  	//En ves de glutSwapBuffers();.. va gl.glFlush();

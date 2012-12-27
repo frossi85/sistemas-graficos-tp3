@@ -18,17 +18,18 @@ import utilidades.Dibujable;
 import utilidades.GLProvider;
 import utilidades.LineaProduccion;
 import utilidades.Vertice;
-import utilidades.SuperficieDeRevolucion;
 import utilidades.Vertice;
 import shader.ManejoShaders2;
 import shader.ManejoShadersMejorado;
 import shader.TexturaCubeMap;
+import superficie.SuperficieDeRevolucion;
+
 import javax.media.opengl.GLAutoDrawable;
 
 
 
 
-public class Botella  implements Dibujable,Animable {
+public class Botella  implements Dibujable, Animable {
 	private boolean lleno;
 	private boolean etiquetado;
 	private float porcentajeLlenado;
@@ -195,7 +196,6 @@ public class Botella  implements Dibujable,Animable {
 		          // gl.glUniform1i(uniloc, texturaCubica.cubemap);   
 				gl.glPushMatrix();					
 					gl.glPushMatrix();
-						gl.glRotatef(180, 1, 0, 0f);
 						gl.glPushMatrix();
 							gl.glTranslatef(posicion.getX(), posicion.getY(), posicion.getZ());
 							gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());

@@ -1,6 +1,8 @@
-package utilidades;
+package curva;
 import java.util.ArrayList;
 import java.lang.Math;
+
+import utilidades.Vertice;
 
 public class BezierCubica extends Curva {
 	

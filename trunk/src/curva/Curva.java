@@ -1,5 +1,7 @@
-package utilidades;
+package curva;
 import java.util.ArrayList;
+
+import utilidades.Vertice;
 
 public abstract class Curva {
 
