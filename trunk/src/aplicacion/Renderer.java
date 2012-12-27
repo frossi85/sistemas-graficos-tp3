@@ -145,6 +145,8 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		currentFrag = efectoFragment.REFLEJAR_ENTORNO;
 		
 		linea = new LineaProduccion(mS, glut, glu, gLDrawable);
+		botella = new Botella(mS,glut, glu, gLDrawable );
+		cinta = linea.getCinta();
 		
 			
 		//TODO:  CREACION DE LA LINEA DE PRODUCCION Y SETTEOS INICIALES /////
@@ -209,10 +211,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
   			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
   			gl.glPushMatrix();
   				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-  				this.linea.dibujar(gLDrawable);
-  				//linea.avanzarTiempo();
-  				//linea.producir();
-
+  				this.linea.dibujar(gLDrawable).actualizar();
   			gl.glPopMatrix();
   			
   		
