@@ -21,7 +21,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import shader.ManejoShaders2;
 import shader.ManejoShadersMejorado;
 
-public class LineaProduccion implements Observer{
+public class LineaProduccion implements Observer {
 	
 	private Dispenser expededoraBotellas;
 	private CintaTransportadora cinta;
@@ -31,7 +31,7 @@ public class LineaProduccion implements Observer{
 	private Rampa rampa;
 	private float timer = 0.0f;	// timer total desde que se inicia la produccion.
 	private float timerBotellas = 0.0f;	// hace cuanto salio la ultima botella del dispenser 
-	private static float AVANCE_TIEMPO = 0.005f;//0.05f;
+	private static float AVANCE_TIEMPO = 0.05f;
 	private static float 	TIEMPO_ENTRE_BOTELLAS = 1f;	// tiempo de demora entre que sale una botella del dispenser a otra
 	private static float VELOCIDAD_CINTA = 1f;
 	private static int CAPACIDAD_CINTA = 10;
@@ -112,7 +112,7 @@ public class LineaProduccion implements Observer{
 		return cinta;
 	}
 	
-	public void dibujar(GLAutoDrawable gLDrawable){
+	public LineaProduccion dibujar(GLAutoDrawable gLDrawable){
 		
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		
@@ -125,27 +125,30 @@ public class LineaProduccion implements Observer{
 			gl.glPopMatrix();
 			
 			//El Y del Vertice da la altura o sea la distancia al piso, NO CAMBIAR SI SE VEN EN EL PISO
-			this.expededoraBotellas.setPosicion(new Vertice(3f, -0.78f, 0.6f)).rotar(180f).dibujar(gLDrawable);
-			this.empaquetador.setPosicion(new Vertice(-4f, -0.78f, 0.35f)).dibujar(gLDrawable);
-			this.rellenador.setPosicion(new Vertice(0.3f, -0.78f, -0.7f)).rotar(-90f).dibujar(gLDrawable);
-			this.etiquetador.setPosicion(new Vertice(-1.9f, -0.78f, 0.5f)).rotar(90f).dibujar(gLDrawable);
+//			this.expededoraBotellas.setPosicion(new Vertice(3f, -0.78f, 0.6f)).rotar(180f).dibujar(gLDrawable);
+//			this.empaquetador.setPosicion(new Vertice(-4f, -0.78f, 0.35f)).dibujar(gLDrawable);
+//			this.rellenador.setPosicion(new Vertice(0.3f, -0.78f, -0.7f)).rotar(-90f).dibujar(gLDrawable);
+//			this.etiquetador.setPosicion(new Vertice(-1.9f, -0.78f, 0.5f)).rotar(90f).dibujar(gLDrawable);
 			
 	//		this.rampa.dibujar(gLDrawable);
 			
 			
 			this.cinta.setPosicion(new Vertice(-4f, -0.78f, 0)).dibujar(gLDrawable);
 		gl.glPopMatrix();
+		
+		return this;
 	}
 	
-	public void actualizar(){
+	public LineaProduccion actualizar(){
 		this.avanzarTiempo();
 		this.producir();
 		
+		return this;
 	}
 	@Override
 	public void update(Observable o, Object arg) {
 		
-		}
+	}
 		
 }
 	

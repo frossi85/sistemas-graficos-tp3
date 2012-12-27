@@ -29,7 +29,7 @@ import javax.media.opengl.GLAutoDrawable;
 
 
 
-public class Botella  implements Dibujable, Animable {
+public class Botella  implements Animable {
 	private boolean lleno;
 	private boolean etiquetado;
 	private float porcentajeLlenado;
@@ -109,10 +109,9 @@ public class Botella  implements Dibujable, Animable {
 		this.porcentajeLlenado = porcentaje;
 	}
 	
-	public void setPosicion(Vertice vert){
-		this.posicion.setX(vert.getX());
-		this.posicion.setY(vert.getY());
-		this.posicion.setZ(vert.getZ());
+	public Botella setPosicion(Vertice vert){
+		this.posicion = vert;
+		return this;
 	}
 	
 	public Vertice getPosicion(){
@@ -146,63 +145,23 @@ public class Botella  implements Dibujable, Animable {
 	public float getAltura() {
 		return altura;
 	}
-
-	//No se usa	
-	@Override
-	public void dibujar(GLAutoDrawable gLDrawable) {
-		//texturaCubica.habilitar();
-		int uniloc = -1;
-		 //SETEO LA TEXTURA DEL UNIFORM cubeMap A LA UNIDAD DE TEXTURA 0 
-        //uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "cubeMap"); 
-        //if( uniloc >= 0 ) 
-          //  gl.glUniform1i(uniloc, texturaCubica.cubemap);   
-        final GL2 gl = gLDrawable.getGL().getGL2();
-		gl.glPushMatrix();
-		gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());
-		//gl.glTranslatef(this.posicion.getX(),0, 0.0f);
-        gl.glPushMatrix();
-		gl.glRotatef(90, 1, 0, 0f);
-        
-		this.sup.dibujar(gLDrawable);
-//		gl.glBegin(gl.GL_TRIANGLES);
-//		// dibujo el area de incidencia
-//		gl.glVertex3f(this.area.getArea()[0].getX(),this.area.getArea()[0].getY() ,this.area.getArea()[0].getZ());
-//		gl.glVertex3f(this.area.getArea()[1].getX(),this.area.getArea()[1].getY() ,this.area.getArea()[1].getZ());
-//		gl.glVertex3f(this.area.getArea()[2].getX(),this.area.getArea()[2].getY() ,this.area.getArea()[2].getZ());
-//		gl.glVertex3f(this.area.getArea()[3].getX(),this.area.getArea()[3].getY() ,this.area.getArea()[3].getZ());
-//		gl.glVertex3f(this.area.getArea()[1].getX(),this.area.getArea()[1].getY() ,this.area.getArea()[1].getZ());
-//		gl.glVertex3f(this.area.getArea()[2].getX(),this.area.getArea()[2].getY() ,this.area.getArea()[2].getZ());
-//		gl.glEnd();
-		gl.glPopMatrix();
-//		ejes de coord		
-//		gl.glBegin(gl.GL_LINES);
-//		gl.glVertex3f(5f,0f,0f);
-//		gl.glVertex3f(0f,0f,0f);
-//		gl.glVertex3f(0f,3f,0f);
-//		gl.glVertex3f(0f,0f,0f);
-//		gl.glVertex3f(0f,0f,2f);
-//		gl.glVertex3f(0f,0f,0f);
-//		gl.glEnd();		
-		gl.glPopMatrix();	
-	}
 	
 	public void dibujar() {
 		GL2 gl = GLProvider.getGL2();		
 		//texturaCubica.habilitar();
-				int uniloc = -1;
-				 //SETEO LA TEXTURA DEL UNIFORM cubeMap A LA UNIDAD DE TEXTURA 0 
-		        uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "cubeMap"); 
-		        if( uniloc >= 0 ) 
-		          // gl.glUniform1i(uniloc, texturaCubica.cubemap);   
-				gl.glPushMatrix();					
-					gl.glPushMatrix();
-						gl.glPushMatrix();
-							gl.glTranslatef(posicion.getX(), posicion.getY(), posicion.getZ());
-							gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());
-							this.sup.dibujar(true);
-						gl.glPopMatrix();	
-					gl.glPopMatrix();				
-				gl.glPopMatrix();			
+		int uniloc = -1;
+		//SETEO LA TEXTURA DEL UNIFORM cubeMap A LA UNIDAD DE TEXTURA 0 
+        uniloc = gl.glGetUniformLocation(shader.getProgramHandler(), "cubeMap"); 
+        if( uniloc >= 0 ) 
+          // gl.glUniform1i(uniloc, texturaCubica.cubemap);   
+        	
+		gl.glPushMatrix();
+			gl.glTranslatef(posicion.getX(), posicion.getY(), posicion.getZ());
+			gl.glPushMatrix();
+				gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());
+				this.sup.dibujar(true);
+			gl.glPopMatrix();	
+		gl.glPopMatrix();						
 	}
 	
 	@Override

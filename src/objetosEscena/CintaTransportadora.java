@@ -232,8 +232,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	  		
 			java.util.Iterator<Botella> it =  this.botellas.iterator();
 			gl.glPushMatrix();
-				//gl.glRotatef(90f, 1f, 0f, 0f);		
-				//gl.glScalef(factorEscaladoBotella,factorEscaladoBotella,factorEscaladoBotella);		
+				//gl.glRotatef(90f, -1f, 0f, 0f);			
 				while(it.hasNext()){						
 					it.next().dibujar();
 				}	
