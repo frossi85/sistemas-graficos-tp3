@@ -1,7 +1,9 @@
-package utilidades;
+package curva;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
+
+import utilidades.Vertice;
 
 public interface ICurva3D {
 

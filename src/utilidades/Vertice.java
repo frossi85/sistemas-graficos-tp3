@@ -50,7 +50,7 @@ public class Vertice {
 		this.z = z;
 	}
 	
-	void print() {
+	public void print() {
 		System.out.println("(x, y, z) = (" + x + ", " + y + ", " + z + ")");
 	}
 	

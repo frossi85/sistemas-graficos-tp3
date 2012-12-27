@@ -1,9 +1,12 @@
-package utilidades;
+package curva;
 
 import java.util.ArrayList;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
+
+import utilidades.Vertice;
+
 
 public class LineaRecta implements ICurva3D {
 

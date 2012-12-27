@@ -373,14 +373,15 @@ public class DisplayListRenderer implements iModel3DRenderer {
 
             if (tempObj.hasTexture) {
                 Texture t = texture.get(tempObj.materialID);
-                if (t != null)
+                if (t != null) {
                     t.disable(gl);
             
-                gl.glMatrixMode(GL2.GL_TEXTURE);
-                gl.glPopMatrix();
-
-                gl.glMatrixMode(GL2.GL_MODELVIEW);
-                gl.glPopMatrix();
+	                gl.glMatrixMode(GL2.GL_TEXTURE);
+	                gl.glPopMatrix();
+	
+	                gl.glMatrixMode(GL2.GL_MODELVIEW);
+	                gl.glPopMatrix();
+                }
             }
         }
         

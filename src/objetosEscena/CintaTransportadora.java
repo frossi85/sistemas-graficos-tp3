@@ -13,15 +13,16 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
+import curva.BSplineGenerica;
+import curva.ICurva3D;
+import curva.LineaRecta;
+
+import superficie.SuperficieDeBarrido;
 import utilidades.Animable;
-import utilidades.BSplineGenerica;
 import utilidades.Dibujable;
 import utilidades.GLProvider;
-import utilidades.ICurva3D;
 import utilidades.LineaProduccion;
-import utilidades.LineaRecta;
 import utilidades.Vertice;
-import utilidades.SuperficieDeBarrido;
 import utilidades.Vertice;
 
 public class CintaTransportadora extends Observable implements Dibujable,Animable {
@@ -32,12 +33,13 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private float avanceBotellas; // representa el delta u de la curva cuando avance la botella
 	private boolean avanzando = true;
 	private float alto = 750f;
-	private float ancho = 400f;
+	private float ancho = 800f;
 	private SuperficieDeBarrido caraSuperior;
 	private SuperficieDeBarrido caraLaterales;
 	private ICurva3D pathDeBotellas;
 	private float u = 0;	
 	private HashMap<Botella, Float> hash;	// Relaciona cada botella en la cinta con su propio u del path.
+	private Vertice posicion;
 	
 	
 	private SuperficieDeBarrido borde;
@@ -49,14 +51,13 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		this.velocidadCinta = velCinta;
 		this.avanceBotellas = avanceBotellas;
 		this.botellas = new LinkedList<Botella>();
+		posicion = new Vertice(0, 0, 0);
 		hash = new HashMap<Botella, Float>();		
 		addObserver(linea);
 			
 		//Lo necesario para dibujarla
 		ArrayList<Vertice> puntos = new ArrayList<Vertice>();
 		Vertice puntoInicial = new Vertice(0f, 0f, 0f);
-		
-		new Vertice(30.926f, -0.055f, 0).escalar(3*scala, scala, scala);
 		
 		//Los puntos de control se obtuvieron con Inkscape, un programa de dibujo vecorial pero se necesita escalarlos
 		puntos.add(puntoInicial);
@@ -92,11 +93,11 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 			
 		
 		try {
-			ICurva3D spline = new BSplineGenerica(puntos).escalar(3*scala, scala, scala);
+			ICurva3D spline = new BSplineGenerica(puntos).escalar(5*scala, scala, scala);
 			pathDeBotellas = spline;
-			ICurva3D spline2 = new BSplineGenerica(puntos2).escalar(3*scala, scala, scala);
-			ICurva3D lineaRecta = new LineaRecta(puntoInicial, new Vertice(0f, 0f, alto)).escalar(3*scala, scala, scala);
-			ICurva3D lineaRecta2 = new LineaRecta(puntoInicial, new Vertice(0f, ancho, 0f)).escalar(3*scala, scala, scala);
+			ICurva3D spline2 = new BSplineGenerica(puntos2).escalar(5*scala, scala, scala);
+			ICurva3D lineaRecta = new LineaRecta(puntoInicial, new Vertice(0f, 0f, alto)).escalar(5*scala, scala, scala);
+			ICurva3D lineaRecta2 = new LineaRecta(puntoInicial, new Vertice(0f, ancho, 0f)).escalar(5*scala, scala, scala);
 			caraSuperior = new SuperficieDeBarrido(spline, lineaRecta2, 50, 50);
 			caraLaterales = new SuperficieDeBarrido(spline, lineaRecta, 100, 50);
 			borde = new SuperficieDeBarrido(spline, spline2, 100, 50);
@@ -141,7 +142,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		}
 	
 	private void avanzarBotella(Botella botella){	
-		Vertice vert = new Vertice(getReccorido().getX(hash.get(botella)), getReccorido().getY(hash.get(botella)), getReccorido().getZ(hash.get(botella)));    	
+		Vertice vert = new Vertice(getReccorido().getX(hash.get(botella)), getReccorido().getY(hash.get(botella)), getReccorido().getZ(hash.get(botella)));     	
 		botella.setPosicion(vert);		
 	}
 	
@@ -180,64 +181,64 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		return pathDeBotellas;
 	}
 	
+	public CintaTransportadora setPosicion(Vertice p) {
+		posicion = p;	
+		return this;
+	}
+	
 	@Override
 	public void dibujar(GLAutoDrawable gLDrawable) {
-		//System.out.println("Se dibujo cinta transportadora");
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		
 		//Para optimizar el dibujado puedo crear una display list y luego llamarla (Se puede y luego usar shader??))
 		
-
 		gl.glPushMatrix();
-			gl.glRotatef(90, -1, 0, 0);	
-		
-		
+			gl.glTranslatef(this.posicion.getX(), this.posicion.getY(), this.posicion.getZ());
 			gl.glPushMatrix();
-				//gl.glScalef(3*scala, scala, scala);
-			
-				//CARAS SUPERIOR
-				gl.glPushMatrix();
-					caraSuperior.dibujar(false);
-				gl.glPopMatrix();
-			
-			
-				//CARAS LATERALES
-				gl.glPushMatrix();
-					caraLaterales.dibujar(true);
-				gl.glPopMatrix();
+				gl.glRotatef(90, -1, 0, 0);	
 			
 				gl.glPushMatrix();
-					//gl.glTranslatef(0, -ancho, 0);
-					caraLaterales.dibujar(false);
-				gl.glPopMatrix();
-			
-			gl.glPopMatrix();
-			
-			///BORDES
-			gl.glPushMatrix();
-				//gl.glScalef(3*scala, scala, scala);
+					//CARAS SUPERIOR
+					gl.glPushMatrix();
+						caraSuperior.dibujar(false);
+					gl.glPopMatrix();
 				
-				gl.glPushMatrix();
-					//gl.glTranslatef(0, -ancho, 60);
-					borde.dibujar(true);
+				
+					//CARAS LATERALES
+					gl.glPushMatrix();
+						caraLaterales.dibujar(true);
+					gl.glPopMatrix();
+				
+					gl.glPushMatrix();			
+						gl.glTranslatef(0, -0.78f, 0); //ancho 400 -> translado 0.39 mas o menos 0.4
+						caraLaterales.dibujar(false);
+					gl.glPopMatrix();
+				
 				gl.glPopMatrix();
 				
-				gl.glPushMatrix();
-					//gl.glTranslatef(0, 0, 60f);
-					borde.dibujar(true);
+				///BORDES
+				gl.glPushMatrix();			
+					gl.glPushMatrix();
+						gl.glTranslatef(0, -0.78f, 0.06f); //ancho 400 -> translado 0.39 mas o menos 0.4
+						borde.dibujar(true);
+					gl.glPopMatrix();
+					
+					gl.glPushMatrix();
+						gl.glTranslatef(0, 0, 0.06f); // Pase 60 a 0.06 hice la misma promorcion con el ancho, ver de donde salio y hacer q sea calculada
+						borde.dibujar(true);
+					gl.glPopMatrix();
 				gl.glPopMatrix();
 			gl.glPopMatrix();
-		gl.glPopMatrix();
-	//gl.glPopMatrix();
-  		
-		java.util.Iterator<Botella> it =  this.botellas.iterator();
-		gl.glPushMatrix();
-			gl.glRotatef(90f, 1f, 0f, 0f);		
-			//gl.glScalef(factorEscaladoBotella,factorEscaladoBotella,factorEscaladoBotella);		
-			while(it.hasNext()){						
-				it.next().dibujar();
-			}	
-		gl.glPopMatrix();
+	  		
+			java.util.Iterator<Botella> it =  this.botellas.iterator();
+			gl.glPushMatrix();
+				//gl.glRotatef(90f, 1f, 0f, 0f);		
+				//gl.glScalef(factorEscaladoBotella,factorEscaladoBotella,factorEscaladoBotella);		
+				while(it.hasNext()){						
+					it.next().dibujar();
+				}	
+			gl.glPopMatrix();
+		gl.glPopMatrix();	
   		gl.glFlush();
 	}
 
