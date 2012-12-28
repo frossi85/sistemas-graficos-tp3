@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Queue;
+import java.util.Scanner;
 import java.util.Set;
 
 import javax.media.opengl.GL;
@@ -29,7 +30,6 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 
 	private int capacidadBotellas;	
 	Queue<Botella> botellas;
-	private float velocidadCinta;
 	private float avanceBotellas; // representa el delta u de la curva cuando avance la botella
 	private boolean avanzando = true;
 	private float alto = 750f;
@@ -45,10 +45,8 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private SuperficieDeBarrido borde;
 	private float scala = 0.001f;
 	
-	
-	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea,float velCinta, float avanceBotellas){
-		this.capacidadBotellas = capacidadBotellas;  //cant max de botellas que puede tener la cinta transportadora
-		this.velocidadCinta = velCinta;
+	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea, float avanceBotellas){
+		this.capacidadBotellas = capacidadBotellas;  //cant max de botellas que puede tener la cinta transportadora		
 		this.avanceBotellas = avanceBotellas;
 		this.botellas = new LinkedList<Botella>();
 		posicion = new Vertice(0, 0, 0);
@@ -89,9 +87,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		puntos2.add(new Vertice(0, -57.251f, 42.679f));
 		puntos2.add(new Vertice(0, -60.374f, 63.497f));
 		puntos2.add(new Vertice(0, -59.333f, 67.661f));
-
-			
-		
+	
 		try {
 			ICurva3D spline = new BSplineGenerica(puntos).escalar(5*scala, scala, scala);
 			pathDeBotellas = new BSplineGenerica(puntos).escalar(10*scala, scala, scala);
@@ -133,6 +129,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 				it = botellas.iterator();
 				continue;
 			}
+			
 			hash.put(bot, this.avanceBotellas + hash.get(bot));			 
 			avanzarBotella(bot);			
 		}		
@@ -234,7 +231,12 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 					gl.glTranslatef(0, -0.35f, 0);
 					while(it.hasNext()){		
 						
-						it.next().dibujar();
+						Botella b = it.next();
+						b.setPosicion(new Vertice(2.2032585f, 0.14055142f, 0.0f));
+						b.dibujar();
+						b.getPosicion().print();
+						
+						//posicionEtiquetado = new Vertice(2.2032585f, 0.14055142f, 0.0f)
 					}	
 				gl.glPopMatrix();
 			gl.glPopMatrix();

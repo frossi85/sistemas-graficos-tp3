@@ -31,7 +31,7 @@ public class LineaProduccion implements Observer {
 	private Rampa rampa;
 	private float timer = 0.0f;	// timer total desde que se inicia la produccion.
 	private float timerBotellas = 0.0f;	// hace cuanto salio la ultima botella del dispenser 
-	private static float AVANCE_TIEMPO = 0.05f;
+	private static float AVANCE_TIEMPO = 0.02f;
 	private static float 	TIEMPO_ENTRE_BOTELLAS = 1f;	// tiempo de demora entre que sale una botella del dispenser a otra
 	private static float VELOCIDAD_CINTA = 1f;
 	private static int CAPACIDAD_CINTA = 10;
@@ -48,7 +48,7 @@ public class LineaProduccion implements Observer {
         // Turn on debugging
         modelRenderer.debug(true);
 		
-		this.cinta = new CintaTransportadora(CAPACIDAD_CINTA, this, VELOCIDAD_CINTA, AVANCE_BOTELLAS);
+		this.cinta = new CintaTransportadora(CAPACIDAD_CINTA, this, AVANCE_BOTELLAS);
 		this.rampa = new Rampa(this);
 		this.empaquetador = new Empaquetador(this,rampa, modelRenderer);
 		this.etiquetador = new Etiquetador(this, TIEMPO_ETIQUETADO);
@@ -116,19 +116,20 @@ public class LineaProduccion implements Observer {
 		
 		final GL2 gl = gLDrawable.getGL().getGL2();
 		
-		gl.glPushMatrix();
-			//gl.glScalef(0.2f, 0.2f, 0.2f);
-		
+		gl.glPushMatrix();	
 			gl.glPushMatrix();
 				gl.glTranslatef(0,-6.5f,0);
 				glut.glutSolidCube(10);
 			gl.glPopMatrix();
 			
 			//El Y del Vertice da la altura o sea la distancia al piso, NO CAMBIAR SI SE VEN EN EL PISO
-//			this.expededoraBotellas.setPosicion(new Vertice(3f, -0.78f, 0.6f)).rotar(180f).dibujar(gLDrawable);
-//			this.empaquetador.setPosicion(new Vertice(-4f, -0.78f, 0.35f)).dibujar(gLDrawable);
-//			this.rellenador.setPosicion(new Vertice(0.3f, -0.78f, -0.7f)).rotar(-90f).dibujar(gLDrawable);
-//			this.etiquetador.setPosicion(new Vertice(-1.9f, -0.78f, 0.5f)).rotar(90f).dibujar(gLDrawable);
+			this.empaquetador.setPosicion(new Vertice(3f, -0.78f, 0.6f)).rotar(180f).dibujar(gLDrawable);
+			this.expededoraBotellas.setPosicion(new Vertice(-4f, -0.78f, 0.35f)).dibujar(gLDrawable);
+			this.rellenador.setPosicion(new Vertice(0.3f, -0.78f, -0.7f)).rotar(-90f).dibujar(gLDrawable);
+			//this.etiquetador.setPosicion(new Vertice(-1.9f, -0.78f, 0.5f)).rotar(90f).dibujar(gLDrawable);
+			
+			
+			this.etiquetador.setPosicion(new Vertice(-1.8f, -0.60f, 0.45f)).rotar(90f).dibujar(gLDrawable);
 			
 	//		this.rampa.dibujar(gLDrawable);
 			
