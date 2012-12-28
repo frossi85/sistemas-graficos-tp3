@@ -159,6 +159,7 @@ public class Botella  implements Animable {
 			gl.glTranslatef(posicion.getX(), posicion.getY(), posicion.getZ());
 			gl.glPushMatrix();
 				gl.glScalef(sup.getFactorEscalado(),sup.getFactorEscalado(), sup.getFactorEscalado());
+				gl.glRotatef(90f, 1f, 0f, 0f);	
 				this.sup.dibujar(true);
 			gl.glPopMatrix();	
 		gl.glPopMatrix();						

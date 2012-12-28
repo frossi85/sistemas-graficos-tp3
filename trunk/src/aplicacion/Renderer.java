@@ -200,23 +200,10 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
   		update(gl);
   		
   		gl.glPushMatrix();
-  		/////   TODO: DIBUJAR ACA   ////
-  		//fragment.changeFileName("fragmentGenerico2.frag");
-  		camara.render();
-  		
-  		gl.glPushMatrix();
-  		
-		gl.glColor3d(1.0f, 1.0f, 0.0f);
-  			
-  			gl.glColor4f(0.7f, 0.0f, 0.0f, 0.5f);
-  			gl.glPushMatrix();
-  				gl.glTranslatef(0.0f, 1.0f, 0.5f);
-  				this.linea.dibujar(gLDrawable).actualizar();
-  			gl.glPopMatrix();
-  			
-  		
-  		gl.glPopMatrix();	
-  		
+	  		/////   TODO: DIBUJAR ACA   ////
+	  		//fragment.changeFileName("fragmentGenerico2.frag");
+	  		camara.render();
+			this.linea.dibujar(gLDrawable).actualizar();  		
   		gl.glPopMatrix();
 
 

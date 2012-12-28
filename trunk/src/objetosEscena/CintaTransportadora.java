@@ -94,7 +94,7 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 		
 		try {
 			ICurva3D spline = new BSplineGenerica(puntos).escalar(5*scala, scala, scala);
-			pathDeBotellas = spline;
+			pathDeBotellas = new BSplineGenerica(puntos).escalar(10*scala, scala, scala);
 			ICurva3D spline2 = new BSplineGenerica(puntos2).escalar(5*scala, scala, scala);
 			ICurva3D lineaRecta = new LineaRecta(puntoInicial, new Vertice(0f, 0f, alto)).escalar(5*scala, scala, scala);
 			ICurva3D lineaRecta2 = new LineaRecta(puntoInicial, new Vertice(0f, ancho, 0f)).escalar(5*scala, scala, scala);
@@ -214,11 +214,9 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 						caraLaterales.dibujar(false);
 					gl.glPopMatrix();
 				
-				gl.glPopMatrix();
-				
-				///BORDES
-				gl.glPushMatrix();			
+					///BORDES
 					gl.glPushMatrix();
+						//Translado el borde, a lo ancho para hacer de borde de la otra cara
 						gl.glTranslatef(0, -0.78f, 0.06f); //ancho 400 -> translado 0.39 mas o menos 0.4
 						borde.dibujar(true);
 					gl.glPopMatrix();
@@ -228,17 +226,19 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 						borde.dibujar(true);
 					gl.glPopMatrix();
 				gl.glPopMatrix();
-			gl.glPopMatrix();
-	  		
-			java.util.Iterator<Botella> it =  this.botellas.iterator();
-			gl.glPushMatrix();
-				//gl.glRotatef(90f, -1f, 0f, 0f);			
-				while(it.hasNext()){						
-					it.next().dibujar();
-				}	
+				
+				//Dibujo botellas aplicando las mismas transformaciones que a la cinta
+				java.util.Iterator<Botella> it =  this.botellas.iterator();
+				gl.glPushMatrix();
+					//El traslado es para centrar el recorrido en la cinta
+					gl.glTranslatef(0, -0.35f, 0);
+					while(it.hasNext()){		
+						
+						it.next().dibujar();
+					}	
+				gl.glPopMatrix();
 			gl.glPopMatrix();
 		gl.glPopMatrix();	
-  		gl.glFlush();
 	}
 
 	@Override
