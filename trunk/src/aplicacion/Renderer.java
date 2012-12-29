@@ -124,7 +124,8 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
     	//System.out.println("GL_SHADING_LANGUAGE_VERSION: " + gl2.glGetString(GL4.GL_SHADING_LANGUAGE_VERSION));
     	
 
-    	GL2 gl = gLDrawable.getGL().getGL2();
+    	GL2 gl = gLDrawable.getGL().getGL2();    	
+    	GLProvider.SetUp(gLDrawable);
 
     	gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glShadeModel(GL2.GL_SMOOTH);
@@ -145,7 +146,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 		currentFrag = efectoFragment.REFLEJAR_ENTORNO;
 		
 		linea = new LineaProduccion(mS, glut, glu, gLDrawable);
-		botella = new Botella(mS,glut, glu, gLDrawable );
+		botella = new Botella(mS, glu);
 		cinta = linea.getCinta();
 		
 			
@@ -203,7 +204,7 @@ public class Renderer implements GLEventListener, KeyListener, MouseListener, Mo
 	  		/////   TODO: DIBUJAR ACA   ////
 	  		//fragment.changeFileName("fragmentGenerico2.frag");
 	  		camara.render();
-			this.linea.dibujar(gLDrawable).actualizar();  		
+			this.linea.dibujar().actualizar();  		
   		gl.glPopMatrix();
 
 
