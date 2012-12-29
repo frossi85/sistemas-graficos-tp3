@@ -7,6 +7,7 @@ import javax.media.opengl.GLAutoDrawable;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 import utilidades.Dibujable;
+import utilidades.GLProvider;
 
 public class Piso implements Dibujable {
 		private float ancho = 20f;
@@ -28,9 +29,9 @@ public class Piso implements Dibujable {
 		}
 	}
 	
-	public void dibujar(GLAutoDrawable gLDrawable) {
+	public void dibujar() {
 		// TODO Auto-generated method stub
-		final GL2 gl = gLDrawable.getGL().getGL2();
+		final GL2 gl = GLProvider.getGL2();
 		gl.glPushMatrix();
 			for(float i = 0f; i < largo; i+= proporcionLargo){
 				gl.glBegin(GL.GL_LINES);

@@ -3,30 +3,19 @@ package objetosEscena;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Queue;
-import java.util.Scanner;
-import java.util.Set;
-
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 import curva.BSplineGenerica;
 import curva.ICurva3D;
 import curva.LineaRecta;
-
 import superficie.SuperficieDeBarrido;
 import utilidades.Animable;
 import utilidades.Dibujable;
 import utilidades.GLProvider;
-import utilidades.LineaProduccion;
-import utilidades.Vertice;
 import utilidades.Vertice;
 
-public class CintaTransportadora extends Observable implements Dibujable,Animable {
+public class CintaTransportadora implements Dibujable , Animable {
 
 	private int capacidadBotellas;	
 	Queue<Botella> botellas;
@@ -41,17 +30,22 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	private HashMap<Botella, Float> hash;	// Relaciona cada botella en la cinta con su propio u del path.
 	private Vertice posicion;
 	
+	private Etiquetador etiquetador;
+	private Rellenador rellenador;
+	
 	
 	private SuperficieDeBarrido borde;
 	private float scala = 0.001f;
 	
-	public CintaTransportadora(int capacidadBotellas, LineaProduccion linea, float avanceBotellas){
+	public CintaTransportadora(int capacidadBotellas, float avanceBotellas, Etiquetador etiquetador, Rellenador rellenador){
 		this.capacidadBotellas = capacidadBotellas;  //cant max de botellas que puede tener la cinta transportadora		
 		this.avanceBotellas = avanceBotellas;
+		this.rellenador = rellenador;
+		this.etiquetador = etiquetador;
+		
 		this.botellas = new LinkedList<Botella>();
 		posicion = new Vertice(0, 0, 0);
 		hash = new HashMap<Botella, Float>();		
-		addObserver(linea);
 			
 		//Lo necesario para dibujarla
 		ArrayList<Vertice> puntos = new ArrayList<Vertice>();
@@ -144,10 +138,26 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	}
 	
 	public void setVelocidad(float vel){}
-	public void detenerCinta(){this.avanzando = false;} // detiene cinta
-	public void activarCinta(){this.avanzando = true;}
-	public boolean estaAvanzando(){return this.avanzando;}
-	public float getVelocidad(){return 0.0f;}
+	
+	public void detenerCinta() {
+		this.avanzando = false;
+	} // detiene cinta
+	
+	public void activarCinta() {
+		this.avanzando = true;
+	}
+	
+	public boolean estaAvanzando() {
+		return this.avanzando;
+	}
+	
+	public boolean estaDetenida() {
+		return !this.avanzando;
+	}
+	
+	public float getVelocidad() {
+		return 0.0f;
+	}
 	
 	public boolean estaLlenaDeBotellas(){
 		if(this.botellas.size() == this.capacidadBotellas)
@@ -156,18 +166,18 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 			return false;		
 	}
 	
-	public boolean buscarPosicion(float posicion ){	// busca si existe una botella en una posicion dada de la cinta		
+	public Botella getBotellaEnPosicion(Vertice posicion){	// busca si existe una botella en una posicion dada de la cinta		
 			java.util.Iterator<Botella> it =  this.botellas.iterator();
 			while(it.hasNext()){
 				Botella bot = it.next();
-				float diff =  bot.getPosicion().getX() - posicion;
+				float diff = Vertice.restar(bot.getPosicion(), posicion).Abs();
 				//System.out.println("diff es: " + diff );
 				if((diff <= avanceBotellas) && (diff >= 0f)){
 					//System.out.println("diff es: " + diff );
-					return true;
+					return bot;
 				}	
 			}		
-		return false;
+		return null;
 	}
 	
 	public int getNumeroDeBotellas(){
@@ -184,10 +194,10 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 	}
 	
 	@Override
-	public void dibujar(GLAutoDrawable gLDrawable) {
-		final GL2 gl = gLDrawable.getGL().getGL2();
-		
-		//Para optimizar el dibujado puedo crear una display list y luego llamarla (Se puede y luego usar shader??))
+	public void dibujar() {
+		final GL2 gl = GLProvider.getGL2();
+		//Dibujo botellas aplicando las mismas transformaciones que a la cinta
+		java.util.Iterator<Botella> it =  this.botellas.iterator();
 		
 		gl.glPushMatrix();
 			gl.glTranslatef(this.posicion.getX(), this.posicion.getY(), this.posicion.getZ());
@@ -224,29 +234,39 @@ public class CintaTransportadora extends Observable implements Dibujable,Animabl
 					gl.glPopMatrix();
 				gl.glPopMatrix();
 				
-				//Dibujo botellas aplicando las mismas transformaciones que a la cinta
-				java.util.Iterator<Botella> it =  this.botellas.iterator();
 				gl.glPushMatrix();
 					//El traslado es para centrar el recorrido en la cinta
 					gl.glTranslatef(0, -0.35f, 0);
 					while(it.hasNext()){		
 						
 						Botella b = it.next();
-						b.setPosicion(new Vertice(2.2032585f, 0.14055142f, 0.0f));
+						b.setPosicion(new Vertice(4.324147f, 0.15712146f, 0.0f));
 						b.dibujar();
 						b.getPosicion().print();
 						
 						//posicionEtiquetado = new Vertice(2.2032585f, 0.14055142f, 0.0f)
+						//posicionRellenado = new Vertice(4.324147f, 0.15712146f, 0.0f)
 					}	
 				gl.glPopMatrix();
 			gl.glPopMatrix();
 		gl.glPopMatrix();	
 	}
-
+	
 	@Override
 	public void animar() {
-		// TODO Auto-generated method stub
+		Botella botellaAEtiquetar = getBotellaEnPosicion(etiquetador.zonaDeEtiquetado());
 		
+		if(botellaAEtiquetar != null) {
+			if(!etiquetador.estaEtiquetando() && avanzando == true) {
+				//Etiqueto
+				this.detenerCinta();
+				etiquetador.etiquetar(botellaAEtiquetar);
+			}
+			if(!etiquetador.estaEtiquetando() && avanzando == false) {
+				this.activarCinta();
+			}					
+		}
+		
+			
 	}
-
 }

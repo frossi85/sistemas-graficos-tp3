@@ -54,6 +54,10 @@ public class Vertice {
 		System.out.println("(x, y, z) = (" + x + ", " + y + ", " + z + ")");
 	}
 	
+	public float Abs() {
+		return (float) Math.sqrt((double) (x*x + y*y + z*z));
+	}
+	
 	public static Vertice productoVectorial(Vertice v1, Vertice v2)
 	{
 		return new Vertice(v1.getY() * v2.getZ() - v1.getZ() * v2.getY(),

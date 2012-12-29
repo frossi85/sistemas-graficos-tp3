@@ -1,44 +1,67 @@
 package objetosEscena;
 
-import java.util.Observable;
-
 import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
-
-import com.jogamp.opengl.util.gl2.GLUT;
-
 import utilidades.Animable;
-import utilidades.Dibujable;
-import utilidades.LineaProduccion;
-import utilidades.Objeto3D;
+import utilidades.Objeto3DConAnimacion;
 import utilidades.Vertice;
 
-import model.ModelFactory;
-import model.ModelLoadException;
-import model.iModel3DRenderer;
-import model.examples.DisplayListRenderer;
-import model.geometry.Model;
-
-public class Etiquetador extends Objeto3D implements Animable {
+public class Etiquetador extends Objeto3DConAnimacion implements Animable {
 	
-	private float tiempoEtiquetado;
-	private boolean terminoEtiquetado;
-	
-	public Etiquetador(LineaProduccion linea, float tiempoEtiquetado){
-		super("model/examples/models/obj/etiquetadora.obj");
-		this.tiempoEtiquetado = tiempoEtiquetado;
-		addObserver(linea);
+	boolean estaEtiquetando;
+		
+	public Etiquetador(float tiempoEtiquetado){
+		super("model/examples/models/obj/etiquetadora.obj", "model/examples/models/obj/etiquetadora-brazo.obj");
+		posicionArticulacion = posicionArticulacionInicial = 2.2f;
+		posicionArticulacionFinal = 0.8f;
+		avanceArticulacion = 0.05f;
+		estaEtiquetando = false;
+		
 		this.posicion = new Vertice(0f,0f,0f);
 	}
 	
-	public void etiquetar(){}
+	public Etiquetador etiquetar(Botella botella){
+		estaEtiquetando = true;	
+		estaBajando = true;
+		return this;
+	}
 	
-	//TODO: No se si es necesario
-	public boolean terminoDeEtiquetar(){return terminoEtiquetado;}
+	public boolean estaEtiquetando() {
+		return estaEtiquetando;
+	}
 	
 	@Override
 	public void animar() {
-		// TODO Auto-generated method stub
+		if(estaEtiquetando) {
+			if(estaBajando)
+			{
+				if(posicionArticulacion <= posicionArticulacionFinal)
+					estaBajando = false;
+				else
+					posicionArticulacion -= avanceArticulacion;
+			}
+			else {
+				if(posicionArticulacion >= posicionArticulacionInicial) {
+					estaEtiquetando = false;
+					estaBajando = true;
+					posicionArticulacion = posicionArticulacionInicial;
+				}
+				else
+					posicionArticulacion += avanceArticulacion;
+			}	
+		}
+	}
+	
+	public Vertice zonaDeEtiquetado() {
+		return new Vertice(2.2032585f, 0.14055142f, 0.0f);
+	}
+	
+	@Override
+	protected void transformacionesArticulacion(GL2 gl) {
+		gl.glScalef(0.4f, 0.4f, 0.4f);	
+		gl.glTranslatef(0.65f, posicionArticulacion, 0);
+		gl.glRotatef(180, 0, 0, 1f);
 		
+		//Altura mas abajo y=0.8f
+		//Altura mas arriba y=2.2f
 	}
 }

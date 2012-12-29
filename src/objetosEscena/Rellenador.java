@@ -17,7 +17,6 @@ public class Rellenador extends Objeto3D implements Animable {
 		super("model/examples/models/obj/llenadora.obj");
 		
 		this.posicion = new Vertice(0f,0f,0f);
-		addObserver(linea);
 	}
 		
 

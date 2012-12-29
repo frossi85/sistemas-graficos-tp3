@@ -31,7 +31,7 @@ public class SuperficieDeRevolucion implements Dibujable {
 	private ArrayList<ArrayList<Vertice>> grilla;
 	
 	public SuperficieDeRevolucion(ArrayList<Vertice>list){	
-		factorEscalado = 0.05f;
+		factorEscalado = 0.03f;//0.05f;
 		listaDeCurvas = new ArrayList<BezierCubica>();
 		
 		for(int i = 0; i < list.size(); i += 4){
@@ -128,8 +128,8 @@ public class SuperficieDeRevolucion implements Dibujable {
 	}
 	
 	@Override
-	public void dibujar(GLAutoDrawable gLDrawable) {	
-		final GL2 gl = gLDrawable.getGL().getGL2();
+	public void dibujar() {	
+		final GL2 gl = GLProvider.getGL2();
 		gl.glPushMatrix();
 		//gl.glScalef(factorEscalado, factorEscalado, factorEscalado);
 		//gl.glRotatef(180, 1f, 0f, 0f);

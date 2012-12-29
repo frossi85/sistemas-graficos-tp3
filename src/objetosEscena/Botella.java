@@ -30,28 +30,20 @@ import javax.media.opengl.GLAutoDrawable;
 
 
 public class Botella  implements Animable {
-	private boolean lleno;
-	private boolean etiquetado;
+	private boolean estaLlena;
+	private boolean estaEtiquetada;
 	private float porcentajeLlenado;
 	public static float altura;
 	private SuperficieDeRevolucion sup;
 	private Vertice posicion;	// posicion relativa a la cinta transportadora
-	private GLUT glut;
 	private TexturaCubeMap texturaCubica;
-	private GL2 gl;
 	private GLU glu;
 	private ManejoShadersMejorado shader;
-	private AreaDeIncidencia area;
 	
 	
-	
-	
-	public Botella(ManejoShadersMejorado shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
+	public Botella(ManejoShadersMejorado shader, GLU glu){
 		
-		this.gl = gLDrawable.getGL().getGL2();
-		this.glu = glu;
-		this.glut = glut;
-		texturaCubica = new TexturaCubeMap(gl, glu, 512);
+		texturaCubica = new TexturaCubeMap(GLProvider.getGL2(), glu, 512);
 
 //		texturaCubica.cargarXPositivo("lib/textura_pared.jpg");
 //		texturaCubica.cargarYPositivo("lib/textura_pared.jpg");
@@ -61,8 +53,8 @@ public class Botella  implements Animable {
 //	  	texturaCubica.cargarZNegativo("lib/textura_pared.jpg");
 		
 		this.shader = shader;
-	  	this.lleno = false;
-		this.etiquetado = false;
+	  	this.estaLlena = false;
+		this.estaEtiquetada = false;
 		this.posicion = new Vertice(0f,0f,0f);
 		ArrayList<Vertice>list = new ArrayList<Vertice>();
 		
@@ -94,8 +86,7 @@ public class Botella  implements Animable {
 		Vertice posTemp2 = new Vertice(- posTemp1.getX(), posTemp1.getY(), posTemp1.getX());
 		Vertice posTemp3 = new Vertice(posTemp1.getX(), posTemp1.getY(), - posTemp1.getX());
 		Vertice posTemp4 = new Vertice(- posTemp1.getX(), posTemp1.getY(), -posTemp1.getX());
-		area = new AreaDeIncidencia(posTemp1, posTemp2, posTemp3, posTemp4); 
-		
+
 		this.sup = new SuperficieDeRevolucion(list);
 		altura = 0;
 		//float alt = 0;
@@ -119,19 +110,19 @@ public class Botella  implements Animable {
 	}
 	
 	public boolean estaLleno() {
-		return lleno;
+		return estaLlena;
 	}
 
 	public void setLleno(boolean lleno) {
-		this.lleno = lleno;
+		this.estaLlena = lleno;
 	}
 
 	public boolean estaEtiquetado() {
-		return etiquetado;
+		return estaEtiquetada;
 	}
 
 	public void setEtiquetado(boolean etiquetado) {
-		this.etiquetado = etiquetado;
+		this.estaEtiquetada = etiquetado;
 	}
 
 	public float getPorcentajeLlenado() {

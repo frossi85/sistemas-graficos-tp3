@@ -15,23 +15,19 @@ import utilidades.Vertice;
 
 public class Dispenser extends Objeto3D {
 	
-	private GLUT glut;
 	private ManejoShadersMejorado shader;
 	GLU glu;
 	GLAutoDrawable gLDrawable;
 	
 	
-	public Dispenser(LineaProduccion linea, ManejoShadersMejorado shader, GLUT glut, GLU glu, GLAutoDrawable gLDrawable){
+	public Dispenser(LineaProduccion linea, ManejoShadersMejorado shader, GLU glu){
 		super("model/examples/models/obj/expendedora.obj");
 		
-		addObserver(linea);
 		this.glu = glu;
-		this.glut = glut;
-		this.gLDrawable = gLDrawable;
 		this.shader = shader;
 	}
 	
 	public Botella entregarBotella(){
-		return new Botella(this.shader, glut, glu, gLDrawable);
+		return new Botella(this.shader, glu);
 	}
 }

@@ -19,7 +19,6 @@ public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	private Vertice posicion;
 	
 	public Rampa(LineaProduccion linea){
-		addObserver(linea);
 	}
 	
 	public void recibirPackBotellas(){}
@@ -29,7 +28,7 @@ public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	}
 	
 	@Override
-	public void dibujar(GLAutoDrawable gLDrawable) {
+	public void dibujar() {
 		//System.out.println("Se dibujo rampa");
 		
 	}
@@ -42,7 +41,7 @@ public class Rampa extends Observable implements Dibujable,Observer,Animable{
 	@Override
 	public void animar() {
 		// TODO Auto-generated method stub
-		System.out.println("se anima rampa");
+		//System.out.println("se anima rampa");
 	}
 
 }

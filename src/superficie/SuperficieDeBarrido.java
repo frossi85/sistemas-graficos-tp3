@@ -67,7 +67,7 @@ public class SuperficieDeBarrido implements Dibujable {
 	}
 	
 	@Override
-	public void dibujar(GLAutoDrawable gLDrawable) {
+	public void dibujar() {
 		dibujar(false);
 	}
 	

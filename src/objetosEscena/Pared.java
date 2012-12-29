@@ -7,7 +7,7 @@ import utilidades.Dibujable;
 public class Pared implements Dibujable {
 
 	@Override
-	public void dibujar(GLAutoDrawable gLDrawable) {
+	public void dibujar() {
 		// TODO Auto-generated method stub
 
 	}
