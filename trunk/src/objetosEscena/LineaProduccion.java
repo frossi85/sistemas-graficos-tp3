@@ -1,11 +1,5 @@
-package utilidades;
+package objetosEscena;
 
-import objetosEscena.CintaTransportadora;
-import objetosEscena.Dispenser;
-import objetosEscena.Empaquetador;
-import objetosEscena.Etiquetador;
-import objetosEscena.Rampa;
-import objetosEscena.Rellenador;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -14,6 +8,8 @@ import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 import shader.ManejoShadersMejorado;
+import utilidades.GLProvider;
+import utilidades.Vertice;
 
 public class LineaProduccion {
 	
@@ -28,8 +24,9 @@ public class LineaProduccion {
 	private static float AVANCE_TIEMPO = 0.01f;//0.02f;
 	private static float 	TIEMPO_ENTRE_BOTELLAS = 1f;	// tiempo de demora entre que sale una botella del dispenser a otra
 	private static float VELOCIDAD_CINTA = 1f;
-	private static int CAPACIDAD_CINTA = 10;
-	private static float TIEMPO_ETIQUETADO = 3f;
+	private static int CAPACIDAD_CINTA = 1;//10;
+	private static float TIEMPO_ETIQUETADO = 0.05f;
+	private static float TIEMPO_LLENADO = 0.05f;
 	private static float AVANCE_BOTELLAS = VELOCIDAD_CINTA*AVANCE_TIEMPO;  //distancia = tiempo*velocidad
     private GLUT glut = new GLUT();
 	
@@ -39,7 +36,7 @@ public class LineaProduccion {
 		empaquetador = new Empaquetador(this, rampa);
 		etiquetador = new Etiquetador(TIEMPO_ETIQUETADO);
 		expededoraBotellas = new Dispenser(this, shader, glu);
-		rellenador = new Rellenador(this);
+		rellenador = new Rellenador(TIEMPO_LLENADO);
 		cinta = new CintaTransportadora(CAPACIDAD_CINTA, AVANCE_BOTELLAS, etiquetador, rellenador);
 		
 		//Posicionamiento de los elementos de la linea de produccion
@@ -47,8 +44,8 @@ public class LineaProduccion {
 		empaquetador.setPosicion(new Vertice(3f, -0.78f, 0.6f)).rotar(180f);
 		expededoraBotellas.setPosicion(new Vertice(-4f, -0.78f, 0.35f));	
 		etiquetador.setPosicion(new Vertice(-1.8f, -0.60f, 0.47f)).rotar(90f);
-		cinta.setPosicion(new Vertice(-4f, -0.78f, 0));
-		rellenador.setPosicion(new Vertice(0.3f, -0.78f, -0.7f)).rotar(-90f);	
+		cinta.setPosicion(new Vertice(-4f, -0.78f, 0));	
+		rellenador.setPosicion(new Vertice(0.32f, -1f, 0.97f)).rotar(90f).escalar(0.7f);;
 //		rampa.setPosicion(new Vertice(-1.8f, -0.60f, 0.47f));
 	}
 	

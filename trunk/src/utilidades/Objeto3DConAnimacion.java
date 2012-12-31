@@ -69,6 +69,7 @@ public abstract class Objeto3DConAnimacion extends Objeto3D {
 			gl.glTranslatef(this.posicion.getX(), posicion.getY(), posicion.getZ());	
 			gl.glPushMatrix();
 				gl.glRotatef(anguloRotacion, 0, 1, 0);
+				gl.glScalef(factorEscala, factorEscala, factorEscala);
 	    		renderer.render(gl, model);
 	    		gl.glPushMatrix();
 	    			transformacionesArticulacion(gl);

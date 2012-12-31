@@ -2,7 +2,6 @@ package objetosEscena;
 
 import utilidades.Animable;
 import utilidades.Dibujable;
-import utilidades.LineaProduccion;
 import utilidades.Vertice;
 
 import java.util.Observable;
