@@ -41,7 +41,8 @@ public class LineaProduccion {
 		
 		//Posicionamiento de los elementos de la linea de produccion
 		//El Y del Vertice da la altura o sea la distancia al piso, NO CAMBIAR SI SE VEN EN EL PISO
-		empaquetador.setPosicion(new Vertice(3f, -0.78f, 0.6f)).rotar(180f);
+//		empaquetador.setPosicion(new Vertice(3f, -0.78f, 0.6f)).rotar(180f);
+		empaquetador.setPosicion(new Vertice(3f, -0.55f, 0.46f)).rotar(180f).escalar(1.5f);
 		expededoraBotellas.setPosicion(new Vertice(-4f, -0.78f, 0.35f));	
 		etiquetador.setPosicion(new Vertice(-1.8f, -0.60f, 0.47f)).rotar(90f);
 		cinta.setPosicion(new Vertice(-4f, -0.78f, 0));	
