@@ -1,6 +1,5 @@
 package objetosEscena;
 
-import utilidades.LineaProduccion;
 import utilidades.Objeto3D;
 import utilidades.Vertice;
 import model.iModel3DRenderer;

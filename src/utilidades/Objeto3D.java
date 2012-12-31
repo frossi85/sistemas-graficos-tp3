@@ -14,15 +14,16 @@ import model.geometry.Model;
 public abstract class Objeto3D {
 	protected Vertice posicion;
 	protected float anguloRotacion;
+	protected float factorEscala;
 	protected iModel3DRenderer renderer;
 	protected Model model;
 	
 	public Objeto3D(String modelUrl) {
 		posicion = new Vertice(0f,0f,0f);
+		factorEscala = 1f;
 		renderer = DisplayListRenderer.getInstance();
         // Turn on debugging
 		renderer.debug(true);
-		
 			
 		try
 	    {
@@ -67,6 +68,11 @@ public abstract class Objeto3D {
 		return this;		
 	}
 	
+	public Objeto3D escalar(float escala) {
+		factorEscala = escala;
+		return this;
+	}
+	
 	public void dibujar() {
 		final GL2 gl = GLProvider.getGL2();
 		
@@ -74,6 +80,7 @@ public abstract class Objeto3D {
 			gl.glTranslatef(this.posicion.getX(), posicion.getY(), posicion.getZ());	
 			gl.glPushMatrix();
 				gl.glRotatef(anguloRotacion, 0, 1, 0);
+				gl.glScalef(factorEscala, factorEscala, factorEscala);
 	    		renderer.render(gl, model);
 	    	gl.glPopMatrix();
     	gl.glPopMatrix();

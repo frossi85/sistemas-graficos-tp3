@@ -240,9 +240,11 @@ public class CintaTransportadora implements Dibujable , Animable {
 					while(it.hasNext()){		
 						
 						Botella b = it.next();
-						b.setPosicion(new Vertice(4.324147f, 0.15712146f, 0.0f));
+						//b.setPosicion(new Vertice(4.324147f, 0.15712146f, 0.0f));
 						b.dibujar();
-						b.getPosicion().print();
+						//b.getPosicion().print();
+						//Cuando imprimia el recorrido de la curva no se por q como q oscilaba, ver eso
+						//por que capaz me soluciona el problema del recorrido
 						
 						//posicionEtiquetado = new Vertice(2.2032585f, 0.14055142f, 0.0f)
 						//posicionRellenado = new Vertice(4.324147f, 0.15712146f, 0.0f)
@@ -267,6 +269,17 @@ public class CintaTransportadora implements Dibujable , Animable {
 			}					
 		}
 		
-			
+		Botella botellaALlenar = getBotellaEnPosicion(rellenador.zonaDeRellenado());
+		
+		if(botellaALlenar != null) {
+			if(!rellenador.estaLlenando() && avanzando == true) {
+				//Relleno
+				this.detenerCinta();
+				rellenador.rellenar(botellaAEtiquetar);
+			}
+			if(!rellenador.estaLlenando() && avanzando == false) {
+				this.activarCinta();
+			}					
+		}
 	}
 }

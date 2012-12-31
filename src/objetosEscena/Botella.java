@@ -16,7 +16,6 @@ import utilidades.Animable;
 import utilidades.AreaDeIncidencia;
 import utilidades.Dibujable;
 import utilidades.GLProvider;
-import utilidades.LineaProduccion;
 import utilidades.Vertice;
 import utilidades.Vertice;
 import shader.ManejoShaders2;

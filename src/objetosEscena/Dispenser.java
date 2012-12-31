@@ -9,7 +9,6 @@ import model.iModel3DRenderer;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 import shader.ManejoShadersMejorado;
-import utilidades.LineaProduccion;
 import utilidades.Objeto3D;
 import utilidades.Vertice;
 

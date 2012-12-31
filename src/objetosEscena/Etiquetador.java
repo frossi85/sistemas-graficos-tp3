@@ -9,11 +9,11 @@ public class Etiquetador extends Objeto3DConAnimacion implements Animable {
 	
 	boolean estaEtiquetando;
 		
-	public Etiquetador(float tiempoEtiquetado){
+	public Etiquetador(float avanceEtiquetado){
 		super("model/examples/models/obj/etiquetadora.obj", "model/examples/models/obj/etiquetadora-brazo.obj");
 		posicionArticulacion = posicionArticulacionInicial = 2.2f;
 		posicionArticulacionFinal = 0.8f;
-		avanceArticulacion = 0.05f;
+		avanceArticulacion = avanceEtiquetado;
 		estaEtiquetando = false;
 		
 		this.posicion = new Vertice(0f,0f,0f);
